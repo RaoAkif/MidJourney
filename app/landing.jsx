@@ -8,29 +8,36 @@ const black = "#000000";
 const borderbgColor = "#aaaaaa";
 const textColor = "#333332";
 const buttonbgColor = "#e4504d";
-const avatarbgColor = "#d9d9d9";
+const hatbgColor = "#d9d9d9";
 
 export default function Landing() {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <View style={styles.signupContainer}>
-          <View style={styles.avatarContainer}>
-            <Image style={styles.avatar} source={require("../assets/thinking_cap1.png")} />
+          <View style={styles.hatContainer}>
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap1.png")}
+            />
           </View>
           <View style={styles.inputContainer}>
-            <TextInput style={styles.input} placeholder="Enter Your Psuedonym" />
+            <TextInput
+              style={styles.input}
+              placeholder='Enter Your Psuedonym'
+            />
           </View>
         </View>
         <View style={styles.button}>
-          <Link href="./profile" asChild>
+          <Link href='./profile' asChild>
             <Text style={styles.buttonText}>Start Writing</Text>
           </Link>
         </View>
       </View>
       <Text style={styles.messageText}>
-        &quot;If you can tell stories, create characters, devise incidents, and have sincerity and
-        passion, it doesn&apos;t matter a damn how you write&quot; Somerset Maugham
+        &quot;If you can tell stories, create characters, devise incidents, and
+        have sincerity and passion, it doesn&apos;t matter a damn how you
+        write&quot; Somerset Maugham
       </Text>
     </View>
   );
@@ -105,17 +112,17 @@ const styles = StyleSheet.create({
     color: bgWhite,
     fontSize: "16px",
   },
-  avatarContainer: {
+  hatContainer: {
     backgroundColor: bgColor,
     width: 90,
     height: 82,
     borderRadius: "50%",
-    borderColor: avatarbgColor,
+    borderColor: hatbgColor,
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
     // elevation
-    shadowColor: '#D9D9D9',
+    shadowColor: "#D9D9D9",
     opacity: 1,
     shadowOffset: {
       width: 0,
@@ -128,7 +135,7 @@ const styles = StyleSheet.create({
     marginBottom: -41,
     zIndex: 1,
   },
-  avatar: {
+  hat: {
     width: 60,
     height: 60,
     padding: 10,

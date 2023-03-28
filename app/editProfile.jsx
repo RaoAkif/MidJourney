@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingBottom: "50%",
   },
-  avatar: {
+  hat: {
     width: 80,
     height: 80,
     padding: 10,
@@ -63,12 +63,15 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile() {
-  const params = useSearchParams()
-  console.log(params)
+  const params = useSearchParams();
+  console.log(params);
   return (
     <View style={styles.container}>
       <View>
-        <Image style={styles.avatar} source={require("../assets/thinking_cap1.png")} />
+        <Image
+          style={styles.hat}
+          source={require("../assets/thinking_cap1.png")}
+        />
       </View>
       <View>
         <Text style={styles.screenMessage}>Pick Your Writing Hat</Text>
@@ -76,29 +79,47 @@ export default function EditProfile() {
       <View style={styles.hatsContainer}>
         <View style={styles.hatsList}>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap1.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap1.png")}
+            />
           </View>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap2.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap2.png")}
+            />
           </View>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap3.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap3.png")}
+            />
           </View>
         </View>
         <View style={styles.hatsList}>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap4.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap4.png")}
+            />
           </View>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap5.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap5.png")}
+            />
           </View>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap6.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap6.png")}
+            />
           </View>
         </View>
       </View>
-      <TextInput style={styles.input} placeholder="Enter Your Psuedonym" />
-      <TextInput style={styles.input} placeholder="Enter Your Email" />
+      <TextInput style={styles.input} placeholder='Enter Your Psuedonym' />
+      <TextInput style={styles.input} placeholder='Enter Your Email' />
     </View>
   );
 }
