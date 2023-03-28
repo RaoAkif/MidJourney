@@ -1,3 +1,4 @@
+import { useSearchParams } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
 
@@ -62,6 +63,8 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile() {
+  const params = useSearchParams()
+  console.log(params)
   return (
     <View style={styles.container}>
       <View>

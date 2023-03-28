@@ -1,4 +1,6 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
+import { Button } from 'react-native';
 import {
   StyleSheet, View, Image, Text
 } from 'react-native';
@@ -123,39 +125,26 @@ const styles = StyleSheet.create({
 });
 
 export default function Profile() {
+  const name = "Umman"
+  const router = useRouter()
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
         <Image
           style={styles.topHat}
-          source={require('../assets/thinking_cap1.png')}
+          source={require('../../assets/thinking_cap1.png')}
         />
       </View>
       <View style={styles.profileContainer}>
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={require('../assets/thinking_cap4_tilted.png')}
+            source={require('../../assets/thinking_cap4_tilted.png')}
           />
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.storiesContainer}>
-            <View>
-              <Text style={styles.profileName}>John Rabada</Text>
-            </View>
-            <View>
-              <View style={styles.storyItem}>
-                <Text style={styles.count}>33</Text>
-                <Text style={styles.storyMessage}>Stories Created</Text>
-              </View>
-              <View style={styles.storyItem}>
-                <Text style={styles.count}>300</Text>
-                <Text style={styles.storyMessage}>Stories Collaborated</Text>
-              </View>
-            </View>
-            <View>
-              <Text style={styles.editText}>edit</Text>
-            </View>
+           <Text>Welcome to Dashboard</Text>
           </View>
         </View>
       </View>
@@ -163,19 +152,19 @@ export default function Profile() {
         <View style={styles.optionsImageContainer}>
           <Image
             style={styles.optionsImage}
-            source={require('../assets/write1.png')}
+            source={require('../../assets/write1.png')}
           />
         </View>
         <View style={styles.optionsImageContainer}>
           <Image
             style={styles.optionsImage}
-            source={require('../assets/read1.png')}
+            source={require('../../assets/read1.png')}
           />
         </View>
         <View style={styles.optionsImageContainer}>
           <Image
             style={styles.optionsImage}
-            source={require('../assets/profile1.png')}
+            source={require('../../assets/profile1.png')}
           />
         </View>
       </View>

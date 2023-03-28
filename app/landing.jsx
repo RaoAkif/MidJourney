@@ -1,6 +1,6 @@
+import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TextInput, View, Image } from "react-native";
-import { TailwindProvider, useTailwind } from "tailwind-rn";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -11,9 +11,8 @@ const buttonbgColor = "#e4504d";
 const avatarbgColor = "#d9d9d9";
 
 export default function Landing() {
-  const tw = useTailwind();
   return (
-    <View style={tw("flex-1 py-6 px-2 bg-[#fefbf6] justify-between")}>
+    <View style={styles.container}>
       <View style={styles.contentContainer}>
         <View style={styles.signupContainer}>
           <View style={styles.avatarContainer}>
@@ -24,7 +23,9 @@ export default function Landing() {
           </View>
         </View>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>Start Writing</Text>
+          <Link href="./profile" asChild>
+            <Text style={styles.buttonText}>Start Writing</Text>
+          </Link>
         </View>
       </View>
       <Text style={styles.messageText}>
@@ -114,8 +115,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // elevation
-    shadowColor: black,
-    opacity: 0.2,
+    shadowColor: '#D9D9D9',
+    opacity: 1,
     shadowOffset: {
       width: 0,
       height: -3,
