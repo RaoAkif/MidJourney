@@ -35,12 +35,15 @@ const styles = StyleSheet.create({
   },
   hatsList: {
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-around",
     width: "90%",
   },
   hatContainer: {
-    width: 70,
-    height: 70,
+    width: 80,
+    height: 80,
+    marginTop: 10,
+    marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     borderColor,
@@ -48,7 +51,12 @@ const styles = StyleSheet.create({
     borderRadius: "50%",
   },
   hat: {
-    padding: 25,
+    width: 50,
+    height: 50,
+  },
+  hatTop: {
+    width: 70,
+    height: 70,
   },
   input: {
     borderBottomWidth: 1,
@@ -69,7 +77,7 @@ export default function EditProfile() {
     <View style={styles.container}>
       <View>
         <Image
-          style={styles.hat}
+          style={styles.hatTop}
           source={require("../assets/thinking_cap1.png")}
         />
       </View>
@@ -96,8 +104,6 @@ export default function EditProfile() {
               source={require("../assets/thinking_cap3.png")}
             />
           </View>
-        </View>
-        <View style={styles.hatsList}>
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
