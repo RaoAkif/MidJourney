@@ -29,7 +29,7 @@ export default function Landing() {
           </View>
         </View>
         <View style={styles.button}>
-          <Link href='./profile' asChild>
+          <Link href='./dashboard/profile' asChild>
             <Text style={styles.buttonText}>Start Writing</Text>
           </Link>
         </View>

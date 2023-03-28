@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topHat: {
-    width: 65,
-    height: 65,
+    width: 80,
+    height: 80,
   },
   profileContainer: {
     flex: 1,
@@ -161,29 +161,6 @@ export default function Profile() {
           </View>
         </View>
       </View>
-      <View style={styles.options}>
-        <View style={styles.optionsImageContainer}>
-          <Image
-            style={styles.optionsImage}
-            source={require("../../assets/write1.png")}
-          />
-        </View>
-        <View style={styles.optionsImageContainer}>
-          <Image
-            style={styles.optionsImage}
-            source={require("../../assets/read1.png")}
-          />
-        </View>
-        <View style={styles.optionsImageContainer}>
-          <Image
-            style={styles.optionsImage}
-            source={require("../../assets/profile1.png")}
-          />
-        </View>
-      </View>
-      <Button onPress={() => router.push(`./editProfile?name=${name}`)}>
-        <Text>Back</Text>
-      </Button>
     </View>
   );
 }

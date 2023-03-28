@@ -1,12 +1,11 @@
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Button } from "react-native";
-import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import { StyleSheet, View, Image, Text } from "react-native";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
 const black = "#000000";
-const buttonbgColor = "#e4504d";
 
 const styles = StyleSheet.create({
   container: {
@@ -28,13 +27,6 @@ const styles = StyleSheet.create({
   topHat: {
     width: 80,
     height: 80,
-  },
-  goBack: {
-    width: 20,
-    height: 20,
-    position: "absolute",
-    left: "10px",
-    top: "25px",
   },
   storiesContainer: {
     flex: 1,
@@ -62,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    paddingTop: "15px",
+    paddingTop: "5px",
     paddingBottom: "5px",
   },
   storyTitle: {
@@ -76,41 +68,10 @@ const styles = StyleSheet.create({
     paddingTop: "10px",
     paddingBottom: "10px",
     paddingHorizontal: "10px",
-    textAlign: "justify",
   },
   downArray: {
     marginTop: "10px",
-  },
-  collaborationContainerInput: {
-    width: "100%",
-    height: "100%",
-  },
-  collaborationInput: {
-    fontSize: "16px",
-    color: "#333332",
-    textAlign: "center",
-    paddingVertical: "10%",
-  },
-  button: {
-    width: "80vw",
-    height: 46,
-    backgroundColor: buttonbgColor,
-    textAlign: "center",
-    justifyContent: "center",
-    // elevation
-    shadowColor: black,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  buttonText: {
-    color: bgWhite,
-    fontSize: "16px",
-  },
+  }
 });
 
 export default function Profile() {
@@ -122,35 +83,21 @@ export default function Profile() {
           source={require("../../assets/thinking_cap1.png")}
         />
       </View>
-      <View style={styles.goBack}>
-        <Image
-          style={styles.goBackIcon}
-          source={require("../../assets/left1.png")}
-        />
-      </View>
       <View style={styles.storiesContainer}>
         <View style={styles.storyContainer}>
           <View style={styles.storyTextContainer}>
-            <Text style={styles.storyTitle}>Sleep Hollow</Text>
-            <Text style={styles.storyDescription}>No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally  dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always would wonder if the ghost had finally left and dissappeared from the house</Text>
+          <Text style={styles.storyTitle}>Sleep Hollow</Text>
+          <Text style={styles.storyDescription}>No other sounds were ever heard from the basement anymore. They always wondered if ....</Text>
           </View>
         </View>
         <View style={styles.storyContainer}>
-          <View style={styles.collaborationContainerInput}>
-            <TextInput
-              style={styles.collaborationInput}
-              placeholderTextColor='#727272'
-              placeholder='Collaborate on the story above'
-              multiline={true}
-              numberOfLines={4}
-            />
+          <View style={styles.storyTextContainer}>
+          <Text style={styles.storyTitle}>No Nonsense</Text>
+          <Text style={styles.storyDescription}>Finally someone showed up with a glass of water! Sue frantically leaped towards the fisherman and ....</Text>
           </View>
         </View>
+        <View>
       </View>
-      <View style={styles.button}>
-        <Link href='./myStories' asChild>
-          <Text style={styles.buttonText}>Start Writing</Text>
-        </Link>
       </View>
     </View>
   );
