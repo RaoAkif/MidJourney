@@ -1,7 +1,5 @@
-import { Link } from "expo-router";
 import React from "react";
-import { Button } from "react-native";
-import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import { StyleSheet, View, Image, Text } from "react-native";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -14,7 +12,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: bgColor,
     alignItems: "center",
-    justifyContent: "space-between",
   },
   topHatContainer: {
     width: 70,
@@ -40,8 +37,8 @@ const styles = StyleSheet.create({
   storiesContainer: {
     flex: 1,
     width: "100%",
-    justifyContent: "center",
     alignItems: "center",
+    paddingTop: 50,
   },
   storyContainer: {
     // flex: 1,
