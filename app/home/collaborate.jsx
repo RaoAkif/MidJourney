@@ -1,7 +1,7 @@
 import { Link } from "expo-router";
 import React from "react";
-import { Button } from "react-native";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import TopTabs from "../../components/TopTabs";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
     width: "80%",
     backgroundColor: bgWhite,
+    marginBottom: 2,
     // elevation
     shadowColor: black,
     shadowOffset: {
@@ -128,6 +129,7 @@ export default function Profile() {
           source={require("../../assets/left1.png")}
         />
       </View>
+      <TopTabs tab1="Collaborate" tab2="Create" />
       <View style={styles.storiesContainer}>
         <View style={styles.storyContainer}>
           <View style={styles.storyTextContainer}>

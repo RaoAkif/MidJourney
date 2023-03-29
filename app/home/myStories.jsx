@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
     width: "80%",
     backgroundColor: bgWhite,
+    marginBottom: 2,
     // elevation
     shadowColor: black,
     shadowOffset: {

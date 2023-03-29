@@ -6,9 +6,15 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
   },
-  tabStyling: {
-    paddingVertical: '10px',
-  }
+  tabBar: {
+    height: 65,
+    paddingVertical: 10,
+    paddingBottom: 10,
+  },
+  tabBarOption: {
+    borderRightWidth: 1,
+    borderColor: "#E0DFDF",
+  },
 });
 
 export default function Layout() {
@@ -17,24 +23,16 @@ export default function Layout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: {
-          height: 65,
-          paddingVertical: 10,
-          paddingBottom: 10,
-        }
+        tabBarStyle: styles.tabBar
       }}
     >
       <Tabs.Screen
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarStyle: {
-            height: 65,
-            paddingVertical: 10,
-            paddingBottom: 10,
-          }
         }}
         options={{
+          tabBarItemStyle: styles.tabBarOption,
           tabBarIcon: () => (
             <Image
               style={styles.optionsImage}
@@ -46,6 +44,7 @@ export default function Layout() {
       />
       <Tabs.Screen
         options={{
+          tabBarItemStyle: styles.tabBarOption,
           tabBarIcon: () => (
             <Image
               style={styles.optionsImage}
