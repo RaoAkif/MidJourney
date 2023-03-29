@@ -1,7 +1,6 @@
 import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
-import TopTabs from "../../components/TopTabs";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -13,7 +12,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: bgColor,
     alignItems: "center",
-    justifyContent: "space-between",
   },
   topHatContainer: {
     width: 70,
@@ -41,6 +39,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 120,
   },
   storyContainer: {
     // flex: 1,
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
     width: "80%",
     backgroundColor: bgWhite,
-    marginBottom: 2,
     // elevation
     shadowColor: black,
     shadowOffset: {
@@ -98,6 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: buttonbgColor,
     textAlign: "center",
     justifyContent: "center",
+    marginTop: "5vh",
     // elevation
     shadowColor: black,
     shadowOffset: {
@@ -129,7 +128,6 @@ export default function Profile() {
           source={require("../../assets/left1.png")}
         />
       </View>
-      <TopTabs tab1="Collaborate" tab2="Create" />
       <View style={styles.storiesContainer}>
         <View style={styles.storyContainer}>
           <View style={styles.storyTextContainer}>
@@ -148,11 +146,11 @@ export default function Profile() {
             />
           </View>
         </View>
-      </View>
-      <View style={styles.button}>
-        <Link href='./myStories' asChild>
-          <Text style={styles.buttonText}>Start Writing</Text>
-        </Link>
+        <View style={styles.button}>
+          <Link href='./myStories' asChild>
+            <Text style={styles.buttonText}>Collaborate</Text>
+          </Link>
+        </View>
       </View>
     </View>
   );
