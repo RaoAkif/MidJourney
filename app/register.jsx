@@ -26,18 +26,12 @@ export default function Landing() {
               style={styles.input}
               placeholder='Enter Your Psuedonym'
             />
-            <TextInput
-              style={styles.input}
-              placeholder='Enter Your Email'
-            />
-            <TextInput
-              style={styles.input}
-              placeholder='Enter Your Password'
-            />
+            <TextInput style={styles.input} placeholder='Enter Your Email' />
+            <TextInput style={styles.input} placeholder='Enter Your Password' />
           </View>
         </View>
         <View style={styles.button}>
-          <Link href='./dashboard/profile' asChild>
+          <Link href='./home/profile' asChild>
             <Text style={styles.buttonText}>Register</Text>
           </Link>
         </View>
