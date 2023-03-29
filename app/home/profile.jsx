@@ -1,7 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Button } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { StyleSheet, View, Image, Text } from "react-native";
+import { getProfile } from "../../utils/queries";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -123,44 +126,58 @@ const styles = StyleSheet.create({
 });
 
 export default function Profile() {
-  const name = "Umman";
+  const { data, error, isLoading } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
+
+  console.log("rendered");
   const router = useRouter();
-  return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
-        />
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { justifyContent: "center" }]}>
+        <ActivityIndicator />
       </View>
-      <View style={styles.profileContainer}>
-        <View style={styles.hatContainer}>
-          <Image
-            style={styles.hat}
-            source={require("../../assets/thinking_cap4_tilted.png")}
-          />
+    );
+  }
+  if (error) {
+    return (
+      <View style={[styles.container, { justifyContent: "center" }]}>
+        <Text>Error</Text>
+      </View>
+    );
+  }
+
+  if (data) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.topHatContainer}>
+          <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
         </View>
-        <View style={styles.contentContainer}>
-          <View style={styles.storiesContainer}>
-            <View>
-              <Text style={styles.profileName}>John Rabada</Text>
-            </View>
-            <View>
-              <View style={styles.storyItem}>
-                <Text style={styles.count}>33</Text>
-                <Text style={styles.storyMessage}>Stories Created</Text>
+        <View style={styles.profileContainer}>
+          <View style={styles.hatContainer}>
+            <Image style={styles.hat} source={require("../../assets/thinking_cap4_tilted.png")} />
+          </View>
+          <View style={styles.contentContainer}>
+            <View style={styles.storiesContainer}>
+              <View>
+                <Text style={styles.profileName}>{data.data.name}</Text>
               </View>
-              <View style={styles.storyItem}>
-                <Text style={styles.count}>300</Text>
-                <Text style={styles.storyMessage}>Stories Collaborated</Text>
+              <View>
+                <View style={styles.storyItem}>
+                  <Text style={styles.count}>{data.data.stories_count}</Text>
+                  <Text style={styles.storyMessage}>Stories Created</Text>
+                </View>
+                <View style={styles.storyItem}>
+                  <Text style={styles.count}>{data.data.colab_count}</Text>
+                  <Text style={styles.storyMessage}>Stories Collaborated</Text>
+                </View>
               </View>
-            </View>
-            <View>
-              <Text style={styles.editText}>edit</Text>
+              <View>
+                <Text style={styles.editText}>edit</Text>
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 }

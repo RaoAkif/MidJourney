@@ -16,28 +16,21 @@ export default function Landing() {
       <View style={styles.contentContainer}>
         <View style={styles.signupContainer}>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../assets/thinking_cap1.png")}
-            />
+            <Image style={styles.hat} source={require("../assets/thinking_cap1.png")} />
           </View>
           <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder='Enter Your Psuedonym'
-            />
+            <TextInput style={styles.input} placeholder="Enter Your Psuedonym" />
           </View>
         </View>
         <View style={styles.button}>
-          <Link href='./home/profile' asChild>
+          <Link href="./home/profile" asChild>
             <Text style={styles.buttonText}>Start Writing</Text>
           </Link>
         </View>
       </View>
       <Text style={styles.messageText}>
-        &quot;If you can tell stories, create characters, devise incidents, and
-        have sincerity and passion, it doesn&apos;t matter a damn how you
-        write&quot; Somerset Maugham
+        &quot;If you can tell stories, create characters, devise incidents, and have sincerity and passion, it
+        doesn&apos;t matter a damn how you write&quot; Somerset Maugham
       </Text>
     </View>
   );
