@@ -1,6 +1,7 @@
 import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import TopTabs from "../../components/TopTabs";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -13,7 +14,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: bgColor,
     alignItems: "center",
-    justifyContent: "space-between",
   },
   topHatContainer: {
     width: 70,
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    paddingTop: 50,
   },
   
   titleInputContainer: {
@@ -77,6 +78,8 @@ const styles = StyleSheet.create({
     color: textColor,
     opacity: 0.75,
     fontWeight: 700,
+    width: "100%",
+    height: "100%",
   },
   descriptionInput: {
     textAlign: "center",
@@ -84,6 +87,9 @@ const styles = StyleSheet.create({
     color: textColor,
     opacity: 0.75,
     fontWeight: 700,
+    width: "100%",
+    height: "100%",
+    paddingTop: 30,
   },
   button: {
     width: "80vw",
@@ -116,6 +122,7 @@ export default function Profile() {
           source={require("../../assets/thinking_cap1.png")}
         />
       </View>
+      <TopTabs tab1="Collaborate" tab2="Create" />
       <View style={styles.inputContainers}>
         <View style={styles.titleInputContainer}>
           <TextInput
