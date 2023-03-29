@@ -7,6 +7,47 @@ const bgWhite = "#ffffff";
 const black = "#000000";
 const buttonbgColor = "#e4504d";
 
+export default function Profile() {
+  return (
+    <View style={styles.container}>
+      <View style={styles.topHatContainer}>
+        <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
+      </View>
+      <View style={styles.goBack}>
+        <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
+      </View>
+      <View style={styles.storiesContainer}>
+        <View style={styles.storyContainer}>
+          <View style={styles.storyTextContainer}>
+            <Text style={styles.storyTitle}>Sleep Hollow</Text>
+            <Text style={styles.storyDescription}>
+              No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally
+              dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always
+              would wonder if the ghost had finally left and dissappeared from the house
+            </Text>
+          </View>
+        </View>
+        <View style={styles.storyContainer}>
+          <View style={styles.collaborationContainerInput}>
+            <TextInput
+              style={styles.collaborationInput}
+              placeholderTextColor="#727272"
+              placeholder="Collaborate on the story above"
+              multiline={true}
+              numberOfLines={4}
+            />
+          </View>
+        </View>
+        <View style={styles.button}>
+          <Link href="./myStories" asChild>
+            <Text style={styles.buttonText}>Collaborate</Text>
+          </Link>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -112,46 +153,3 @@ const styles = StyleSheet.create({
     fontSize: "16px",
   },
 });
-
-export default function Profile() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
-        />
-      </View>
-      <View style={styles.goBack}>
-        <Image
-          style={styles.goBackIcon}
-          source={require("../../assets/left1.png")}
-        />
-      </View>
-      <View style={styles.storiesContainer}>
-        <View style={styles.storyContainer}>
-          <View style={styles.storyTextContainer}>
-            <Text style={styles.storyTitle}>Sleep Hollow</Text>
-            <Text style={styles.storyDescription}>No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally  dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always would wonder if the ghost had finally left and dissappeared from the house</Text>
-          </View>
-        </View>
-        <View style={styles.storyContainer}>
-          <View style={styles.collaborationContainerInput}>
-            <TextInput
-              style={styles.collaborationInput}
-              placeholderTextColor='#727272'
-              placeholder='Collaborate on the story above'
-              multiline={true}
-              numberOfLines={4}
-            />
-          </View>
-        </View>
-        <View style={styles.button}>
-          <Link href='./myStories' asChild>
-            <Text style={styles.buttonText}>Collaborate</Text>
-          </Link>
-        </View>
-      </View>
-    </View>
-  );
-}

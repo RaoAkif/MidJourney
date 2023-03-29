@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "react-native";
 import { ActivityIndicator } from "react-native";
 import { StyleSheet, View, Image, Text } from "react-native";
-import { getProfile } from "../../utils/queries";
+import { getProfile } from "../../utils/api";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -13,6 +13,62 @@ const hatbgColor = "#bcbcbc";
 const borderLine = "#d2d2d2";
 const profileText = "#333";
 const editText = "#979797";
+
+export default function Profile() {
+  const { data, error, isLoading } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
+
+  const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { justifyContent: "center" }]}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+  if (error) {
+    return (
+      <View style={[styles.container, { justifyContent: "center" }]}>
+        <Text>Error</Text>
+      </View>
+    );
+  }
+
+  if (data) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.topHatContainer}>
+          <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
+        </View>
+        <View style={styles.profileContainer}>
+          <View style={styles.hatContainer}>
+            <Image style={styles.hat} source={require("../../assets/thinking_cap4_tilted.png")} />
+          </View>
+          <View style={styles.contentContainer}>
+            <View style={styles.storiesContainer}>
+              <View>
+                <Text style={styles.profileName}>{data.name}</Text>
+              </View>
+              <View>
+                <View style={styles.storyItem}>
+                  <Text style={styles.count}>{data.stories_count}</Text>
+                  <Text style={styles.storyMessage}>Stories Created</Text>
+                </View>
+                <View style={styles.storyItem}>
+                  <Text style={styles.count}>{data.colab_count}</Text>
+                  <Text style={styles.storyMessage}>Stories Collaborated</Text>
+                </View>
+              </View>
+              <View>
+                <Text style={styles.editText}>edit</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -124,60 +180,3 @@ const styles = StyleSheet.create({
     height: 45,
   },
 });
-
-export default function Profile() {
-  const { data, error, isLoading } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
-
-  console.log("rendered");
-  const router = useRouter();
-
-  if (isLoading) {
-    return (
-      <View style={[styles.container, { justifyContent: "center" }]}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-  if (error) {
-    return (
-      <View style={[styles.container, { justifyContent: "center" }]}>
-        <Text>Error</Text>
-      </View>
-    );
-  }
-
-  if (data) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.topHatContainer}>
-          <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
-        </View>
-        <View style={styles.profileContainer}>
-          <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap4_tilted.png")} />
-          </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.storiesContainer}>
-              <View>
-                <Text style={styles.profileName}>{data.data.name}</Text>
-              </View>
-              <View>
-                <View style={styles.storyItem}>
-                  <Text style={styles.count}>{data.data.stories_count}</Text>
-                  <Text style={styles.storyMessage}>Stories Created</Text>
-                </View>
-                <View style={styles.storyItem}>
-                  <Text style={styles.count}>{data.data.colab_count}</Text>
-                  <Text style={styles.storyMessage}>Stories Collaborated</Text>
-                </View>
-              </View>
-              <View>
-                <Text style={styles.editText}>edit</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-}

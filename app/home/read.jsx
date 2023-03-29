@@ -7,6 +7,47 @@ const black = "#000000";
 const buttonbgColor = "#e4504d";
 const borderColor = "#bcbcbc";
 
+export default function Profile() {
+  return (
+    <View style={styles.container}>
+      <View style={styles.topHatContainer}>
+        <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
+      </View>
+      <View style={styles.goBack}>
+        <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
+      </View>
+      <View style={styles.storiesContainer}>
+        <View style={styles.storyContainer}>
+          <View style={styles.storyTextContainer}>
+            <Text style={styles.storyTitle}>Sleep Hollow</Text>
+            <Text style={styles.storyDescription}>
+              No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally
+              dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always
+              would wonder if the ghost had finally left and dissappeared from the house.They always wondered if the
+              ghost had finally dissappeared from the house. They always wondered if the ghost had finally dissappeared
+              from the house. I They always wondered if the ghost had finally dissappeared from the house
+            </Text>
+          </View>
+        </View>
+        <View style={styles.hatsList}>
+          <View style={styles.hatContainer}>
+            <Image style={styles.hat} source={require("../../assets/thinking_cap1.png")} />
+          </View>
+          <View style={styles.hatContainer}>
+            <Image style={styles.hat} source={require("../../assets/thinking_cap2.png")} />
+          </View>
+          <View style={styles.hatContainer}>
+            <Image style={styles.hat} source={require("../../assets/thinking_cap3.png")} />
+          </View>
+          <View style={styles.hatContainer}>
+            <Image style={styles.hat} source={require("../../assets/thinking_cap4.png")} />
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -116,7 +157,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20
+    marginTop: 20,
   },
   hatContainer: {
     padding: "15px",
@@ -129,56 +170,3 @@ const styles = StyleSheet.create({
     borderRadius: "50%",
   },
 });
-
-export default function Profile() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
-        />
-      </View>
-      <View style={styles.goBack}>
-        <Image
-          style={styles.goBackIcon}
-          source={require("../../assets/left1.png")}
-        />
-      </View>
-      <View style={styles.storiesContainer}>
-        <View style={styles.storyContainer}>
-          <View style={styles.storyTextContainer}>
-            <Text style={styles.storyTitle}>Sleep Hollow</Text>
-            <Text style={styles.storyDescription}>No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally  dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always would wonder if the ghost had finally left and dissappeared from the house.They always  wondered if the ghost had finally  dissappeared from the house. They always  wondered if the ghost had finally  dissappeared from the house. I They always  wondered if the ghost had finally  dissappeared from the house</Text>
-          </View>
-        </View>
-        <View style={styles.hatsList}>
-          <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../../assets/thinking_cap1.png")}
-            />
-          </View>
-          <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../../assets/thinking_cap2.png")}
-            />
-          </View>
-          <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../../assets/thinking_cap3.png")}
-            />
-          </View>
-          <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../../assets/thinking_cap4.png")}
-            />
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-}

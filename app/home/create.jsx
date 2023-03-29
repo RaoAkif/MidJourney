@@ -9,6 +9,36 @@ const black = "#000000";
 const buttonbgColor = "#e4504d";
 const textColor = "#333332";
 
+export default function Profile() {
+  return (
+    <View style={styles.container}>
+      <View style={styles.topHatContainer}>
+        <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
+      </View>
+      <TopTabs tab1="Collaborate" tab2="Create" />
+      <View style={styles.inputContainers}>
+        <View style={styles.titleInputContainer}>
+          <TextInput style={styles.titleInput} placeholderTextColor="#727272" placeholder="Enter Title" />
+        </View>
+        <View style={styles.descriptionInputContainer}>
+          <TextInput
+            style={styles.descriptionInput}
+            placeholderTextColor="#727272"
+            placeholder="Enter first sentence of the story"
+            multiline={true}
+            numberOfLines={4}
+          />
+        </View>
+        <View style={styles.button}>
+          <Link href="./myStories" asChild>
+            <Text style={styles.buttonText}>Start Writing</Text>
+          </Link>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingTop: 50,
   },
-  
+
   titleInputContainer: {
     width: "80vw",
     height: 60,
@@ -112,40 +142,3 @@ const styles = StyleSheet.create({
     fontSize: "16px",
   },
 });
-
-export default function Profile() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
-        />
-      </View>
-      <TopTabs tab1="Collaborate" tab2="Create" />
-      <View style={styles.inputContainers}>
-        <View style={styles.titleInputContainer}>
-          <TextInput
-            style={styles.titleInput}
-            placeholderTextColor='#727272'
-            placeholder='Enter Title'
-          />
-        </View>
-        <View style={styles.descriptionInputContainer}>
-          <TextInput
-            style={styles.descriptionInput}
-            placeholderTextColor='#727272'
-            placeholder='Enter first sentence of the story'
-            multiline={true}
-            numberOfLines={4}
-          />
-        </View>
-        <View style={styles.button}>
-          <Link href='./myStories' asChild>
-            <Text style={styles.buttonText}>Start Writing</Text>
-          </Link>
-        </View>
-      </View>
-    </View>
-  );
-}
