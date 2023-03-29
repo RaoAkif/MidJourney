@@ -1,22 +1,16 @@
-import { useRouter } from "expo-router";
 import React from "react";
-import { Button } from "react-native";
 import { StyleSheet, View, Image, Text } from "react-native";
+import TopTabs from "../../components/TopTabs";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
 const black = "#000000";
-const hatbgColor = "#bcbcbc";
-const borderLine = "#d2d2d2";
-const profileText = "#333";
-const editText = "#979797";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: bgColor,
     alignItems: "center",
-    justifyContent: "space-between",
   },
   topHatContainer: {
     width: 70,
@@ -35,8 +29,8 @@ const styles = StyleSheet.create({
   storiesContainer: {
     flex: 1,
     width: "100%",
-    justifyContent: "center",
     alignItems: "center",
+    paddingTop: 50,
   },
   storyContainer: {
     // flex: 1,
@@ -88,6 +82,7 @@ export default function Profile() {
           source={require("../../assets/thinking_cap1.png")}
         />
       </View>
+      <TopTabs tab1="Collaborate" tab2="Create" />
       <View style={styles.storiesContainer}>
         <View style={styles.storyContainer}>
           <View style={styles.storyTextContainer}>
