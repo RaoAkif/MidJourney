@@ -15,7 +15,7 @@ const profileText = "#333";
 const editText = "#979797";
 
 export default function Profile() {
-  const { data, error, isLoading } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
+  const { data, error, isLoading } = useQuery({ queryKey: ["profile", "1"], queryFn: getProfile });
 
   const router = useRouter();
 

@@ -1,2 +1,11 @@
-https://directus-production-9585.up.railway.app/items/profile
+GET https://directus-production-9585.up.railway.app/items/profile
 content-type: application/json
+
+#####
+POST https://directus-production-9585.up.railway.app/auth/login
+content-type: application/json
+
+{
+    "email":"akifrao@gmail.com",
+    "password":"1234567890"
+}
