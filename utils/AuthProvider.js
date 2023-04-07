@@ -1,13 +1,13 @@
-import { useStoreState } from "easy-peasy";
 import { Slot, useRouter, useSegments } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { login, logout } from "./slices/authSlice";
 
 export default function AuthProvider() {
   const router = useRouter();
   const segments = useSegments();
   const inHomeGroup = segments[0] === "home";
-
-  const isLoggedIn = useStoreState((state) => state.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     if (isLoggedIn && !inHomeGroup) {

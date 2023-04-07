@@ -1,16 +1,13 @@
-import axiosBase from 'axios';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const axios = axiosBase.create({
-    baseURL: 'https://directus-production-9585.up.railway.app/items',
-    headers: {'Content-Type': 'application/json'}
-  });
+export const userApi = createApi({
+  reducerPath: "userApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://directus-production-9585.up.railway.app/items" }),
+  endpoints: (builder) => ({
+    getProfile: builder.query({
+      query: (id) => `profile/${id}`,
+    }),
+  }),
+});
 
-export const getProfile = async () =>{
-    try {
-        const res = await axios.get("/profile/1")
-        return res.data.data
-        
-    } catch (error) {
-        return
-    }
-}
+export const { useGetProfileQuery } = userApi;

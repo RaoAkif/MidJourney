@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Button } from "react-native";
+
 import { ActivityIndicator } from "react-native";
 import { StyleSheet, View, Image, Text } from "react-native";
-import { getProfile } from "../../utils/api";
+import { useGetProfileQuery } from "../../utils/api";
+import { useDispatch } from "react-redux";
+import { logout } from "../../utils/slices/authSlice";
+import { Pressable } from "react-native";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -15,9 +17,10 @@ const profileText = "#333";
 const editText = "#979797";
 
 export default function Profile() {
-  const { data, error, isLoading } = useQuery({ queryKey: ["profile", "1"], queryFn: getProfile });
+  const { data, error, isLoading } = useGetProfileQuery(1);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   if (isLoading) {
     return (
@@ -47,21 +50,25 @@ export default function Profile() {
           <View style={styles.contentContainer}>
             <View style={styles.storiesContainer}>
               <View>
-                <Text style={styles.profileName}>{data.name}</Text>
+                <Text style={styles.profileName}>{data.data.name}</Text>
               </View>
               <View>
                 <View style={styles.storyItem}>
-                  <Text style={styles.count}>{data.stories_count}</Text>
+                  <Text style={styles.count}>{data.data.stories_count}</Text>
                   <Text style={styles.storyMessage}>Stories Created</Text>
                 </View>
                 <View style={styles.storyItem}>
-                  <Text style={styles.count}>{data.colab_count}</Text>
+                  <Text style={styles.count}>{data.data.colab_count}</Text>
                   <Text style={styles.storyMessage}>Stories Collaborated</Text>
                 </View>
               </View>
               <View>
                 <Text style={styles.editText}>edit</Text>
               </View>
+
+              <Pressable onPress={() => dispatch(logout())}>
+                <Text>Logout</Text>
+              </Pressable>
             </View>
           </View>
         </View>

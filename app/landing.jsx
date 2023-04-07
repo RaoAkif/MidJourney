@@ -1,6 +1,8 @@
 import { Link } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, TextInput, View, Image } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, Pressable } from "react-native";
+import { login } from "../utils/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -11,6 +13,7 @@ const buttonbgColor = "#e4504d";
 const hatbgColor = "#d9d9d9";
 
 export default function Landing() {
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -27,6 +30,9 @@ export default function Landing() {
             <Text style={styles.buttonText}>Start Writing</Text>
           </Link>
         </View>
+        <Pressable onPress={() => dispatch(login())}>
+          <Text>Login</Text>
+        </Pressable>
       </View>
       <Text style={styles.messageText}>
         &quot;If you can tell stories, create characters, devise incidents, and have sincerity and passion, it
