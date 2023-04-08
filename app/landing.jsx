@@ -1,14 +1,7 @@
 import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TextInput, View, Image } from "react-native";
-
-const bgColor = "#fefbf6";
-const bgWhite = "#ffffff";
-const black = "#000000";
-const borderbgColor = "#aaaaaa";
-const textColor = "#333332";
-const buttonbgColor = "#e4504d";
-const hatbgColor = "#d9d9d9";
+import { COLORS } from "../utils/constants";
 
 export default function Landing() {
   return (
@@ -49,7 +42,7 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     paddingHorizontal: 5,
     paddingTop: "10vh",
-    backgroundColor: bgColor,
+    backgroundColor: COLORS.bgColor,
     alignItems: "center",
     justifyContent: "space-between",
   },
@@ -68,9 +61,9 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "80%",
     height: 200,
-    backgroundColor: bgWhite,
+    backgroundColor: COLORS.bgWhite,
     // elevation
-    shadowColor: black,
+    shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
       height: 3,
@@ -84,10 +77,10 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: borderbgColor,
+    borderBottomColor: COLORS.borderbgColor,
     textAlign: "center",
     fontSize: 16,
-    color: textColor,
+    color: COLORS.textColor,
     opacity: 0.75,
     fontWeight: 700,
     padding: 7,
@@ -96,11 +89,11 @@ const styles = StyleSheet.create({
   button: {
     width: "70%",
     height: 46,
-    backgroundColor: buttonbgColor,
+    backgroundColor: COLORS.buttonbgColor,
     textAlign: "center",
     justifyContent: "center",
     // elevation
-    shadowColor: black,
+    shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
       height: 3,
@@ -110,15 +103,15 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   buttonText: {
-    color: bgWhite,
+    color: COLORS.bgWhite,
     fontSize: "16px",
   },
   hatContainer: {
-    backgroundColor: bgColor,
+    backgroundColor: COLORS.bgColor,
     width: 90,
     height: 82,
     borderRadius: "50%",
-    borderColor: hatbgColor,
+    borderColor: COLORS.hatbgColor,
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
