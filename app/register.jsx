@@ -7,14 +7,9 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-
-const bgColor = "#fefbf6";
-const bgWhite = "#ffffff";
-const black = "#000000";
-const borderbgColor = "#aaaaaa";
-const textColor = "#333332";
-const buttonbgColor = "#e4504d";
-const hatbgColor = "#d9d9d9";
+import { registerUser } from "../redux/users/registerUserSlice";
+import { useDispatch } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export default function Register() {
   const [pseudonym, setPseudonym] = useState("");
@@ -25,9 +20,23 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState("");
   const [error, setError] = useState("");
 
+  const dispatch = useDispatch();
+
+  const handleSubmit = async () => {
+    try {
+      const resultAction = await dispatch(
+        registerUser({ pseudonym, email, password, city: "Lahore", country: "Pakistan", profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" })
+      );
+      const result = await unwrapResult(resultAction);
+      console.log("Registration success!");
+    } catch (err) {
+      console.log("Registration failed!", err.message);
+    }
+  };
+
   const handleRegister = () => {
     if (validateForm()) {
-      // handleSubmit();
+      handleSubmit();
     }
   };
 
@@ -140,6 +149,14 @@ export default function Register() {
     </View>
   );
 }
+
+const bgColor = "#fefbf6";
+const bgWhite = "#ffffff";
+const black = "#000000";
+const borderbgColor = "#aaaaaa";
+const textColor = "#333332";
+const buttonbgColor = "#e4504d";
+const hatbgColor = "#d9d9d9";
 
 const styles = StyleSheet.create({
   container: {

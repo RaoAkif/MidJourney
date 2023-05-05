@@ -49,6 +49,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc
 # }
 
 ###
-GET https://writing-hat-api.vercel.app/api/users/1
+GET https://writing-hat-api.vercel.app/api/users
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
+
+
+### REGISTER A USER
+POST https://writing-hat-api.vercel.app/api/users
+Content-Type: application/json
+
+{
+  "pseudonym": "raoakif08",
+  "email": "akifrao8@gmail.com",
+  "city": "Lahore",
+  "country": "Pakistan",
+  "password": "123456",
+  "profileImage": "https://avatars.githubusercontent.com/u/61361037?s=400&u=5a3fe223b969f16e2a4523817eb3acf361935f74&v=4"
+}

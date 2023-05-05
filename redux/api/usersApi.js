@@ -20,9 +20,19 @@ export const usersApi = createApi({
         },
       }),
     }),
+    registerUser: builder.mutation({
+      query: (user) => ({
+        url: '/users',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      }),
+    }),
   })
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetUsersQuery } = usersApi
+export const { useGetUsersQuery, useRegisterUserMutation } = usersApi;
