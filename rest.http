@@ -2,10 +2,53 @@ GET https://directus-production-9585.up.railway.app/items/profile
 content-type: application/json
 
 #####
-POST https://directus-production-9585.up.railway.app/auth/login
+POST http://localhost:5000/api/auth/
 content-type: application/json
 
 {
-    "email":"akifrao@gmail.com",
-    "password":"1234567890"
+    "pseudonym":"raoakif",
+    "password":"123456"
 }
+
+###
+GET https://writing-hat-api.vercel.app/api/prompts
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY
+
+###
+GET https://writing-hat-api.vercel.app/api/responses
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY
+
+
+
+###
+PUT https://writing-hat-api.vercel.app/api/prompts/1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY
+
+{
+  "title": "No Nonsense",
+  "description": "Finally someone showed up with a glass of water! They always wondered if the ghost had finally  dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always would wonder if the ghost had finally left and dissappeared from the house.They always  wondered if the ghost had finally  dissappeared from the house. They always  wondered if the ghost had finally  dissappeared from the house. I They always  wondered if the ghost had finally  dissappeared from the house.",
+  "promptCategoryId": 1,
+  "userId": 1
+}
+
+{
+  "title": "Sleep Hollow",
+  "description": "No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally  dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always would wonder if the ghost had finally left and dissappeared from the house.They always  wondered if the ghost had finally  dissappeared from the house. They always  wondered if the ghost had finally  dissappeared from the house. I They always  wondered if the ghost had finally  dissappeared from the house.",
+  "promptId": 2,
+  "userId": 1
+}
+
+# {
+#   "title": "Sleep Hollow",
+#   "description": "No other sounds were ever heard from the basement anymore. They always wondered if no other sounds were ever heard from the basement anymore.",
+#   "userId": 1,
+#   "promptId": 1
+# }
+
+###
+GET https://writing-hat-api.vercel.app/api/users/1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY

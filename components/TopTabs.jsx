@@ -1,9 +1,9 @@
-
-import { StyleSheet, View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
-  tabscontainer: {
+  tabsContainer: {
     flexDirection: "row",
     height: "6vh",
     width: "100%",
@@ -28,15 +28,33 @@ const styles = StyleSheet.create({
   },
 })
 
-export default function TopTabs({tab1, tab2}) {
+export default function TopTabs({ tab1, tab2, activeTab }) {
+  const [activeTabState, setActiveTab] = useState(activeTab);
+  const navigation = useNavigation();
+
+  const handleTabPress = (tab) => {
+    setActiveTab(tab);
+    if (tab === tab1) {
+      navigation.navigate('myStories');
+    } else if (tab === tab2) {
+      navigation.navigate('myCollaborations');
+    }
+  };
+
   return (
-    <View style={styles.tabscontainer}>
-      <View style={styles.tabs}>
-        <Text style={styles.tabText}>{tab1}</Text>
-      </View>
-      <View style={[styles.tabs, styles.active]}>
-        <Text style={[styles.tabText, styles.activeTabText]}>{tab2}</Text>
-      </View>
+    <View style={styles.tabsContainer}>
+      <TouchableOpacity
+        style={[styles.tabs, activeTabState === tab1 && styles.active]}
+        onPress={() => handleTabPress(tab1)}
+      >
+        <Text style={[styles.tabText, activeTabState === tab1 && styles.activeTabText]}>{tab1}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.tabs, activeTabState === tab2 && styles.active]}
+        onPress={() => handleTabPress(tab2)}
+      >
+        <Text style={[styles.tabText, activeTabState === tab2 && styles.activeTabText]}>{tab2}</Text>
+      </TouchableOpacity>
     </View>
   )
 }

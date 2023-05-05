@@ -1,40 +1,93 @@
-import React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import TopTabs from "../../components/TopTabs";
+import { useGetStoriesQuery } from "../../redux/api/storiesApi";
+import { setStories } from "../../redux/stories/getStoriesSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from '@react-navigation/native';
+import Read from "./read";
 
-const bgColor = "#fefbf6";
-const bgWhite = "#ffffff";
-const black = "#000000";
+const Stack = createStackNavigator();
 
-export default function Profile() {
+function MyStoriesScreen() {
+  const navigation = useNavigation();
+  const token = useSelector((state) => state.auth.accessToken);
+  const dispatch = useDispatch();
+  const { data: stories, error, isLoading } = useGetStoriesQuery(token);
+
+  useEffect(() => {
+    if (stories) {
+      dispatch(setStories(stories));
+    }
+  }, [stories, dispatch]);
+
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
-        <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
+        <Image
+          style={styles.topHat}
+          source={require("../../assets/thinking_cap1.png")}
+        />
       </View>
-      <TopTabs tab1="Collaborate" tab2="Create" />
+      <TopTabs
+        tab1="My Stories"
+        tab2="My Collaborations"
+        activeTab="My Stories"
+      />
       <View style={styles.storiesContainer}>
-        <View style={styles.storyContainer}>
-          <View style={styles.storyTextContainer}>
-            <Text style={styles.storyTitle}>Sleep Hollow</Text>
-            <Text style={styles.storyDescription}>
-              No other sounds were ever heard from the basement anymore. They always wondered if ....
-            </Text>
-          </View>
-        </View>
-        <View style={styles.storyContainer}>
-          <View style={styles.storyTextContainer}>
-            <Text style={styles.storyTitle}>No Nonsense</Text>
-            <Text style={styles.storyDescription}>
-              Finally someone showed up with a glass of water! Sue frantically leaped towards the fisherman and ....
-            </Text>
-          </View>
-        </View>
-        <View></View>
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : error ? (
+          <Text>An error occurred: {error.message}</Text>
+        ) : (
+          stories?.map((story) => (
+            <TouchableOpacity
+              key={story.id}
+              style={styles.storyContainer}
+              onPress={() =>
+                navigation.navigate("Read", { storyId: story.id })
+              }
+            >
+              <View style={styles.storyTextContainer}>
+                <Text style={styles.storyTitle}>{story.title}</Text>
+                <Text style={styles.storyDescription}>
+                  {story.description.split(" ").slice(0, 25).join(" ")}
+                  {"..."}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        )}
       </View>
     </View>
   );
 }
+
+export default function MyStories() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="My Stories"
+        component={MyStoriesScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Read"
+        component={Read}
+        options={{
+          title: "Read",
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+const bgColor = "#fefbf6";
+const bgWhite = "#ffffff";
+const black = "#000000";
 
 const styles = StyleSheet.create({
   container: {

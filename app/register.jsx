@@ -1,6 +1,12 @@
-import { Link } from "expo-router";
-import React from "react";
-import { StyleSheet, Text, TextInput, View, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -10,26 +16,127 @@ const textColor = "#333332";
 const buttonbgColor = "#e4504d";
 const hatbgColor = "#d9d9d9";
 
-export default function Landing() {
+export default function Register() {
+  const [pseudonym, setPseudonym] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [pseudonymError, setPseudonymError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [error, setError] = useState("");
+
+  const handleRegister = () => {
+    if (validateForm()) {
+      // handleSubmit();
+    }
+  };
+
+  function validateForm() {
+    let isValid = true;
+
+    if (!pseudonym.trim() || !email.trim() || !password.trim()) {
+      setError("All fields are required.");
+      isValid = false;
+    } else {
+      console.log(
+        `Registration success! Pseudonym: ${pseudonym}, Email: ${email}, Password: ${password}`
+      );
+      isValid = true;
+    }
+
+    if (!isAlphaNumeric(pseudonym)) {
+      setPseudonymError("Pseudonym should be alphaNumeric.");
+      isValid = false;
+    } else {
+      setPseudonymError("");
+    }
+
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+    } else {
+      setEmailError("");
+    }
+
+    if (!isValidPassword(password)) {
+      setPasswordError(
+        "Password should be a mix of 8 uppercase/lowercase letters, numbers, & special characters."
+      );
+    } else {
+      setPasswordError("");
+    }
+
+    return isValid;
+  }
+
+  const isAlphaNumeric = (text) => {
+    const alphaNumericRegex = /^[a-zA-Z0-9]+$/;
+    return alphaNumericRegex.test(text);
+  };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isValidPassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <View style={styles.signupContainer}>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap1.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../assets/thinking_cap1.png")}
+            />
           </View>
           <View style={styles.inputContainer}>
-            <TextInput style={styles.input} placeholder="Enter Your Psuedonym" />
-            <TextInput style={styles.input} placeholder="Enter Your Email" />
-            <TextInput style={styles.input} placeholder="Enter Your Password" />
+            <TextInput
+              style={styles.input}
+              placeholder='Enter Your Psuedonym'
+              value={pseudonym}
+              onChangeText={(text) => setPseudonym(text)}
+            />
+            {pseudonymError !== "" && (
+              <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>
+            )}
+            <TextInput
+              style={styles.input}
+              placeholder='Enter Your Email'
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+            {emailError !== "" && (
+              <Text style={styles.fieldsErrorText}>{emailError}</Text>
+            )}
+            <TextInput
+              style={styles.input}
+              placeholder='Enter Your Password'
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+            {passwordError !== "" && (
+              <Text style={styles.fieldsErrorText}>{passwordError}</Text>
+            )}
           </View>
-        </View>
-        <View style={styles.button}>
-          <Link href="./home/profile" asChild>
+          {error ? (
+            <Text style={styles.credentialsErrorText}>{error}</Text>
+          ) : null}
+          <TouchableOpacity style={styles.button} onPress={handleRegister}>
             <Text style={styles.buttonText}>Register</Text>
-          </Link>
+          </TouchableOpacity>
         </View>
       </View>
+      <Text style={styles.messageText}>
+        "If you can tell stories, create characters, devise incidents, and have
+        sincerity and passion, it doesn't matter a damn how you write" Somerset
+        Maugham
+      </Text>
     </View>
   );
 }
@@ -38,17 +145,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 5,
-    paddingTop: "40vh",
     backgroundColor: bgColor,
     alignItems: "center",
     justifyContent: "space-between",
+    paddingTop: "10vh",
   },
   contentContainer: {
-    // flex: 1,
     justifyContent: "end",
     alignItems: "center",
     width: "100%",
-    height: "60%",
   },
   signupContainer: {
     width: "100%",
@@ -57,7 +162,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
-    height: 400,
     backgroundColor: bgWhite,
     // elevation
     shadowColor: black,
@@ -71,6 +175,8 @@ const styles = StyleSheet.create({
     marginBottom: "12%",
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 50,
+    paddingBottom: 50,
   },
   input: {
     borderBottomWidth: 1,
@@ -83,7 +189,21 @@ const styles = StyleSheet.create({
     padding: 7,
     marginVertical: "20px",
   },
-
+  fieldsErrorText: {
+    color: "red",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    width: "80%",
+  },
+  credentialsErrorText: {
+    marginBottom: 25,
+    color: "red",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    width: "80%",
+  },
   button: {
     width: "70%",
     height: 46,

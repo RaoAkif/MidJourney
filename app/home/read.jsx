@@ -1,52 +1,91 @@
 import React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { useNavigation } from '@react-navigation/native';
 
-const bgColor = "#fefbf6";
-const bgWhite = "#ffffff";
-const black = "#000000";
-const buttonbgColor = "#e4504d";
-const borderColor = "#bcbcbc";
+export default function Read() {
+  const route = useRoute();
+  const { storyId, collaborationId } = route.params;
+  const navigation = useNavigation();
+  
+  // Get the stories from the Redux store
+  const stories = useSelector((state) => state.stories.stories);
+  const collaborations = useSelector((state) => state.collaborations.collaborations);
+  
+  // Filter the stories to get the one with the matching ID
+  const selectedStory = stories.find((story) => story.id === storyId);
+  // Filter the collaborations to get the one with the matching ID
+  const selectedCollaboration = collaborations.find((collaboration) => collaboration.id === collaborationId);
 
-export default function Profile() {
+  
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
-        <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
+        <Image
+          style={styles.topHat}
+          source={require("../../assets/thinking_cap1.png")}
+        />
       </View>
-      <View style={styles.goBack}>
-        <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
-      </View>
+      <TouchableOpacity style={styles.goBack} onPress={() => { navigation.goBack(); }}>
+        <Image
+          style={styles.goBackIcon}
+          source={require("../../assets/left1.png")}
+        />
+      </TouchableOpacity>
       <View style={styles.storiesContainer}>
-        <View style={styles.storyContainer}>
-          <View style={styles.storyTextContainer}>
-            <Text style={styles.storyTitle}>Sleep Hollow</Text>
-            <Text style={styles.storyDescription}>
-              No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally
-              dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always
-              would wonder if the ghost had finally left and dissappeared from the house.They always wondered if the
-              ghost had finally dissappeared from the house. They always wondered if the ghost had finally dissappeared
-              from the house. I They always wondered if the ghost had finally dissappeared from the house
-            </Text>
+        {selectedStory && (
+          <View style={styles.storyContainer}>
+            <View style={styles.storyTextContainer}>
+              <Text style={styles.storyTitle}>{selectedStory.title}</Text>
+              <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+            </View>
           </View>
-        </View>
+        )}
+        {selectedCollaboration && (
+          <View style={styles.storyContainer}>
+            <View style={styles.storyTextContainer}>
+              <Text style={styles.storyTitle}>{selectedCollaboration.title}</Text>
+              <Text style={styles.storyDescription}>{selectedCollaboration.description}</Text>
+            </View>
+          </View>
+        )}
         <View style={styles.hatsList}>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap1.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../../assets/thinking_cap1.png")}
+            />
           </View>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap2.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../../assets/thinking_cap2.png")}
+            />
           </View>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap3.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../../assets/thinking_cap3.png")}
+            />
           </View>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap4.png")} />
+            <Image
+              style={styles.hat}
+              source={require("../../assets/thinking_cap4.png")}
+            />
           </View>
         </View>
       </View>
     </View>
   );
 }
+
+const bgColor = "#fefbf6";
+const bgWhite = "#ffffff";
+const black = "#000000";
+const buttonbgColor = "#e4504d";
+const borderColor = "#bcbcbc";
 
 const styles = StyleSheet.create({
   container: {
@@ -116,7 +155,6 @@ const styles = StyleSheet.create({
     paddingTop: "10px",
     paddingBottom: "10px",
     paddingHorizontal: "10px",
-    textAlign: "justify",
   },
   downArray: {
     marginTop: "10px",
@@ -157,7 +195,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 20
   },
   hatContainer: {
     padding: "15px",

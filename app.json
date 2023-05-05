@@ -4,7 +4,8 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "WritingHat",
-    "slug": "WritingHat"
+    "name": "Writing Hat",
+    "slug": "writinghat",
+    "icon": "./assets/favicon.png"
   }
 }

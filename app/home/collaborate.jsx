@@ -7,7 +7,7 @@ const bgWhite = "#ffffff";
 const black = "#000000";
 const buttonbgColor = "#e4504d";
 
-export default function Profile() {
+export default function Collaborate() {
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
@@ -23,7 +23,7 @@ export default function Profile() {
             <Text style={styles.storyDescription}>
               No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally
               dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always
-              would wonder if the ghost had finally left and dissappeared from the house
+              would wonder if the ghost had finally left and dissappeared from the house.
             </Text>
           </View>
         </View>

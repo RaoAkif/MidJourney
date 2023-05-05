@@ -9,7 +9,7 @@ const black = "#000000";
 const buttonbgColor = "#e4504d";
 const textColor = "#333332";
 
-export default function Profile() {
+export default function Create() {
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>

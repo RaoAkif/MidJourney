@@ -1,12 +1,65 @@
-import { useRouter } from "expo-router";
-import React from "react";
-
-import { ActivityIndicator } from "react-native";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
-import { useGetProfileQuery } from "../../utils/api";
+import { useRouter } from "expo-router";
+import { useGetUsersQuery } from "../../redux/api/usersApi"
+import { useSelector } from "react-redux";
+import { setUsers } from "../../redux/users/getUsersSlice";
 import { useDispatch } from "react-redux";
-import { logout } from "../../utils/slices/authSlice";
-import { Pressable } from "react-native";
+import { Button } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+
+
+export default function Profile() {
+  const router = useRouter();
+  const navigation = useNavigation();
+
+  const token = useSelector((state) => state.auth.accessToken);
+  const dispatch = useDispatch();
+  const { data: users, error, isLoading } = useGetUsersQuery(token);
+
+  useEffect(() => {
+    if (users) {
+      // only dispatch setUser if user is not undefined
+      dispatch(setUsers(users));
+    }
+  }, [users, dispatch]);
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.topHatContainer}>
+        <Image
+          style={styles.topHat}
+          source={require("../../assets/thinking_cap1.png")}
+        />
+      </View>
+      <View style={styles.profileContainer}>
+        <View style={styles.hatContainer}>
+          <Image style={styles.hat} source={{ uri: users?.profileImage }} />
+        </View>
+        <View style={styles.contentContainer}>
+          <View style={styles.storiesContainer}>
+            <View>
+              <Text style={styles.profileName}>{users?.pseudonym}</Text>
+            </View>
+            <View>
+              <View style={styles.storyItem}>
+                <Text style={styles.count}>{users?.prompt.length}</Text>
+                <Text style={styles.storyMessage} onPress={() => navigation.navigate('myStories')} >Stories Created</Text>
+              </View>
+              <View style={styles.storyItem}>
+                <Text style={styles.count}>{users?.response.length}</Text>
+                <Text style={styles.storyMessage} onPress={() => navigation.navigate('myCollaborations')} >Stories Collaborated</Text>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.editText} onPress={() => navigation.navigate('editProfile')} >edit</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+}
 
 const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
@@ -15,67 +68,6 @@ const hatbgColor = "#bcbcbc";
 const borderLine = "#d2d2d2";
 const profileText = "#333";
 const editText = "#979797";
-
-export default function Profile() {
-  const { data, error, isLoading } = useGetProfileQuery(1);
-
-  const router = useRouter();
-  const dispatch = useDispatch();
-
-  if (isLoading) {
-    return (
-      <View style={[styles.container, { justifyContent: "center" }]}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-  if (error) {
-    return (
-      <View style={[styles.container, { justifyContent: "center" }]}>
-        <Text>Error</Text>
-      </View>
-    );
-  }
-
-  if (data) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.topHatContainer}>
-          <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
-        </View>
-        <View style={styles.profileContainer}>
-          <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap4_tilted.png")} />
-          </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.storiesContainer}>
-              <View>
-                <Text style={styles.profileName}>{data.data.name}</Text>
-              </View>
-              <View>
-                <View style={styles.storyItem}>
-                  <Text style={styles.count}>{data.data.stories_count}</Text>
-                  <Text style={styles.storyMessage}>Stories Created</Text>
-                </View>
-                <View style={styles.storyItem}>
-                  <Text style={styles.count}>{data.data.colab_count}</Text>
-                  <Text style={styles.storyMessage}>Stories Collaborated</Text>
-                </View>
-              </View>
-              <View>
-                <Text style={styles.editText}>edit</Text>
-              </View>
-
-              <Pressable onPress={() => dispatch(logout())}>
-                <Text>Logout</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -117,10 +109,12 @@ const styles = StyleSheet.create({
     margin: -45,
     zIndex: 1,
     marginLeft: "-80%",
+    padding: 35
   },
   hat: {
     width: 52,
     height: 52,
+    transform: [{ rotate: "-45deg" }],
   },
   contentContainer: {
     // flex: 1,
@@ -141,6 +135,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     padding: 10,
+    paddingTop: 20,
     textAlign: "center",
     color: profileText,
     fontWeight: 700,
