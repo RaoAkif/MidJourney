@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { registerUser } from "../redux/users/registerUserSlice";
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
+// import { registerUser } from "../redux/users/registerUserSlice";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { useRegisterUserMutation } from "../redux/api/usersApi";
 
 export default function Register() {
   const [pseudonym, setPseudonym] = useState("");
@@ -21,22 +15,39 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
+  const [registerUser, result] = useRegisterUserMutation();
 
-  const handleSubmit = async () => {
-    try {
-      const resultAction = await dispatch(
-        registerUser({ pseudonym, email, password, city: "Lahore", country: "Pakistan", profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" })
-      );
-      const result = await unwrapResult(resultAction);
-      console.log("Registration success!");
-    } catch (err) {
-      console.log("Registration failed!", err.message);
-    }
-  };
+  // const handleSubmit = async () => {
+  //      try {
+  //     const resultAction = await dispatch(
+  //       registerUser({
+  //         pseudonym,
+  //         email,
+  //         password,
+  //         city: "Lahore",
+  //         country: "Pakistan",
+  //         profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+  //       })
+  //     );
+  //     const result = await unwrapResult(resultAction);
+  //     console.log("Registration success!");
+  //   } catch (err) {
+  //     console.log("Registration failed!", err.message);
+  //   }
+  // };
 
   const handleRegister = () => {
     if (validateForm()) {
-      handleSubmit();
+      // handleSubmit();
+
+      registerUser({
+        pseudonym,
+        email,
+        password,
+        city: "Lahore",
+        country: "Pakistan",
+        profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+      });
     }
   };
 
@@ -47,9 +58,7 @@ export default function Register() {
       setError("All fields are required.");
       isValid = false;
     } else {
-      console.log(
-        `Registration success! Pseudonym: ${pseudonym}, Email: ${email}, Password: ${password}`
-      );
+      console.log(`Registration success! Pseudonym: ${pseudonym}, Email: ${email}, Password: ${password}`);
       isValid = true;
     }
 
@@ -67,9 +76,7 @@ export default function Register() {
     }
 
     if (!isValidPassword(password)) {
-      setPasswordError(
-        "Password should be a mix of 8 uppercase/lowercase letters, numbers, & special characters."
-      );
+      setPasswordError("Password should be a mix of 8 uppercase/lowercase letters, numbers, & special characters.");
     } else {
       setPasswordError("");
     }
@@ -88,8 +95,7 @@ export default function Register() {
   };
 
   const isValidPassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password);
   };
 
@@ -98,53 +104,41 @@ export default function Register() {
       <View style={styles.contentContainer}>
         <View style={styles.signupContainer}>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../assets/thinking_cap1.png")}
-            />
+            <Image style={styles.hat} source={require("../assets/thinking_cap1.png")} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder='Enter Your Psuedonym'
+              placeholder="Enter Your Psuedonym"
               value={pseudonym}
               onChangeText={(text) => setPseudonym(text)}
             />
-            {pseudonymError !== "" && (
-              <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>
-            )}
+            {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
             <TextInput
               style={styles.input}
-              placeholder='Enter Your Email'
+              placeholder="Enter Your Email"
               value={email}
               onChangeText={(text) => setEmail(text)}
             />
-            {emailError !== "" && (
-              <Text style={styles.fieldsErrorText}>{emailError}</Text>
-            )}
+            {emailError !== "" && <Text style={styles.fieldsErrorText}>{emailError}</Text>}
             <TextInput
               style={styles.input}
-              placeholder='Enter Your Password'
+              placeholder="Enter Your Password"
               secureTextEntry={true}
               value={password}
               onChangeText={(text) => setPassword(text)}
             />
-            {passwordError !== "" && (
-              <Text style={styles.fieldsErrorText}>{passwordError}</Text>
-            )}
+            {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
           </View>
-          {error ? (
-            <Text style={styles.credentialsErrorText}>{error}</Text>
-          ) : null}
+          {error ? <Text style={styles.credentialsErrorText}>{error}</Text> : null}
           <TouchableOpacity style={styles.button} onPress={handleRegister}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
       </View>
       <Text style={styles.messageText}>
-        "If you can tell stories, create characters, devise incidents, and have
-        sincerity and passion, it doesn't matter a damn how you write" Somerset
-        Maugham
+        "If you can tell stories, create characters, devise incidents, and have sincerity and passion, it doesn't matter
+        a damn how you write" Somerset Maugham
       </Text>
     </View>
   );
