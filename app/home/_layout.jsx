@@ -41,14 +41,14 @@ export default function Layout() {
           tabBarItemStyle: styles.tabBarOption,
           tabBarIcon: ({ focused }) => <Image style={styles.optionsImage} source={focused ? Write2 : Write1} />,
         }}
-        name="create"
+        name="collaborations"
       />
       <Tabs.Screen
         options={{
           tabBarItemStyle: styles.tabBarOption,
           tabBarIcon: ({ focused }) => <Image style={styles.optionsImage} source={focused ? Read2 : Read1} />,
         }}
-        name="collaborations"
+        name="myStories"
       />
       <Tabs.Screen
         options={{
@@ -66,7 +66,7 @@ export default function Layout() {
         options={{
           href: null,
         }}
-        name="myStories"
+        name="create"
       />
       <Tabs.Screen
         options={{

@@ -13,19 +13,19 @@ content-type: application/json
 ###
 GET https://writing-hat-api.vercel.app/api/prompts
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
 
 ###
 GET https://writing-hat-api.vercel.app/api/responses
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
 
 
 
 ###
 PUT https://writing-hat-api.vercel.app/api/prompts/1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MjYzOTQ3NywiZXhwIjoxNjgzMjQ0Mjc3fQ.aB-ZOoEhxVIvlacTL6I39Qjfzh2BIcoJzar1CRsZ_WY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
 
 {
   "title": "No Nonsense",

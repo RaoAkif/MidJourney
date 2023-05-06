@@ -1,13 +1,7 @@
 import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
-import TopTabs from "../../components/TopTabs";
-
-const bgColor = "#fefbf6";
-const bgWhite = "#ffffff";
-const black = "#000000";
-const buttonbgColor = "#e4504d";
-const textColor = "#333332";
+import TopTabs2 from "../../components/TopTabs2";
 
 export default function Create() {
   return (
@@ -15,7 +9,11 @@ export default function Create() {
       <View style={styles.topHatContainer}>
         <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
       </View>
-      <TopTabs tab1="Collaborate" tab2="Create" />
+      <TopTabs2
+        tab1="Collaborate"
+        tab2="Create"
+        activeTab="Create"
+      />
       <View style={styles.inputContainers}>
         <View style={styles.titleInputContainer}>
           <TextInput style={styles.titleInput} placeholderTextColor="#727272" placeholder="Enter Title" />
@@ -38,6 +36,12 @@ export default function Create() {
     </View>
   );
 }
+
+const bgColor = "#fefbf6";
+const bgWhite = "#ffffff";
+const black = "#000000";
+const buttonbgColor = "#e4504d";
+const textColor = "#333332";
 
 const styles = StyleSheet.create({
   container: {

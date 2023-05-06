@@ -13,11 +13,9 @@ export default function Read() {
   const stories = useSelector((state) => state.stories.stories);
   const collaborations = useSelector((state) => state.collaborations.collaborations);
   
-  // Filter the stories to get the one with the matching ID
+// Filter the stories and collaborations to get the one with the matching ID
   const selectedStory = stories.find((story) => story.id === storyId);
-  // Filter the collaborations to get the one with the matching ID
   const selectedCollaboration = collaborations.find((collaboration) => collaboration.id === collaborationId);
-
   
   return (
     <View style={styles.container}>

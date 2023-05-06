@@ -1,32 +1,51 @@
-import { Link } from "expo-router";
 import React from "react";
-import { StyleSheet, View, Image, Text, TextInput } from "react-native";
-
-const bgColor = "#fefbf6";
-const bgWhite = "#ffffff";
-const black = "#000000";
-const buttonbgColor = "#e4504d";
+import { Link } from "expo-router";
+import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { useNavigation } from '@react-navigation/native';
 
 export default function Collaborate() {
+  const route = useRoute();
+  const { storyId, collaborationId } = route.params;
+  const navigation = useNavigation();
+  
+  // Get the stories and collaborations from the Redux store
+  const stories = useSelector((state) => state.stories.stories);
+  const collaborations = useSelector((state) => state.collaborations.collaborations);
+
+  // Filter the stories and collaborations to get the one with the matching ID
+  const selectedStory = stories.find((story) => story.id === storyId);
+  const selectedCollaboration = collaborations.find((collaboration) => collaboration.id === collaborationId);
+    
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
         <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
       </View>
-      <View style={styles.goBack}>
-        <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
-      </View>
+      <TouchableOpacity style={styles.goBack} onPress={() => { navigation.goBack(); }}>
+        <Image
+          style={styles.goBackIcon}
+          source={require("../../assets/left1.png")}
+        />
+      </TouchableOpacity>
       <View style={styles.storiesContainer}>
-        <View style={styles.storyContainer}>
-          <View style={styles.storyTextContainer}>
-            <Text style={styles.storyTitle}>Sleep Hollow</Text>
-            <Text style={styles.storyDescription}>
-              No other sounds were ever heard from the basement anymore. They always wondered if the ghost had finally
-              dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always
-              would wonder if the ghost had finally left and dissappeared from the house.
-            </Text>
+        {selectedStory && (
+          <View style={styles.storyContainer}>
+            <View style={styles.storyTextContainer}>
+              <Text style={styles.storyTitle}>{selectedStory.title}</Text>
+              <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+            </View>
           </View>
-        </View>
+        )}
+        {selectedCollaboration && (
+          <View style={styles.storyContainer}>
+            <View style={styles.storyTextContainer}>
+              <Text style={styles.storyTitle}>{selectedCollaboration.title}</Text>
+              <Text style={styles.storyDescription}>{selectedCollaboration.description}</Text>
+            </View>
+          </View>
+        )}
         <View style={styles.storyContainer}>
           <View style={styles.collaborationContainerInput}>
             <TextInput
@@ -47,6 +66,11 @@ export default function Collaborate() {
     </View>
   );
 }
+
+const bgColor = "#fefbf6";
+const bgWhite = "#ffffff";
+const black = "#000000";
+const buttonbgColor = "#e4504d";
 
 const styles = StyleSheet.create({
   container: {
