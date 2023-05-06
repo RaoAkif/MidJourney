@@ -8,7 +8,6 @@ import { usersApi } from "./api/usersApi";
 import { storiesApi } from "./api/storiesApi";
 import { collaborationsApi } from "./api/collaborationsApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import registerUserSlice from "./users/registerUserSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,13 +21,9 @@ export const store = configureStore({
     collaborations: collaborationsReducer,
     // registerUser: registerUserSlice, // add this line to the reducer object
   },
+
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      authApi.middleware,
-      storiesApi.middleware,
-      collaborationsApi.middleware,
-      usersApi.middleware
-    ),
-});
+    getDefaultMiddleware().concat(authApi.middleware, storiesApi.middleware, collaborationsApi.middleware, usersApi.middleware),
+})
 
 setupListeners(store.dispatch);

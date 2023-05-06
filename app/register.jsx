@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
-// import { registerUser } from "../redux/users/registerUserSlice";
-import { useDispatch } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
 import { useRegisterUserMutation } from "../redux/api/usersApi";
 
 export default function Register() {
@@ -14,32 +11,10 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState("");
   const [error, setError] = useState("");
 
-  const dispatch = useDispatch();
   const [registerUser, result] = useRegisterUserMutation();
-
-  // const handleSubmit = async () => {
-  //      try {
-  //     const resultAction = await dispatch(
-  //       registerUser({
-  //         pseudonym,
-  //         email,
-  //         password,
-  //         city: "Lahore",
-  //         country: "Pakistan",
-  //         profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-  //       })
-  //     );
-  //     const result = await unwrapResult(resultAction);
-  //     console.log("Registration success!");
-  //   } catch (err) {
-  //     console.log("Registration failed!", err.message);
-  //   }
-  // };
 
   const handleRegister = () => {
     if (validateForm()) {
-      // handleSubmit();
-
       registerUser({
         pseudonym,
         email,
