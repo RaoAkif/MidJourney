@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import TopTabs from "../../components/TopTabs";
 import { useGetCollaborationsQuery } from "../../redux/api/collaborationsApi";
-import { setCollaborations } from "../../redux/collaborations/getCollaborationsSlice";
+import { setCollaborations } from "../../redux/slices/collaborationsSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import Read from "./read";
 
 const Stack = createStackNavigator();
@@ -15,7 +15,11 @@ function MyCollaborationsScreen() {
   const navigation = useNavigation();
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
-  const { data: collaborations, error, isLoading } = useGetCollaborationsQuery(token);
+  const {
+    data: collaborations,
+    error,
+    isLoading,
+  } = useGetCollaborationsQuery(token);
 
   useEffect(() => {
     if (collaborations) {
@@ -28,13 +32,15 @@ function MyCollaborationsScreen() {
       <View style={styles.topHatContainer}>
         <Image
           style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
+          source={{
+            uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+          }}
         />
       </View>
       <TopTabs
-        tab1="My Stories"
-        tab2="My Collaborations"
-        activeTab="My Collaborations"
+        tab1='My Stories'
+        tab2='My Collaborations'
+        activeTab='My Collaborations'
       />
       <View style={styles.storiesContainer}>
         {isLoading ? (
@@ -47,7 +53,9 @@ function MyCollaborationsScreen() {
               key={collaboration.id}
               style={styles.storyContainer}
               onPress={() =>
-                navigation.navigate("Read", { collaborationId: collaboration.id })
+                navigation.navigate("Read", {
+                  collaborationId: collaboration.id,
+                })
               }
             >
               <View style={styles.storyTextContainer}>
@@ -69,12 +77,12 @@ export default function MyCollaborations() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="My Collaborations"
+        name='My Collaborations'
         component={MyCollaborationsScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Read"
+        name='Read'
         component={Read}
         options={{
           title: "Read",
@@ -106,8 +114,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topHat: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
   },
   storiesContainer: {
     flex: 1,

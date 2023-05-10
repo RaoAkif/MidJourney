@@ -1,29 +1,50 @@
 import React from "react";
 import { Link } from "expo-router";
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 export default function Collaborate() {
   const route = useRoute();
   const { storyId, collaborationId } = route.params;
   const navigation = useNavigation();
-  
+
   // Get the stories and collaborations from the Redux store
   const stories = useSelector((state) => state.stories.stories);
-  const collaborations = useSelector((state) => state.collaborations.collaborations);
+  const collaborations = useSelector(
+    (state) => state.collaborations.collaborations
+  );
 
   // Filter the stories and collaborations to get the one with the matching ID
   const selectedStory = stories.find((story) => story.id === storyId);
-  const selectedCollaboration = collaborations.find((collaboration) => collaboration.id === collaborationId);
-    
+  const selectedCollaboration = collaborations.find(
+    (collaboration) => collaboration.id === collaborationId
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
-        <Image style={styles.topHat} source={require("../../assets/thinking_cap1.png")} />
+        <Image
+          style={styles.topHat}
+          source={{
+            uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+          }}
+        />
       </View>
-      <TouchableOpacity style={styles.goBack} onPress={() => { navigation.goBack(); }}>
+      <TouchableOpacity
+        style={styles.goBack}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
         <Image
           style={styles.goBackIcon}
           source={require("../../assets/left1.png")}
@@ -34,15 +55,21 @@ export default function Collaborate() {
           <View style={styles.storyContainer}>
             <View style={styles.storyTextContainer}>
               <Text style={styles.storyTitle}>{selectedStory.title}</Text>
-              <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+              <Text style={styles.storyDescription}>
+                {selectedStory.description}
+              </Text>
             </View>
           </View>
         )}
         {selectedCollaboration && (
           <View style={styles.storyContainer}>
             <View style={styles.storyTextContainer}>
-              <Text style={styles.storyTitle}>{selectedCollaboration.title}</Text>
-              <Text style={styles.storyDescription}>{selectedCollaboration.description}</Text>
+              <Text style={styles.storyTitle}>
+                {selectedCollaboration.title}
+              </Text>
+              <Text style={styles.storyDescription}>
+                {selectedCollaboration.description}
+              </Text>
             </View>
           </View>
         )}
@@ -50,15 +77,15 @@ export default function Collaborate() {
           <View style={styles.collaborationContainerInput}>
             <TextInput
               style={styles.collaborationInput}
-              placeholderTextColor="#727272"
-              placeholder="Collaborate on the story above"
+              placeholderTextColor='#727272'
+              placeholder='Collaborate on the story above'
               multiline={true}
               numberOfLines={4}
             />
           </View>
         </View>
         <View style={styles.button}>
-          <Link href="./myStories" asChild>
+          <Link href='./myStories' asChild>
             <Text style={styles.buttonText}>Collaborate</Text>
           </Link>
         </View>
@@ -89,8 +116,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topHat: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
   },
   goBack: {
     width: 20,

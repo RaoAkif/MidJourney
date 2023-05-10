@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import TopTabs from "../../components/TopTabs";
 import { useGetStoriesQuery } from "../../redux/api/storiesApi";
-import { setStories } from "../../redux/stories/getStoriesSlice";
+import { setStories } from "../../redux/slices/storiesSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import Read from "./read";
 
 const Stack = createStackNavigator();
@@ -28,13 +28,15 @@ function MyStoriesScreen() {
       <View style={styles.topHatContainer}>
         <Image
           style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
+          source={{
+            uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+          }}
         />
       </View>
       <TopTabs
-        tab1="My Stories"
-        tab2="My Collaborations"
-        activeTab="My Stories"
+        tab1='My Stories'
+        tab2='My Collaborations'
+        activeTab='My Stories'
       />
       <View style={styles.storiesContainer}>
         {isLoading ? (
@@ -46,12 +48,18 @@ function MyStoriesScreen() {
             <TouchableOpacity
               key={story.id}
               style={styles.storyContainer}
-              onPress={() =>
-                navigation.navigate("Read", { storyId: story.id })
-              }
+              onPress={() => navigation.navigate("Read", { storyId: story.id })}
             >
               <View style={styles.storyTextContainer}>
-                <Text style={styles.storyTitle}>{story.title}</Text>
+                <Image
+                  style={styles.storyHat}
+                  source={{
+                    uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+                  }}
+                />
+                <View style={styles.storyTitleContainer}>
+                  <Text style={styles.storyTitle}>{story.title}</Text>
+                </View>
                 <Text style={styles.storyDescription}>
                   {story.description.split(" ").slice(0, 25).join(" ")}
                   {"..."}
@@ -69,12 +77,12 @@ export default function MyStories() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="My Stories"
+        name='My Stories'
         component={MyStoriesScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Read"
+        name='Read'
         component={Read}
         options={{
           title: "Read",
@@ -106,8 +114,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topHat: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
   },
   storiesContainer: {
     flex: 1,
@@ -131,6 +139,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
+  },
+  storyHat: {
+    width: 30,
+    height: 30,
+    position: "absolute",
+    left: 10,
+    top: 4,
   },
   storyTextContainer: {
     flex: 1,

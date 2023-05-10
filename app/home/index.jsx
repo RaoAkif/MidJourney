@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
 import { useRouter } from "expo-router";
-import { useGetUsersQuery } from "../../redux/api/usersApi"
+import { useGetUserQuery } from "../../redux/api/usersApi"
 import { useSelector } from "react-redux";
-import { setUsers } from "../../redux/users/getUsersSlice";
+import { setUsers } from "../../redux/slices/usersSlice";
 import { useDispatch } from "react-redux";
-import { Button } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -13,41 +12,45 @@ export default function Profile() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  const token = useSelector((state) => state.auth.accessToken);
+  const {id} = useSelector((state) => state.auth.userInfo);
+  
+  const { data: user, error, isLoading } = useGetUserQuery(id);
+
+  
+
   const dispatch = useDispatch();
-  const { data: users, error, isLoading } = useGetUsersQuery(token);
 
   useEffect(() => {
-    if (users) {
+    if (user) {
       // only dispatch setUser if user is not undefined
-      dispatch(setUsers(users));
+      dispatch(setUsers(user));
     }
-  }, [users, dispatch]);
+  }, [user, dispatch]);
 
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
         <Image
           style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
+          source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
         />
       </View>
       <View style={styles.profileContainer}>
         <View style={styles.hatContainer}>
-          <Image style={styles.hat} source={{ uri: users?.profileImage }} />
+          <Image style={styles.hat} source={{ uri: user?.profileImage }} />
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.storiesContainer}>
             <View>
-              <Text style={styles.profileName}>{users?.pseudonym}</Text>
+              <Text style={styles.profileName}>{user?.pseudonym}</Text>
             </View>
             <View>
               <View style={styles.storyItem}>
-                <Text style={styles.count}>{users?.prompt.length}</Text>
+                <Text style={styles.count}>{user?.prompt.length}</Text>
                 <Text style={styles.storyMessage} onPress={() => navigation.navigate('myStories')} >Stories Created</Text>
               </View>
               <View style={styles.storyItem}>
-                <Text style={styles.count}>{users?.response.length}</Text>
+                <Text style={styles.count}>{user?.response.length}</Text>
                 <Text style={styles.storyMessage} onPress={() => navigation.navigate('myCollaborations')} >Stories Collaborated</Text>
               </View>
             </View>
@@ -87,8 +90,9 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topHat: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
+    marginTop: 60,
   },
   profileContainer: {
     flex: 1,

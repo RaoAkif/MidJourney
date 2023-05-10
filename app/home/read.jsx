@@ -2,30 +2,41 @@ import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 export default function Read() {
   const route = useRoute();
   const { storyId, collaborationId } = route.params;
   const navigation = useNavigation();
-  
+
   // Get the stories from the Redux store
   const stories = useSelector((state) => state.stories.stories);
-  const collaborations = useSelector((state) => state.collaborations.collaborations);
-  
-// Filter the stories and collaborations to get the one with the matching ID
+  const collaborations = useSelector(
+    (state) => state.collaborations.collaborations
+  );
+
+  // Filter the stories and collaborations to get the one with the matching ID
   const selectedStory = stories.find((story) => story.id === storyId);
-  const selectedCollaboration = collaborations.find((collaboration) => collaboration.id === collaborationId);
-  
+  const selectedCollaboration = collaborations.find(
+    (collaboration) => collaboration.id === collaborationId
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
         <Image
           style={styles.topHat}
-          source={require("../../assets/thinking_cap1.png")}
+          source={{
+            uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+          }}
         />
       </View>
-      <TouchableOpacity style={styles.goBack} onPress={() => { navigation.goBack(); }}>
+      <TouchableOpacity
+        style={styles.goBack}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
         <Image
           style={styles.goBackIcon}
           source={require("../../assets/left1.png")}
@@ -36,15 +47,21 @@ export default function Read() {
           <View style={styles.storyContainer}>
             <View style={styles.storyTextContainer}>
               <Text style={styles.storyTitle}>{selectedStory.title}</Text>
-              <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+              <Text style={styles.storyDescription}>
+                {selectedStory.description}
+              </Text>
             </View>
           </View>
         )}
         {selectedCollaboration && (
           <View style={styles.storyContainer}>
             <View style={styles.storyTextContainer}>
-              <Text style={styles.storyTitle}>{selectedCollaboration.title}</Text>
-              <Text style={styles.storyDescription}>{selectedCollaboration.description}</Text>
+              <Text style={styles.storyTitle}>
+                {selectedCollaboration.title}
+              </Text>
+              <Text style={styles.storyDescription}>
+                {selectedCollaboration.description}
+              </Text>
             </View>
           </View>
         )}
@@ -52,7 +69,9 @@ export default function Read() {
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={require("../../assets/thinking_cap1.png")}
+              source={{
+                uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+              }}
             />
           </View>
           <View style={styles.hatContainer}>
@@ -102,8 +121,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topHat: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
   },
   goBack: {
     width: 20,
@@ -193,7 +212,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20
+    marginTop: 20,
   },
   hatContainer: {
     padding: "15px",

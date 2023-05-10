@@ -11,22 +11,26 @@ import {
 } from "react-native";
 import { COLORS } from "../utils/constants";
 import { useLoginMutation } from "../redux/api/authApi";
-import { login } from "../redux/auth/authSlice";
+import { login } from "../redux/slices/authSlice";
+import { useNavigation, useRouter } from "expo-router";
 
 export default function Landing() {
-  const [loginUser, result] = useLoginMutation();
   const [pseudonym, setPseudonym] = useState("");
   const [password, setPassword] = useState("");
   const [pseudonymError, setPseudonymError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-
-  const accessToken = useSelector((state) => state.auth.accessToken);
+  
+  const [loginUser, result] = useLoginMutation();
   const dispatch = useDispatch();
+  const accessToken = useSelector((state) => state.auth.accessToken);
+  const router = useRouter()
+  const nav = useNavigation()
+  
 
   useEffect(() => {
     if (accessToken) {
-      navigation.navigate('home'); // navigate to home screen when accessToken is received
+    //  nav.navigate('home'); // navigate to home screen when accessToken is received
     }
   }, [accessToken]);
 
@@ -38,13 +42,13 @@ export default function Landing() {
           "Invalid Credentials: You have entered an invalid username or password"
         );
       } else {
-        dispatch(login(result.data.accessToken)); // dispatch login action with accessToken as payload
+        dispatch(login(result.data)); // dispatch login action with accessToken as payload
         await AsyncStorage.setItem('accessToken', result.data.accessToken); // save accessToken in local storage
       }
     } catch (error) {
       console.log(error);
     }
-  };  
+  };
 
   function validateForm() {
     let isValid = true;
@@ -76,7 +80,7 @@ export default function Landing() {
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={require("../assets/thinking_cap1.png")}
+              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 25,
     paddingHorizontal: 5,
-    paddingTop: "10vh",
+    paddingTop: "20vh",
     backgroundColor: COLORS.bgColor,
     alignItems: "center",
     justifyContent: "space-between",
@@ -240,8 +244,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   hat: {
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
     padding: 10,
   },
   messageText: {

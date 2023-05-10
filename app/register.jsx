@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useRegisterUserMutation } from "../redux/api/usersApi";
 
 export default function Register() {
@@ -9,9 +16,9 @@ export default function Register() {
   const [pseudonymError, setPseudonymError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [error, setError] = useState("");
+  const [error1, setError1] = useState("");
 
-  const [registerUser, result] = useRegisterUserMutation();
+  const [registerUser, { data, error, isLoading } ] = useRegisterUserMutation();
 
   const handleRegister = () => {
     if (validateForm()) {
@@ -26,14 +33,19 @@ export default function Register() {
     }
   };
 
+  if(error) console.log(error.data.message)
+  if(data) console.log(data)
+
   function validateForm() {
     let isValid = true;
 
     if (!pseudonym.trim() || !email.trim() || !password.trim()) {
-      setError("All fields are required.");
+      setError1("All fields are required.");
       isValid = false;
     } else {
-      console.log(`Registration success! Pseudonym: ${pseudonym}, Email: ${email}, Password: ${password}`);
+      console.log(
+        `Registration success! Pseudonym: ${pseudonym}, Email: ${email}, Password: ${password}`
+      );
       isValid = true;
     }
 
@@ -51,7 +63,9 @@ export default function Register() {
     }
 
     if (!isValidPassword(password)) {
-      setPasswordError("Password should be a mix of 8 uppercase/lowercase letters, numbers, & special characters.");
+      setPasswordError(
+        "Password should be a mix of 8 uppercase/lowercase letters, numbers, & special characters."
+      );
     } else {
       setPasswordError("");
     }
@@ -70,7 +84,8 @@ export default function Register() {
   };
 
   const isValidPassword = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password);
   };
 
@@ -79,41 +94,53 @@ export default function Register() {
       <View style={styles.contentContainer}>
         <View style={styles.signupContainer}>
           <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../assets/thinking_cap1.png")} />
+            <Image
+              style={styles.hat}
+              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
+            />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Enter Your Psuedonym"
+              placeholder='Enter Your Psuedonym'
               value={pseudonym}
               onChangeText={(text) => setPseudonym(text)}
             />
-            {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
+            {pseudonymError !== "" && (
+              <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>
+            )}
             <TextInput
               style={styles.input}
-              placeholder="Enter Your Email"
+              placeholder='Enter Your Email'
               value={email}
               onChangeText={(text) => setEmail(text)}
             />
-            {emailError !== "" && <Text style={styles.fieldsErrorText}>{emailError}</Text>}
+            {emailError !== "" && (
+              <Text style={styles.fieldsErrorText}>{emailError}</Text>
+            )}
             <TextInput
               style={styles.input}
-              placeholder="Enter Your Password"
+              placeholder='Enter Your Password'
               secureTextEntry={true}
               value={password}
               onChangeText={(text) => setPassword(text)}
             />
-            {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
+            {passwordError !== "" && (
+              <Text style={styles.fieldsErrorText}>{passwordError}</Text>
+            )}
           </View>
-          {error ? <Text style={styles.credentialsErrorText}>{error}</Text> : null}
+          {error1 ? (
+            <Text style={styles.credentialsErrorText}>{error1}</Text>
+          ) : null}
           <TouchableOpacity style={styles.button} onPress={handleRegister}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
       </View>
       <Text style={styles.messageText}>
-        "If you can tell stories, create characters, devise incidents, and have sincerity and passion, it doesn't matter
-        a damn how you write" Somerset Maugham
+        "If you can tell stories, create characters, devise incidents, and have
+        sincerity and passion, it doesn't matter a damn how you write" Somerset
+        Maugham
       </Text>
     </View>
   );
@@ -134,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: bgColor,
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: "10vh",
+    paddingTop: "15vh",
   },
   contentContainer: {
     justifyContent: "end",
@@ -234,12 +261,13 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   hat: {
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
     padding: 10,
   },
   messageText: {
     padding: 10,
     textAlign: "center",
+    marginBottom: 10,
   },
 });

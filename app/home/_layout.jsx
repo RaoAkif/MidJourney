@@ -6,6 +6,8 @@ import Profile1 from "../../assets/profile1.png";
 import Profile2 from "../../assets/profile2.png";
 import Read1 from "../../assets/read1.png";
 import Read2 from "../../assets/read2.png";
+// import { useEffect } from "react";
+// import { useSelector } from "react-redux";
 
 const styles = StyleSheet.create({
   optionsImage: {
@@ -24,6 +26,13 @@ const styles = StyleSheet.create({
 });
 
 export default function Layout() {
+  // const accessToken = useSelector((state) => state.auth.accessToken);
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     navigation.navigate('/'); // navigate to home screen when accessToken is received
+  //   }
+  // }, [accessToken]);
+
   return (
     <Tabs
       screenOptions={{
