@@ -1,22 +1,19 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
 import { useRouter } from "expo-router";
-import { useGetUserQuery } from "../../redux/api/usersApi"
+import { useGetUserQuery } from "../../redux/api/usersApi";
 import { useSelector } from "react-redux";
 import { setUsers } from "../../redux/slices/usersSlice";
 import { useDispatch } from "react-redux";
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation } from "@react-navigation/native";
 
 export default function Profile() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  const {id} = useSelector((state) => state.auth.userInfo);
-  
-  const { data: user, error, isLoading } = useGetUserQuery(id);
+  const { id } = useSelector((state) => state.auth.userInfo);
 
-  
+  const { data: user, error, isLoading } = useGetUserQuery(id);
 
   const dispatch = useDispatch();
 
@@ -32,7 +29,7 @@ export default function Profile() {
       <View style={styles.topHatContainer}>
         <Image
           style={styles.topHat}
-          source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
+          source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
         />
       </View>
       <View style={styles.profileContainer}>
@@ -47,15 +44,21 @@ export default function Profile() {
             <View>
               <View style={styles.storyItem}>
                 <Text style={styles.count}>{user?.prompt.length}</Text>
-                <Text style={styles.storyMessage} onPress={() => navigation.navigate('myStories')} >Stories Created</Text>
+                <Text style={styles.storyMessage} onPress={() => navigation.navigate("myStories")}>
+                  Stories Created
+                </Text>
               </View>
               <View style={styles.storyItem}>
                 <Text style={styles.count}>{user?.response.length}</Text>
-                <Text style={styles.storyMessage} onPress={() => navigation.navigate('myCollaborations')} >Stories Collaborated</Text>
+                <Text style={styles.storyMessage} onPress={() => navigation.navigate("myCollaborations")}>
+                  Stories Collaborated
+                </Text>
               </View>
             </View>
             <View>
-              <Text style={styles.editText} onPress={() => navigation.navigate('editProfile')} >edit</Text>
+              <Text style={styles.editText} onPress={() => navigation.navigate("editProfile")}>
+                edit
+              </Text>
             </View>
           </View>
         </View>
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
     margin: -45,
     zIndex: 1,
     marginLeft: "-80%",
-    padding: 35
+    padding: 35,
   },
   hat: {
     width: 52,

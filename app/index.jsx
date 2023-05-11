@@ -33,7 +33,8 @@ export default function Landing() {
         setErrorMessage("Invalid Credentials: You have entered an invalid username or password");
       } else {
         dispatch(login(result.data)); // dispatch login action with accessToken as payload
-        await AsyncStorage.setItem("accessToken", result.data.accessToken); // save accessToken in local storage
+        // await AsyncStorage.setItem("accessToken", result.data.accessToken);
+        await AsyncStorage.setItem("user", JSON.stringify(result.data));
       }
     } catch (error) {
       console.log(error);
