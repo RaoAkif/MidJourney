@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Image,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, Pressable } from "react-native";
 import { COLORS } from "../utils/constants";
 import { useLoginMutation } from "../redux/api/authApi";
 import { login } from "../redux/slices/authSlice";
@@ -20,17 +13,16 @@ export default function Landing() {
   const [pseudonymError, setPseudonymError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-  
+
   const [loginUser, result] = useLoginMutation();
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const router = useRouter()
-  const nav = useNavigation()
-  
+  const router = useRouter();
+  const nav = useNavigation();
 
   useEffect(() => {
     if (accessToken) {
-    //  nav.navigate('home'); // navigate to home screen when accessToken is received
+      nav.navigate("home"); // navigate to home screen when accessToken is received
     }
   }, [accessToken]);
 
@@ -38,12 +30,10 @@ export default function Landing() {
     try {
       const result = await loginUser({ pseudonym, password });
       if (result.error) {
-        setErrorMessage(
-          "Invalid Credentials: You have entered an invalid username or password"
-        );
+        setErrorMessage("Invalid Credentials: You have entered an invalid username or password");
       } else {
         dispatch(login(result.data)); // dispatch login action with accessToken as payload
-        await AsyncStorage.setItem('accessToken', result.data.accessToken); // save accessToken in local storage
+        await AsyncStorage.setItem("accessToken", result.data.accessToken); // save accessToken in local storage
       }
     } catch (error) {
       console.log(error);
@@ -80,13 +70,13 @@ export default function Landing() {
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
+              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
             />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder='Enter Your Psuedonym'
+              placeholder="Enter Your Psuedonym"
               value={pseudonym}
               onChangeText={(text) => setPseudonym(text)}
               onEndEditing={() => {
@@ -97,13 +87,11 @@ export default function Landing() {
                 }
               }}
             />
-            {pseudonymError !== "" && (
-              <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>
-            )}
+            {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
             <TextInput
               style={styles.input}
               secureTextEntry
-              placeholder='Enter Your Password'
+              placeholder="Enter Your Password"
               value={password}
               onChangeText={(text) => setPassword(text)}
               onEndEditing={() => {
@@ -114,14 +102,10 @@ export default function Landing() {
                 }
               }}
             />
-            {passwordError !== "" && (
-              <Text style={styles.fieldsErrorText}>{passwordError}</Text>
-            )}
+            {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
           </View>
         </View>
-        {errorMessage && (
-          <Text style={styles.credentialsErrorText}>{errorMessage}</Text>
-        )}
+        {errorMessage && <Text style={styles.credentialsErrorText}>{errorMessage}</Text>}
         <View style={styles.button}>
           <Pressable onPress={handleOnPress}>
             <Text style={styles.buttonText}>Start Writing</Text>
@@ -129,9 +113,8 @@ export default function Landing() {
         </View>
       </View>
       <Text style={styles.messageText}>
-        &quot;If you can tell stories, create characters, devise incidents, and
-        have sincerity and passion, it doesn&apos;t matter a damn how you
-        write&quot; Somerset Maugham
+        &quot;If you can tell stories, create characters, devise incidents, and have sincerity and passion, it
+        doesn&apos;t matter a damn how you write&quot; Somerset Maugham
       </Text>
     </View>
   );
