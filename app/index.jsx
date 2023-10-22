@@ -1,62 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, Text, TextInput, View, Image, Pressable } from "react-native";
-import { COLORS } from "../utils/constants";
 import { useLoginMutation } from "../redux/api/authApi";
 import { login } from "../redux/slices/authSlice";
-import { useNavigation, useRouter } from "expo-router";
+import { useNavigation } from "expo-router";
+import { COLORS } from "../utils/constants";
 
 export default function Landing() {
-  const [pseudonym, setPseudonym] = useState("");
-  const [password, setPassword] = useState("");
-  const [pseudonymError, setPseudonymError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const pseudonymRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  const [formData, setFormData] = useState({
+    pseudonym: "",
+    password: "",
+    pseudonymError: "",
+    passwordError: "",
+  });
   const [errorMessage, setErrorMessage] = useState(null);
 
   const [loginUser, result] = useLoginMutation();
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const router = useRouter();
   const nav = useNavigation();
 
   useEffect(() => {
     if (accessToken) {
-      nav.navigate("home"); // navigate to home screen when accessToken is received
+      nav.navigate("home");
     }
   }, [accessToken]);
 
   const handleSubmit = async () => {
     try {
+      const { pseudonym, password } = formData;
       const result = await loginUser({ pseudonym, password });
       if (result.error) {
         setErrorMessage("Invalid Credentials: You have entered an invalid username or password");
       } else {
-        dispatch(login(result.data)); // dispatch login action with accessToken as payload
-        // await AsyncStorage.setItem("accessToken", result.data.accessToken);
+        dispatch(login(result.data));
         await AsyncStorage.setItem("user", JSON.stringify(result.data));
+        // Clear the form fields
+        setFormData({
+          pseudonym: "",
+          password: "",
+          pseudonymError: "",
+          passwordError: "",
+        });
+        pseudonymRef.current.clear();
+        passwordRef.current.clear();
       }
     } catch (error) {
       console.log(error);
     }
+  }; 
+
+  const validateForm = () => {
+    const { pseudonym, password } = formData;
+    const pseudonymError = pseudonym.trim() === "" ? "Pseudonym is required" : "";
+    const passwordError = password.trim() === "" ? "Password is required" : "";
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      pseudonymError,
+      passwordError,
+    }));
+    return !pseudonymError && !passwordError;
   };
 
-  function validateForm() {
-    let isValid = true;
-    if (pseudonym.trim() === "") {
-      setPseudonymError("Pseudonym is required");
-      isValid = false;
-    } else {
-      setPseudonymError("");
-    }
-    if (password.trim() === "") {
-      setPasswordError("Password is required");
-      isValid = false;
-    } else {
-      setPasswordError("");
-    }
-    return isValid;
-  }
+  const handleInputChange = (name, value) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
 
   const handleOnPress = () => {
     if (validateForm()) {
@@ -76,34 +91,36 @@ export default function Landing() {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
+              ref={pseudonymRef}
               style={styles.input}
-              placeholder="Enter Your Psuedonym"
-              value={pseudonym}
-              onChangeText={(text) => setPseudonym(text)}
+              placeholder="Enter Your Pseudonym"
+              value={formData.pseudonym}
+              onChangeText={(text) => handleInputChange("pseudonym", text)}
               onEndEditing={() => {
-                if (pseudonym.trim() === "") {
-                  setPseudonymError("Pseudonym is required");
-                } else {
-                  setPseudonymError("");
-                }
+                const pseudonymError = formData.pseudonym.trim() === "" ? "Pseudonym is required" : "";
+                setFormData((prevFormData) => ({
+                  ...prevFormData,
+                  pseudonymError,
+                }));
               }}
             />
-            {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
+            {formData.pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{formData.pseudonymError}</Text>}
             <TextInput
+              ref={passwordRef}
               style={styles.input}
               secureTextEntry
               placeholder="Enter Your Password"
-              value={password}
-              onChangeText={(text) => setPassword(text)}
+              value={formData.password}
+              onChangeText={(text) => handleInputChange("password", text)}
               onEndEditing={() => {
-                if (password.trim() === "") {
-                  setPasswordError("Password is required");
-                } else {
-                  setPasswordError("");
-                }
+                const passwordError = formData.password.trim() === "" ? "Password is required" : "";
+                setFormData((prevFormData) => ({
+                  ...prevFormData,
+                  passwordError,
+                }));
               }}
             />
-            {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
+            {formData.passwordError !== "" && <Text style={styles.fieldsErrorText}>{formData.passwordError}</Text>}
           </View>
         </View>
         {errorMessage && <Text style={styles.credentialsErrorText}>{errorMessage}</Text>}

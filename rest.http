@@ -13,19 +13,30 @@ content-type: application/json
 ###
 GET https://writing-hat-api.vercel.app/api/prompts
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VySWQiOjF9LCJpYXQiOjE2ODM4ODczNjAsImV4cCI6MTY4NDQ5MjE2MH0.29TVVkjI45BKEqOW2EQpl6wVl8_b1gEhCp4BYx09-zg
 
 ###
 GET https://writing-hat-api.vercel.app/api/responses
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VySWQiOjF9LCJpYXQiOjE2ODM4ODczNjAsImV4cCI6MTY4NDQ5MjE2MH0.29TVVkjI45BKEqOW2EQpl6wVl8_b1gEhCp4BYx09-zg
 
 
+###
+POST https://writing-hat-api.vercel.app/api/prompts
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VySWQiOjF9LCJpYXQiOjE2ODM4ODczNjAsImV4cCI6MTY4NDQ5MjE2MH0.29TVVkjI45BKEqOW2EQpl6wVl8_b1gEhCp4BYx09-zg
+
+{
+  "title": "Test",
+  "description": "Test Desciption. Finally someone showed up with a glass of water! They always wondered if the ghost had finally  dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always would wonder if the ghost had finally left and dissappeared from the house.They always  wondered if the ghost had finally  dissappeared from the house. They always  wondered if the ghost had finally  dissappeared from the house. I They always  wondered if the ghost had finally  dissappeared from the house.",
+  "promptCategoryId": 1,
+  "userId": 1
+}
 
 ###
 PUT https://writing-hat-api.vercel.app/api/prompts/1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VySWQiOjF9LCJpYXQiOjE2ODM4ODczNjAsImV4cCI6MTY4NDQ5MjE2MH0.29TVVkjI45BKEqOW2EQpl6wVl8_b1gEhCp4BYx09-zg
 
 {
   "title": "No Nonsense",
@@ -51,7 +62,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc
 ###
 GET https://writing-hat-api.vercel.app/api/users
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJwc2V1ZG9ueW0iOiJyYW9ha2lmIn0sImlhdCI6MTY4MzE0OTgxMCwiZXhwIjoxNjgzNzU0NjEwfQ.UA9dn0AfjGqZnTDo8wUpaTiGcdpa6qGMYNHCQuCOISU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VySWQiOjF9LCJpYXQiOjE2ODM4ODczNjAsImV4cCI6MTY4NDQ5MjE2MH0.29TVVkjI45BKEqOW2EQpl6wVl8_b1gEhCp4BYx09-zg
 
 
 ### REGISTER A USER
@@ -65,4 +76,23 @@ Content-Type: application/json
   "country": "Pakistan",
   "password": "123456",
   "profileImage": "https://avatars.githubusercontent.com/u/61361037?s=400&u=5a3fe223b969f16e2a4523817eb3acf361935f74&v=4"
+}
+
+
+### GET PROMPT CATEGORIES
+GET https://writing-hat-api.vercel.app/api/promptCategories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VySWQiOjF9LCJpYXQiOjE2ODM4ODczNjAsImV4cCI6MTY4NDQ5MjE2MH0.29TVVkjI45BKEqOW2EQpl6wVl8_b1gEhCp4BYx09-zg
+
+
+### ADD A RESPONSE
+POST https://writing-hat-api.vercel.app/api/responses
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VySWQiOjF9LCJpYXQiOjE2ODM4ODczNjAsImV4cCI6MTY4NDQ5MjE2MH0.29TVVkjI45BKEqOW2EQpl6wVl8_b1gEhCp4BYx09-zg
+
+{
+  "title": "No Nonsense",
+  "description": "Finally someone showed up with a glass of water! They always wondered if the ghost had finally  dissappeared from the house. No other sounds were ever heard from the dusty basement anymore. They always would wonder if the ghost had finally left and dissappeared from the house.They always  wondered if the ghost had finally  dissappeared from the house. They always  wondered if the ghost had finally  dissappeared from the house. I They always  wondered if the ghost had finally  dissappeared from the house.",
+  "promptId": 2,
+  "userId": 1
 }

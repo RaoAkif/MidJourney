@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
 import TopTabs2 from "../../components/TopTabs2";
 import { useGetStoriesQuery } from "../../redux/api/storiesApi";
-import { useGetCollaborationsQuery } from "../../redux/api/collaborationsApi";
 import { setStories } from "../../redux/slices/storiesSlice";
-import { setCollaborations } from "../../redux/slices/collaborationsSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
@@ -13,24 +11,13 @@ export default function Collaborations() {
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { data: stories, error1, isLoading1 } = useGetStoriesQuery(token);
-  const {
-    data: collaborations,
-    error2,
-    isLoading2,
-  } = useGetCollaborationsQuery(token);
+  const { data: stories, error, isLoading } = useGetStoriesQuery(token);
 
   useEffect(() => {
     if (stories) {
       dispatch(setStories(stories));
     }
   }, [stories, dispatch]);
-
-  useEffect(() => {
-    if (collaborations) {
-      dispatch(setCollaborations(collaborations));
-    }
-  }, [collaborations, dispatch]);
 
   return (
     <View style={styles.container}>
@@ -43,64 +30,42 @@ export default function Collaborations() {
         />
       </View>
       <TopTabs2 tab1='Collaborate' tab2='Create' activeTab='Collaborate' />
-      <View style={styles.storiesContainer}>
-        {isLoading1 ? (
-          <Text>Loading...</Text>
-        ) : error1 ? (
-          <Text>An error occurred: {error1.message}</Text>
-        ) : (
-          stories?.map((story) => (
-            <TouchableOpacity
-              key={story.id}
-              style={styles.storyContainer}
-              onPress={() =>
-                navigation.navigate("collaborate", { storyId: story.id })
-              }
-            >
-              <View style={styles.storyTextContainer}>
-                <Image
-                  style={styles.storyHat}
-                  source={{
-                    uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-                  }}
-                />
-                <View style={styles.storyTitleContainer}>
-                  <Text style={styles.storyTitle}>{story.title}</Text>
+      <SafeAreaView style={styles.storiesContainer}>
+        <ScrollView>
+          {isLoading ? (
+            <Text>Loading...</Text>
+          ) : error ? (
+            <Text>An error occurred: {error.message}</Text>
+          ) : (
+            stories?.filter((story) => story.userId !== 1).map((story) => (
+              <TouchableOpacity
+                key={story.id}
+                style={styles.storyContainer}
+                onPress={() =>
+                  navigation.navigate("collaborate", { storyId: story.id })
+                }
+              >
+                <View style={styles.storyTextContainer}>
+                  <Image
+                    style={styles.storyHat}
+                    source={{
+                      uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+                    }}
+                  />
+                  <View style={styles.storyTitleContainer}>
+                    <Text style={styles.storyTitle}>{story.title}</Text>
+                  </View>
+                  <Text style={styles.storyDescription}>
+                    {story.description.split(" ").slice(0, 25).join(" ")}
+                    {"..."}
+                  </Text>
                 </View>
-                <Text style={styles.storyDescription}>
-                  {story.description.split(" ").slice(0, 25).join(" ")}
-                  {"..."}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        )}
-        {isLoading2 ? (
-          <Text>Loading...</Text>
-        ) : error2 ? (
-          <Text>An error occurred: {error2.message}</Text>
-        ) : (
-          collaborations?.map((collaboration) => (
-            <TouchableOpacity
-              key={collaboration.id}
-              style={styles.storyContainer}
-              onPress={() =>
-                navigation.navigate("collaborate", {
-                  collaborationId: collaboration.id,
-                })
-              }
-            >
-              <View style={styles.storyTextContainer}>
-                <Text style={styles.storyTitle}>{collaboration.title}</Text>
-                <Text style={styles.storyDescription}>
-                  {collaboration.description.split(" ").slice(0, 25).join(" ")}
-                  {"..."}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        )}
-      </View>
+              </TouchableOpacity>
+            ))
+            
+          )}
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
@@ -140,7 +105,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    paddingTop: 50,
+    marginLeft: '20%',
+    marginTop: '10%', /* add margin-top instead of padding-top */
+    marginBottom: '5%',
+    overflowY: "scroll", /* enable vertical scrolling */
+    height: "calc(100% - 50px)", /* set the height to fill remaining space after 50px */
   },
   storyContainer: {
     // flex: 1,

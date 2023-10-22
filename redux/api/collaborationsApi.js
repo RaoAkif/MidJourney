@@ -7,7 +7,6 @@ export const collaborationsApi = createApi({
     baseUrl: "https://writing-hat-api.vercel.app/api",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.accessToken;
-      console.log(token);
       // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -18,9 +17,19 @@ export const collaborationsApi = createApi({
     getCollaborations: builder.query({
       query: () => ({ url: `/responses` }),
     }),
+    addCollaboration: builder.mutation({
+      query: (collaboration) => ({
+        url: "/responses",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: collaboration,
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetCollaborationsQuery } = collaborationsApi;
+export const { useGetCollaborationsQuery, useAddCollaborationMutation } = collaborationsApi;

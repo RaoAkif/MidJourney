@@ -7,7 +7,6 @@ export const storiesApi = createApi({
     baseUrl: "https://writing-hat-api.vercel.app/api",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.accessToken;
-      console.log(token);
       // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -18,9 +17,19 @@ export const storiesApi = createApi({
     getStories: builder.query({
       query: () => ({ url: `/prompts` }),
     }),
+    addStory: builder.mutation({
+      query: (story) => ({
+        url: "/prompts",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: story,
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetStoriesQuery } = storiesApi;
+export const { useGetStoriesQuery, useAddStoryMutation } = storiesApi;

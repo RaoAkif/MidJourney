@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,83 +10,132 @@ import {
 import { useRegisterUserMutation } from "../redux/api/usersApi";
 
 export default function Register() {
-  const [pseudonym, setPseudonym] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [pseudonymError, setPseudonymError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [error1, setError1] = useState("");
+  const pseudonymRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
-  const [registerUser, { data, error, isLoading } ] = useRegisterUserMutation();
+  const [state, setState] = useState({
+    pseudonym: "",
+    email: "",
+    password: "",
+    pseudonymError: "",
+    emailError: "",
+    passwordError: "",
+    error1: "",
+  });
+
+  const { pseudonym, email, password, pseudonymError, emailError, passwordError, error1 } = state;
+
+  const [registerUser, { data, error, isLoading }] = useRegisterUserMutation();
 
   const handleRegister = () => {
+    const pseudonymValue = pseudonymRef.current.value;
+    const emailValue = emailRef.current.value;
+    const passwordValue = passwordRef.current.value;
+  
     if (validateForm()) {
       registerUser({
-        pseudonym,
-        email,
-        password,
+        pseudonym: pseudonymValue,
+        email: emailValue,
+        password: passwordValue,
         city: "Lahore",
         country: "Pakistan",
-        profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+        profileImage:
+          "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+      }).then(() => {
+        // Clear the form fields
+        pseudonymRef.current.value = "";
+        emailRef.current.value = "";
+        passwordRef.current.value = "";
+  
+        // Clear the state
+        setState({
+          pseudonym: "",
+          email: "",
+          password: "",
+          pseudonymError: "",
+          emailError: "",
+          passwordError: "",
+          error1: "",
+        });
       });
     }
+  };  
+
+  const setErrorMessage = (field, message) => {
+    setState((prevState) => ({
+      ...prevState,
+      [`${field}Error`]: message,
+    }));
   };
 
-  if(error) console.log(error.data.message)
-  if(data) console.log(data)
+  const validateInput = (pattern, input) => {
+    const regex = new RegExp(pattern);
+    return regex.test(input);
+  };
 
-  function validateForm() {
+  const isAlphaNumeric = (text) => {
+    return validateInput(/^[a-zA-Z0-9]+$/, text);
+  };
+
+  const isValidEmail = (email) => {
+    return validateInput(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, email);
+  };
+
+  const isValidPassword = (password) => {
+    return validateInput(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, password);
+  };
+
+  const logError = (error) => {
+    if (error) console.log(error.data.message);
+  };
+
+  const logData = (data) => {
+    if (data) console.log(data);
+  };
+
+  const validateForm = () => {
     let isValid = true;
 
-    if (!pseudonym.trim() || !email.trim() || !password.trim()) {
-      setError1("All fields are required.");
+    const pseudonymValue = pseudonymRef.current.value;
+    const emailValue = emailRef.current.value;
+    const passwordValue = passwordRef.current.value;
+
+    if (!pseudonymValue.trim() || !emailValue.trim() || !passwordValue.trim()) {
+      setErrorMessage("pseudonym", "All fields are required.");
       isValid = false;
     } else {
       console.log(
-        `Registration success! Pseudonym: ${pseudonym}, Email: ${email}, Password: ${password}`
+        `Registration success! Pseudonym: ${pseudonymValue}, Email: ${emailValue}, Password: ${passwordValue}`
       );
       isValid = true;
     }
 
-    if (!isAlphaNumeric(pseudonym)) {
-      setPseudonymError("Pseudonym should be alphaNumeric.");
+    if (!isAlphaNumeric(pseudonymValue)) {
+      setErrorMessage("pseudonym", "Pseudonym should be alphanumeric.");
       isValid = false;
     } else {
-      setPseudonymError("");
+      setErrorMessage("pseudonym", "");
     }
 
-    if (!isValidEmail(email)) {
-      setEmailError("Please enter a valid email address.");
+    if (!isValidEmail(emailValue)) {
+      setErrorMessage("email", "Please enter a valid email address.");
+      isValid = false;
     } else {
-      setEmailError("");
+      setErrorMessage("email", "");
     }
 
-    if (!isValidPassword(password)) {
-      setPasswordError(
+    if (!isValidPassword(passwordValue)) {
+      setErrorMessage(
+        "password",
         "Password should be a mix of 8 uppercase/lowercase letters, numbers, & special characters."
       );
+      isValid = false;
     } else {
-      setPasswordError("");
+      setErrorMessage("password", "");
     }
 
     return isValid;
-  }
-
-  const isAlphaNumeric = (text) => {
-    const alphaNumericRegex = /^[a-zA-Z0-9]+$/;
-    return alphaNumericRegex.test(text);
-  };
-
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const isValidPassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
   };
 
   return (
@@ -96,34 +145,45 @@ export default function Register() {
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
+              source={{
+                uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+              }}
             />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
+              ref={pseudonymRef}
               style={styles.input}
-              placeholder='Enter Your Psuedonym'
+              placeholder="Enter Your Psuedonym"
               value={pseudonym}
-              onChangeText={(text) => setPseudonym(text)}
+              onChangeText={(text) =>
+                setState((prevState) => ({ ...prevState, pseudonym: text }))
+              }
             />
             {pseudonymError !== "" && (
               <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>
             )}
             <TextInput
+              ref={emailRef}
               style={styles.input}
-              placeholder='Enter Your Email'
+              placeholder="Enter Your Email"
               value={email}
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) =>
+                setState((prevState) => ({ ...prevState, email: text }))
+              }
             />
             {emailError !== "" && (
               <Text style={styles.fieldsErrorText}>{emailError}</Text>
             )}
             <TextInput
+              ref={passwordRef}
               style={styles.input}
-              placeholder='Enter Your Password'
+              placeholder="Enter Your Password"
               secureTextEntry={true}
               value={password}
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={(text) =>
+                setState((prevState) => ({ ...prevState, password: text }))
+              }
             />
             {passwordError !== "" && (
               <Text style={styles.fieldsErrorText}>{passwordError}</Text>

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
-import { useRouter } from "expo-router";
 import { useGetUserQuery } from "../../redux/api/usersApi";
 import { useSelector } from "react-redux";
 import { setUsers } from "../../redux/slices/usersSlice";
@@ -8,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Profile() {
-  const router = useRouter();
   const navigation = useNavigation();
 
   const { id } = useSelector((state) => state.auth.userInfo);

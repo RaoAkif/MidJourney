@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "expo-router";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -11,24 +10,59 @@ import {
 import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { useAddCollaborationMutation } from "../../redux/api/collaborationsApi";
 
 export default function Collaborate() {
+  const [myCollaborationDescription, setMyCollaborationDescription] = useState("");
+  const [collaborationFieldError, setCollaborationFieldError] = useState("");
+  const collaborationInputRef = useRef(null);
+
+  
   const route = useRoute();
-  const { storyId, collaborationId } = route.params;
+  const { storyId } = route.params;
   const navigation = useNavigation();
 
-  // Get the stories and collaborations from the Redux store
+  const [addCollaboration, { data, error, isLoading }] =
+    useAddCollaborationMutation();
+    
+  const { id: userId } = useSelector((state) => state.auth.userInfo);
+  // Get the stories from the Redux store
   const stories = useSelector((state) => state.stories.stories);
-  const collaborations = useSelector(
-    (state) => state.collaborations.collaborations
-  );
 
-  // Filter the stories and collaborations to get the one with the matching ID
+  // Filter the stories to get the one with the matching ID
   const selectedStory = stories.find((story) => story.id === storyId);
-  const selectedCollaboration = collaborations.find(
-    (collaboration) => collaboration.id === collaborationId
-  );
 
+  const handleAddCollaboration = () => {
+    if (validateForm()) {
+      addCollaboration({
+        title: selectedStory.title,
+        description: selectedStory.description + myCollaborationDescription,
+        promptId: selectedStory.id,
+        userId,
+      });
+  
+      // Clear the form field
+      setMyCollaborationDescription("");
+      collaborationInputRef.current.clear(); // Clear the input field
+    }
+  };
+
+  if (data) console.log(data);
+  if (error) console.log(error.data.message);
+
+  function validateForm() {
+    if (!myCollaborationDescription) {
+      setCollaborationFieldError("Please write something to collaborate.");
+      return false;
+    }
+    setCollaborationFieldError("");
+    return true;
+  }
+
+  // Update the description count dynamically
+  const descriptionTotalCount = 1000 - (selectedStory.description + myCollaborationDescription).length;
+  const descriptionCount = 150 - myCollaborationDescription.length;
+  
   return (
     <View style={styles.container}>
       <View style={styles.topHatContainer}>
@@ -61,33 +95,34 @@ export default function Collaborate() {
             </View>
           </View>
         )}
-        {selectedCollaboration && (
-          <View style={styles.storyContainer}>
-            <View style={styles.storyTextContainer}>
-              <Text style={styles.storyTitle}>
-                {selectedCollaboration.title}
-              </Text>
-              <Text style={styles.storyDescription}>
-                {selectedCollaboration.description}
-              </Text>
-            </View>
-          </View>
-        )}
         <View style={styles.storyContainer}>
           <View style={styles.collaborationContainerInput}>
             <TextInput
+              ref={collaborationInputRef} // Set the ref for the input field
               style={styles.collaborationInput}
               placeholderTextColor='#727272'
               placeholder='Collaborate on the story above'
               multiline={true}
               numberOfLines={4}
+              onChangeText={(text) => setMyCollaborationDescription(text)}
             />
+            <Text style={[styles.descriptionTotalCountStyle, { backgroundColor: descriptionTotalCount < 0 ? buttonbgColor : "#E6C495", color: descriptionTotalCount < 0 ? "#FFFFFF" : textColor }]}>
+              {descriptionTotalCount}
+            </Text>
+            <Text style={[styles.descriptionCountStyle, { backgroundColor: descriptionCount < 0 ? buttonbgColor : "#E6C495", color: descriptionCount < 0 ? "#FFFFFF" : textColor }]}>
+              {descriptionCount}
+            </Text>
           </View>
         </View>
-        <View style={styles.button}>
-          <Link href='./myStories' asChild>
+        {collaborationFieldError ? (
+          <Text style={styles.collaborationFieldErrorText}>
+            {collaborationFieldError}
+          </Text>
+        ) : null}
+        <View style={[styles.button, {backgroundColor: descriptionCount < 0 ? "rgb(229, 158, 157)" : "#e4504d"}]}>
+          <TouchableOpacity onPress={handleAddCollaboration}  disabled={descriptionCount < 0}>
             <Text style={styles.buttonText}>Collaborate</Text>
-          </Link>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -98,6 +133,7 @@ const bgColor = "#fefbf6";
 const bgWhite = "#ffffff";
 const black = "#000000";
 const buttonbgColor = "#e4504d";
+const textColor = "#333332";
 
 const styles = StyleSheet.create({
   container: {
@@ -123,8 +159,8 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     position: "absolute",
-    left: "10px",
-    top: "25px",
+    left: 10,
+    top: 25,
   },
   storiesContainer: {
     flex: 1,
@@ -179,8 +215,34 @@ const styles = StyleSheet.create({
   collaborationInput: {
     fontSize: "16px",
     color: "#333332",
+    paddingLeft: 10,
+    paddingTop: 20,
+  },
+  descriptionCountStyle: {
+    position: "absolute",
+    top: -20,
+    right: -20,
+    padding: 5,
+    paddingTop: 10,
+    width: 40,
+    height: 40,
     textAlign: "center",
-    paddingVertical: "10%",
+    borderRadius: 20,
+    color: textColor,
+    fontWeight: "bold",
+  },
+  descriptionTotalCountStyle: {
+    position: "absolute",
+    bottom: -20,
+    right: -20,
+    padding: 5,
+    paddingTop: 12,
+    width: 45,
+    height: 45,
+    textAlign: "center",
+    borderRadius: 20,
+    color: textColor,
+    fontWeight: "bold",
   },
   button: {
     width: "80vw",
@@ -188,7 +250,6 @@ const styles = StyleSheet.create({
     backgroundColor: buttonbgColor,
     textAlign: "center",
     justifyContent: "center",
-    marginTop: "5vh",
     // elevation
     shadowColor: black,
     shadowOffset: {
@@ -198,9 +259,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
+    marginTop: 32,
   },
   buttonText: {
     color: bgWhite,
     fontSize: "16px",
+  },
+  collaborationFieldErrorText: {
+    color: "red",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
   },
 });

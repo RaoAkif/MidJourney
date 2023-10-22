@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
 import TopTabs from "../../components/TopTabs";
 import { useGetStoriesQuery } from "../../redux/api/storiesApi";
 import { setStories } from "../../redux/slices/storiesSlice";
@@ -12,6 +12,7 @@ import Read from "./read";
 const Stack = createStackNavigator();
 
 function MyStoriesScreen() {
+  const { id: userId } = useSelector((state) => state.auth.userInfo);
   const navigation = useNavigation();
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
@@ -38,37 +39,39 @@ function MyStoriesScreen() {
         tab2='My Collaborations'
         activeTab='My Stories'
       />
-      <View style={styles.storiesContainer}>
-        {isLoading ? (
-          <Text>Loading...</Text>
-        ) : error ? (
-          <Text>An error occurred: {error.message}</Text>
-        ) : (
-          stories?.map((story) => (
-            <TouchableOpacity
-              key={story.id}
-              style={styles.storyContainer}
-              onPress={() => navigation.navigate("Read", { storyId: story.id })}
-            >
-              <View style={styles.storyTextContainer}>
-                <Image
-                  style={styles.storyHat}
-                  source={{
-                    uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-                  }}
-                />
-                <View style={styles.storyTitleContainer}>
-                  <Text style={styles.storyTitle}>{story.title}</Text>
+      <SafeAreaView style={styles.storiesContainer}>
+        <ScrollView>
+          {isLoading ? (
+            <Text>Loading...</Text>
+          ) : error ? (
+            <Text>An error occurred: {error.message}</Text>
+          ) : (
+            stories?.filter((story) => story.userId == userId).sort((a, b) => b.id -a.id).map((story) => (
+              <TouchableOpacity
+                key={story.id}
+                style={styles.storyContainer}
+                onPress={() => navigation.navigate("Read", { storyId: story.id })}
+              >
+                <View style={styles.storyTextContainer}>
+                  <Image
+                    style={styles.storyHat}
+                    source={{
+                      uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+                    }}
+                  />
+                  <View style={styles.storyTitleContainer}>
+                    <Text style={styles.storyTitle}>{story.title}</Text>
+                  </View>
+                  <Text style={styles.storyDescription}>
+                    {story.description.split(" ").slice(0, 25).join(" ")}
+                    {"..."}
+                  </Text>
                 </View>
-                <Text style={styles.storyDescription}>
-                  {story.description.split(" ").slice(0, 25).join(" ")}
-                  {"..."}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        )}
-      </View>
+              </TouchableOpacity>
+            ))
+          )}
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
@@ -121,7 +124,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    paddingTop: 50,
+    marginLeft: '20%',
+    marginTop: '10%', /* add margin-top instead of padding-top */
+    marginBottom: '5%',
+    overflowY: "scroll", /* enable vertical scrolling */
+    height: "calc(100% - 50px)", /* set the height to fill remaining space after 50px */
   },
   storyContainer: {
     // flex: 1,
