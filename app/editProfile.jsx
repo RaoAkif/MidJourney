@@ -1,6 +1,7 @@
 import { useSearchParams } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import Container from "../components/ui/Container";
 
 export default function EditProfile() {
   const params = useSearchParams();
@@ -10,7 +11,7 @@ export default function EditProfile() {
       <View>
         <Image
           style={styles.hatTop}
-          source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
+          source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
         />
       </View>
       <View>
@@ -21,43 +22,43 @@ export default function EditProfile() {
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png' }}
+              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
             />
           </View>
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap2.png' }}
+              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap2.png" }}
             />
           </View>
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap3.png' }}
+              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap3.png" }}
             />
           </View>
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap4.png' }}
+              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap4.png" }}
             />
           </View>
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap5.png' }}
+              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap5.png" }}
             />
           </View>
           <View style={styles.hatContainer}>
             <Image
               style={styles.hat}
-              source={{ uri: 'https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap6.png' }}
+              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap6.png" }}
             />
           </View>
         </View>
       </View>
-      <TextInput style={styles.input} placeholder='Enter Your Psuedonym' />
-      <TextInput style={styles.input} placeholder='Enter Your Email' />
+      <TextInput style={styles.input} placeholder="Enter Your Psuedonym" />
+      <TextInput style={styles.input} placeholder="Enter Your Email" />
     </View>
   );
 }
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     color: black,
     opacity: 0.5,
     fontSize: 16,
-    fontWeight: 700,
+    fontWeight: "bold",
   },
   hatsContainer: {
     width: "90%",
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor,
     borderWidth: 1,
-    borderRadius: "50%",
+    borderRadius: 50,
   },
   hat: {
     width: 50,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: textColor,
     opacity: 0.75,
-    fontWeight: 700,
+    fontWeight: "bold",
     padding: 7,
   },
 });

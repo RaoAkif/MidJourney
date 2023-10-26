@@ -3,6 +3,8 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import Container from "../../components/ui/Container";
+import TopHatContainer from "../../components/ui/TopHatContainer";
 
 export default function Read() {
   const route = useRoute();
@@ -11,57 +13,37 @@ export default function Read() {
 
   // Get the stories from the Redux store
   const stories = useSelector((state) => state.stories.stories);
-  const collaborations = useSelector(
-    (state) => state.collaborations.collaborations
-  );
+  const collaborations = useSelector((state) => state.collaborations.collaborations);
 
   // Filter the stories and collaborations to get the one with the matching ID
   const selectedStory = stories.find((story) => story.id === storyId);
-  const selectedCollaboration = collaborations.find(
-    (collaboration) => collaboration.id === collaborationId
-  );
+  const selectedCollaboration = collaborations.find((collaboration) => collaboration.id === collaborationId);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={{
-            uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-          }}
-        />
-      </View>
+    <Container>
+      <TopHatContainer />
       <TouchableOpacity
         style={styles.goBack}
         onPress={() => {
           navigation.goBack();
         }}
       >
-        <Image
-          style={styles.goBackIcon}
-          source={require("../../assets/left1.png")}
-        />
+        <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
       </TouchableOpacity>
       <View style={styles.storiesContainer}>
         {selectedStory && (
           <View style={styles.storyContainer}>
             <View style={styles.storyTextContainer}>
               <Text style={styles.storyTitle}>{selectedStory.title}</Text>
-              <Text style={styles.storyDescription}>
-                {selectedStory.description}
-              </Text>
+              <Text style={styles.storyDescription}>{selectedStory.description}</Text>
             </View>
           </View>
         )}
         {selectedCollaboration && (
           <View style={styles.storyContainer}>
             <View style={styles.storyTextContainer}>
-              <Text style={styles.storyTitle}>
-                {selectedCollaboration.title}
-              </Text>
-              <Text style={styles.storyDescription}>
-                {selectedCollaboration.description}
-              </Text>
+              <Text style={styles.storyTitle}>{selectedCollaboration.title}</Text>
+              <Text style={styles.storyDescription}>{selectedCollaboration.description}</Text>
             </View>
           </View>
         )}
@@ -75,26 +57,17 @@ export default function Read() {
             />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../../assets/thinking_cap2.png")}
-            />
+            <Image style={styles.hat} source={require("../../assets/thinking_cap2.png")} />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../../assets/thinking_cap3.png")}
-            />
+            <Image style={styles.hat} source={require("../../assets/thinking_cap3.png")} />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={require("../../assets/thinking_cap4.png")}
-            />
+            <Image style={styles.hat} source={require("../../assets/thinking_cap4.png")} />
           </View>
         </View>
       </View>
-    </View>
+    </Container>
   );
 }
 
@@ -113,7 +86,7 @@ const styles = StyleSheet.create({
   topHatContainer: {
     width: 70,
     height: 70,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderColor: bgColor,
     borderWidth: 1,
     justifyContent: "center",
@@ -128,8 +101,8 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     position: "absolute",
-    left: "10px",
-    top: "25px",
+    left: 10,
+    top: 25,
   },
   storiesContainer: {
     flex: 1,
@@ -139,7 +112,7 @@ const styles = StyleSheet.create({
   },
   storyContainer: {
     // flex: 1,
-    justifyContent: "end",
+    justifyContent: "flex-end",
     alignItems: "baseline",
     width: "80%",
     backgroundColor: bgWhite,
@@ -158,36 +131,36 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    paddingTop: "15px",
-    paddingBottom: "5px",
+    paddingTop: 15,
+    paddingBottom: 5,
   },
   storyTitle: {
-    fontSize: "16px",
+    fontSize: 16,
     color: "#333332",
     fontWeight: "bold",
   },
   storyDescription: {
-    fontSize: "16px",
+    fontSize: 16,
     color: "#333332",
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    paddingHorizontal: "10px",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingHorizontal: 10,
   },
   downArray: {
-    marginTop: "10px",
+    marginTop: 10,
   },
   collaborationContainerInput: {
     width: "100%",
     height: "100%",
   },
   collaborationInput: {
-    fontSize: "16px",
+    fontSize: 16,
     color: "#333332",
     textAlign: "center",
-    paddingVertical: "10%",
+    paddingVertical: 10,
   },
   button: {
-    width: "80vw",
+    width: 80,
     height: 46,
     backgroundColor: buttonbgColor,
     textAlign: "center",
@@ -204,7 +177,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: bgWhite,
-    fontSize: "16px",
+    fontSize: 16,
   },
   hatsList: {
     display: "flex",
@@ -215,13 +188,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   hatContainer: {
-    padding: "15px",
+    padding: 15,
   },
   hat: {
     width: 40,
     height: 40,
     borderColor,
     borderWidth: 1,
-    borderRadius: "50%",
+    borderRadius: 50,
   },
 });

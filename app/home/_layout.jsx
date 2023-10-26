@@ -44,6 +44,7 @@ export default function Layout() {
       }}
     >
       <Tabs.Screen
+        name="collaborationsTab"
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -52,20 +53,19 @@ export default function Layout() {
           tabBarItemStyle: styles.tabBarOption,
           tabBarIcon: ({ focused }) => <Image style={styles.optionsImage} source={focused ? Write2 : Write1} />,
         }}
-        name="collaborations"
       />
       <Tabs.Screen
+        name="storiesTab"
         options={{
           tabBarItemStyle: styles.tabBarOption,
           tabBarIcon: ({ focused }) => <Image style={styles.optionsImage} source={focused ? Read2 : Read1} />,
         }}
-        name="stories"
       />
       <Tabs.Screen
+        name="profileTab"
         options={{
           tabBarIcon: ({ focused }) => <Image style={styles.optionsImage} source={focused ? Profile2 : Profile1} />,
         }}
-        name="index"
       />
       <Tabs.Screen
         options={{
@@ -77,20 +77,9 @@ export default function Layout() {
         options={{
           href: null,
         }}
-        name="create"
+        name="stories"
       />
-      <Tabs.Screen
-        options={{
-          href: null,
-        }}
-        name="myStories"
-      />
-      <Tabs.Screen
-        options={{
-          href: null,
-        }}
-        name="myCollaborations"
-      />
+
       <Tabs.Screen
         options={{
           href: null,

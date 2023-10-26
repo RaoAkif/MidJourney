@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import Read from "./read";
+import Container from "../../components/ui/Container";
+import TopHatContainer from "../../components/ui/TopHatContainer";
 
 const Stack = createStackNavigator();
 
@@ -17,16 +19,8 @@ function StoriesScreen() {
   const navigation = useNavigation();
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
-  const {
-    data: collaborations,
-    error: error1,
-    isLoading: isLoading1,
-  } = useGetCollaborationsQuery(token);
-  const {
-    data: stories,
-    error: error2,
-    isLoading: isLoading2,
-  } = useGetStoriesQuery(token);
+  const { data: collaborations, error: error1, isLoading: isLoading1 } = useGetCollaborationsQuery(token);
+  const { data: stories, error: error2, isLoading: isLoading2 } = useGetStoriesQuery(token);
 
   useEffect(() => {
     if (collaborations) {
@@ -41,15 +35,8 @@ function StoriesScreen() {
   }, [stories, dispatch]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={{
-            uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-          }}
-        />
-      </View>
+    <Container>
+      <TopHatContainer />
       <View style={styles.topTabBanner}>
         <Text style={styles.topTabBannerText}>My Stories and Collaborations</Text>
       </View>
@@ -57,23 +44,17 @@ function StoriesScreen() {
         <ScrollView>
           {isLoading1 || isLoading2 ? (
             <Text>Loading...</Text>
-          ) : (error1 || error2) ? (
+          ) : error1 || error2 ? (
             <Text>An error occurred: {error1?.message || error2?.message}</Text>
           ) : (
             <>
               {collaborations?.length === 0 && stories?.length === 0 ? (
                 <View style={styles.emptyContainer}>
                   <Text style={styles.emptyText}>You haven't written or collaborated yet!</Text>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate("Create")}
-                  >
+                  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Create")}>
                     <Text style={styles.buttonText}>Write Story Now</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate("CollaborationsScreen")}
-                  >
+                  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("CollaborationsScreen")}>
                     <Text style={styles.buttonText}>Collaborate Now</Text>
                   </TouchableOpacity>
                 </View>
@@ -129,20 +110,16 @@ function StoriesScreen() {
           )}
         </ScrollView>
       </SafeAreaView>
-    </View>
-  );  
-};
+    </Container>
+  );
+}
 
 export default function Stories() {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="Stories" component={StoriesScreen} options={{ headerShown: false }} />
       <Stack.Screen
-        name='Stories'
-        component={StoriesScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name='Read'
+        name="Read"
         component={Read}
         options={{
           title: "Read",
@@ -166,7 +143,7 @@ const styles = StyleSheet.create({
   topHatContainer: {
     width: 70,
     height: 70,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderColor: bgColor,
     borderWidth: 1,
     justifyContent: "center",
@@ -188,15 +165,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    marginLeft: '20%',
-    marginTop: '10%', /* add margin-top instead of padding-top */
-    marginBottom: '5%',
-    overflowY: "scroll", /* enable vertical scrolling */
-    height: "calc(100% - 50px)", /* set the height to fill remaining space after 50px */
+    marginLeft: "20%",
+    marginTop: "10%" /* add margin-top instead of padding-top */,
+    marginBottom: "5%",
+    overflowY: "scroll" /* enable vertical scrolling */,
+    // height: "calc(100% - 50px)" /* set the height to fill remaining space after 50px */,
   },
   storyContainer: {
     // flex: 1,
-    justifyContent: "end",
+    justifyContent: "flex-end",
     alignItems: "baseline",
     width: "80%",
     backgroundColor: bgWhite,
@@ -215,34 +192,34 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    paddingTop: "5px",
-    paddingBottom: "5px",
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   storyTitle: {
-    fontSize: "16px",
+    fontSize: 16,
     color: "#333332",
     fontWeight: "bold",
   },
   storyDescription: {
-    fontSize: "16px",
+    fontSize: 16,
     color: "#333332",
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    paddingHorizontal: "10px",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingHorizontal: 10,
   },
   downArray: {
-    marginTop: "10px",
+    marginTop: 10,
   },
   topTabBanner: {
     backgroundColor: "rgba(203, 134, 41, 0.47)",
-    height: "6vh",
+    height: 6,
     width: "100%",
-    paddingTop: "2vh",
+    paddingTop: 2,
   },
   topTabBannerText: {
     color: "rgba(49, 50, 50, 0.8)",
     textAlign: "center",
     fontSize: 16,
     fontWeight: "bold",
-  }
+  },
 });

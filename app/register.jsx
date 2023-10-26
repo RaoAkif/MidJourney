@@ -1,12 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
 import { useRegisterUserMutation } from "../redux/api/usersApi";
 
 export default function Register() {
@@ -32,7 +25,7 @@ export default function Register() {
     const pseudonymValue = pseudonymRef.current.value;
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
-  
+
     if (validateForm()) {
       registerUser({
         pseudonym: pseudonymValue,
@@ -40,14 +33,13 @@ export default function Register() {
         password: passwordValue,
         city: "Lahore",
         country: "Pakistan",
-        profileImage:
-          "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+        profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
       }).then(() => {
         // Clear the form fields
         pseudonymRef.current.value = "";
         emailRef.current.value = "";
         passwordRef.current.value = "";
-  
+
         // Clear the state
         setState({
           pseudonym: "",
@@ -60,7 +52,7 @@ export default function Register() {
         });
       });
     }
-  };  
+  };
 
   const setErrorMessage = (field, message) => {
     setState((prevState) => ({
@@ -156,51 +148,36 @@ export default function Register() {
               style={styles.input}
               placeholder="Enter Your Psuedonym"
               value={pseudonym}
-              onChangeText={(text) =>
-                setState((prevState) => ({ ...prevState, pseudonym: text }))
-              }
+              onChangeText={(text) => setState((prevState) => ({ ...prevState, pseudonym: text }))}
             />
-            {pseudonymError !== "" && (
-              <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>
-            )}
+            {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
             <TextInput
               ref={emailRef}
               style={styles.input}
               placeholder="Enter Your Email"
               value={email}
-              onChangeText={(text) =>
-                setState((prevState) => ({ ...prevState, email: text }))
-              }
+              onChangeText={(text) => setState((prevState) => ({ ...prevState, email: text }))}
             />
-            {emailError !== "" && (
-              <Text style={styles.fieldsErrorText}>{emailError}</Text>
-            )}
+            {emailError !== "" && <Text style={styles.fieldsErrorText}>{emailError}</Text>}
             <TextInput
               ref={passwordRef}
               style={styles.input}
               placeholder="Enter Your Password"
               secureTextEntry={true}
               value={password}
-              onChangeText={(text) =>
-                setState((prevState) => ({ ...prevState, password: text }))
-              }
+              onChangeText={(text) => setState((prevState) => ({ ...prevState, password: text }))}
             />
-            {passwordError !== "" && (
-              <Text style={styles.fieldsErrorText}>{passwordError}</Text>
-            )}
+            {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
           </View>
-          {error1 ? (
-            <Text style={styles.credentialsErrorText}>{error1}</Text>
-          ) : null}
+          {error1 ? <Text style={styles.credentialsErrorText}>{error1}</Text> : null}
           <TouchableOpacity style={styles.button} onPress={handleRegister}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
       </View>
       <Text style={styles.messageText}>
-        "If you can tell stories, create characters, devise incidents, and have
-        sincerity and passion, it doesn't matter a damn how you write" Somerset
-        Maugham
+        "If you can tell stories, create characters, devise incidents, and have sincerity and passion, it doesn't matter
+        a damn how you write" Somerset Maugham
       </Text>
     </View>
   );
@@ -221,10 +198,10 @@ const styles = StyleSheet.create({
     backgroundColor: bgColor,
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: "15vh",
+    paddingTop: 15,
   },
   contentContainer: {
-    justifyContent: "end",
+    justifyContent: "flex-end",
     alignItems: "center",
     width: "100%",
   },
@@ -258,9 +235,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: textColor,
     opacity: 0.75,
-    fontWeight: 700,
+    fontWeight: "bold",
     padding: 7,
-    marginVertical: "20px",
+    marginVertical: 20,
   },
   fieldsErrorText: {
     color: "red",
@@ -295,13 +272,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: bgWhite,
-    fontSize: "16px",
+    fontSize: 16,
   },
   hatContainer: {
     backgroundColor: bgColor,
     width: 90,
     height: 82,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderColor: hatbgColor,
     borderWidth: 1,
     justifyContent: "center",

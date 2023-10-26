@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Image, Text, TextInput, Picker, TouchableOpacity } from "react-native";
-import TopTabs2 from "../../components/TopTabs2";
-import { useAddStoryMutation } from "../../redux/api/storiesApi";
+import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { useAddStoryMutation } from "../../../redux/api/storiesApi";
 import { useSelector } from "react-redux";
+import TopHatContainer from "../../../components/ui/TopHatContainer";
+import Container from "../../../components/ui/Container";
+import Tabs from "../../../components/Tabs";
+import { ScrollView } from "react-native";
+import tw from "../../../utils/tailwind";
 
-const promptCategories = ['', 'Poetry', 'Prose', 'Cooking', 'Games', 'Leisure', 'Art', 'Craft', 'Play'];
+const promptCategories = ["", "Poetry", "Prose", "Cooking", "Games", "Leisure", "Art", "Craft", "Play"];
 
 const initialFormData = {
-  promptCategory: '',
-  title: '',
-  description: '',
+  promptCategory: "",
+  title: "",
+  description: "",
 };
 
 const Create = () => {
@@ -39,17 +44,17 @@ const Create = () => {
     }
 
     if (!formData.promptCategory) {
-      newErrors.promptCategoryError = 'Please select a category.';
+      newErrors.promptCategoryError = "Please select a category.";
       isValid = false;
     }
 
     if (!formData.title) {
-      newErrors.titleError = 'Please enter a story title.';
+      newErrors.titleError = "Please enter a story title.";
       isValid = false;
     }
 
     if (!formData.description) {
-      newErrors.descriptionError = 'Please enter a story description.';
+      newErrors.descriptionError = "Please enter a story description.";
       isValid = false;
     }
 
@@ -63,15 +68,15 @@ const Create = () => {
         promptCategoryId: promptCategories.indexOf(formData.promptCategory),
         title: formData.title,
         description: formData.description,
-        userId
+        userId,
       });
-      
+
       // Clear the form fields
       setFormData(initialFormData);
       setErrors({});
 
       // Clear the input fields using refs
-      promptCategoryRef.current.setNativeProps({ selectedValue: '' });
+      promptCategoryRef.current.setNativeProps({ selectedValue: "" });
       titleRef.current.clear();
       descriptionRef.current.clear();
     }
@@ -80,7 +85,7 @@ const Create = () => {
   const handleFieldChange = (name, value) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -93,62 +98,79 @@ const Create = () => {
   const descriptionCount = 150 - description.length;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={{
-            uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-          }}
-        />
-      </View>
-      <TopTabs2 tab1='Collaborate' tab2='Create' activeTab='Create' />
-      <View style={styles.inputContainers}>
-        <View style={styles.categoryInputContainer}>
-          <Picker
-            ref={promptCategoryRef}
-            selectedValue={promptCategory}
-            onValueChange={(itemValue) => handleFieldChange("promptCategory", itemValue)}
-            style={styles.categoryPicker}
-            itemStyle={styles.categoryPickerItem}
-          >
-            {promptCategories.map((category, index) => (
-              <Picker.Item key={index} label={category || 'Select Category'} value={category} />
-            ))}
-          </Picker>
-        </View>
-        {errors.promptCategoryError && <Text style={styles.fieldsErrorText}>{errors.promptCategoryError}</Text>}
-        <View style={styles.titleInputContainer}>
-          <TextInput
-            ref={titleRef}
-            style={styles.titleInput}
-            placeholderTextColor='#727272'
-            placeholder='Enter Title'
-            value={title}
-            onChangeText={(text) => handleFieldChange("title", text)}
-          />
-        </View>
-        {errors.titleError && <Text style={styles.fieldsErrorText}>{errors.titleError}</Text>}
-        <View style={styles.descriptionInputContainer}>
-          <TextInput
-            ref={descriptionRef}
-            style={styles.descriptionInput}
-            placeholderTextColor='#727272'
-            placeholder='Enter first sentence of the story'
-            multiline={true}
-            numberOfLines={4}
-            value={description}
-            onChangeText={(text) => handleFieldChange("description", text)}
-          />
-          <Text style={[styles.descriptionTotalCountStyle, { backgroundColor: descriptionTotalCount < 0 ? buttonbgColor : "#E6C495", color: descriptionTotalCount < 0 ? "#FFFFFF" : textColor }]}>
-            {descriptionTotalCount}
-          </Text>
-          <Text style={[styles.descriptionCountStyle, { backgroundColor: descriptionCount < 0 ? buttonbgColor : "#E6C495", color: descriptionCount < 0 ? "#FFFFFF" : textColor }]}>
-            {descriptionCount}
-          </Text>
-        </View>
-        {errors.descriptionError && <Text style={styles.fieldsErrorText}>{errors.descriptionError}</Text>}
-        <View style={styles.button}>
+    <Container>
+      <TopHatContainer />
+
+      <Tabs
+        title1="Collaborate"
+        title2="Create"
+        href1="/home/collaborationsTab/collaborate"
+        href2="/home/collaborationsTab/create"
+        active2
+      />
+      <ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
+        <View style={tw`flex-col justify-between pt-6 px-6`}>
+          <View style={styles.categoryInputContainer}>
+            <Picker
+              ref={promptCategoryRef}
+              selectedValue={promptCategory}
+              onValueChange={(itemValue) => handleFieldChange("promptCategory", itemValue)}
+              style={styles.categoryPicker}
+              itemStyle={styles.categoryPickerItem}
+            >
+              {promptCategories.map((category, index) => (
+                <Picker.Item key={index} label={category || "Select Category"} value={category} />
+              ))}
+            </Picker>
+          </View>
+          {errors.promptCategoryError && <Text style={styles.fieldsErrorText}>{errors.promptCategoryError}</Text>}
+          <View style={styles.titleInputContainer}>
+            <TextInput
+              ref={titleRef}
+              style={styles.titleInput}
+              placeholderTextColor="#727272"
+              placeholder="Enter Title"
+              value={title}
+              onChangeText={(text) => handleFieldChange("title", text)}
+            />
+          </View>
+          {errors.titleError && <Text style={styles.fieldsErrorText}>{errors.titleError}</Text>}
+          <View style={styles.descriptionInputContainer}>
+            <TextInput
+              ref={descriptionRef}
+              style={styles.descriptionInput}
+              placeholderTextColor="#727272"
+              placeholder="Enter first sentence of the story"
+              multiline={true}
+              numberOfLines={4}
+              value={description}
+              onChangeText={(text) => handleFieldChange("description", text)}
+            />
+            <Text
+              style={[
+                styles.descriptionTotalCountStyle,
+                {
+                  backgroundColor: descriptionTotalCount < 0 ? buttonbgColor : "#E6C495",
+                  color: descriptionTotalCount < 0 ? "#FFFFFF" : textColor,
+                },
+              ]}
+            >
+              {descriptionTotalCount}
+            </Text>
+            <Text
+              style={[
+                styles.descriptionCountStyle,
+                {
+                  backgroundColor: descriptionCount < 0 ? buttonbgColor : "#E6C495",
+                  color: descriptionCount < 0 ? "#FFFFFF" : textColor,
+                },
+              ]}
+            >
+              {descriptionCount}
+            </Text>
+          </View>
+          {errors.descriptionError && <Text style={styles.fieldsErrorText}>{errors.descriptionError}</Text>}
+
           <TouchableOpacity
             onPress={handleAddStory}
             disabled={descriptionCount < 0}
@@ -157,8 +179,8 @@ const Create = () => {
             <Text style={styles.buttonText}>Start Writing</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </Container>
   );
 };
 
@@ -171,34 +193,8 @@ const buttonbgColor = "#e4504d";
 const textColor = "#333332";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: bgColor,
-    alignItems: "center",
-  },
-  topHatContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: "50%",
-    borderColor: bgColor,
-    borderWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 2,
-  },
-  topHat: {
-    width: 60,
-    height: 60,
-  },
-  inputContainers: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    paddingTop: 50,
-  },
   categoryInputContainer: {
-    width: "80vw",
-    height: 60,
+    flexDirection: "row",
     backgroundColor: bgWhite,
     marginBottom: 30,
     // elevation
@@ -210,8 +206,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    justifyContent: "center",
-    alignItems: "center",
     color: black,
     opacity: 0.7,
   },
@@ -220,7 +214,7 @@ const styles = StyleSheet.create({
     height: "100%",
     color: textColor,
     opacity: 0.75,
-    fontWeight: 700,
+    fontWeight: "bold",
   },
   categoryPickerItem: {
     fontSize: 16,
@@ -228,9 +222,8 @@ const styles = StyleSheet.create({
     opacity: 0.75,
     fontWeight: "700",
     textAlign: "center",
-  },  
+  },
   titleInputContainer: {
-    width: "80vw",
     height: 60,
     backgroundColor: bgWhite,
     marginBottom: "5px",
@@ -248,7 +241,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   descriptionInputContainer: {
-    width: "80vw",
     height: 200,
     backgroundColor: bgWhite,
     marginBottom: "5px",
@@ -261,28 +253,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    marginBottom: "12%",
-    justifyContent: "center",
-    alignItems: "center",
+    marginBottom: 50,
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   titleInput: {
+    textAlign: "center",
     fontSize: 16,
     color: textColor,
     opacity: 0.75,
-    fontWeight: 700,
+    fontWeight: "bold",
     width: "100%",
     height: "100%",
-    paddingLeft: 10,
   },
   descriptionInput: {
-    paddingLeft: 10,
+    textAlign: "center",
     fontSize: 16,
     color: textColor,
     opacity: 0.75,
-    fontWeight: 700,
+    fontWeight: "bold",
     width: "100%",
     height: "100%",
-    paddingTop: 20,
+    paddingTop: 30,
   },
   descriptionCountStyle: {
     position: "absolute",
@@ -311,11 +303,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button: {
-    width: "80vw",
-    height: 46,
+    height: 45,
     backgroundColor: buttonbgColor,
-    textAlign: "center",
+    alignItems: "center",
     justifyContent: "center",
+
     // elevation
     shadowColor: black,
     shadowOffset: {
@@ -328,7 +320,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: bgWhite,
-    fontSize: "16px",
+    fontSize: 16,
   },
   fieldsErrorText: {
     color: "red",
@@ -338,5 +330,5 @@ const styles = StyleSheet.create({
     width: "80%",
     marginTop: -20,
     paddingBottom: 20,
-  }
+  },
 });

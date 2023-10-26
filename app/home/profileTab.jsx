@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { setUsers } from "../../redux/slices/usersSlice";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import Container from "../../components/ui/Container";
+import TopHatContainer from "../../components/ui/TopHatContainer";
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -23,13 +25,8 @@ export default function Profile() {
   }, [user, dispatch]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topHatContainer}>
-        <Image
-          style={styles.topHat}
-          source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
-        />
-      </View>
+    <Container>
+      <TopHatContainer />
       <View style={styles.profileContainer}>
         <View style={styles.hatContainer}>
           <Image style={styles.hat} source={{ uri: user?.profileImage }} />
@@ -61,7 +58,7 @@ export default function Profile() {
           </View>
         </View>
       </View>
-    </View>
+    </Container>
   );
 }
 
@@ -83,7 +80,7 @@ const styles = StyleSheet.create({
   topHatContainer: {
     width: 70,
     height: 70,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderColor: bgColor,
     borderWidth: 1,
     justifyContent: "center",
@@ -104,7 +101,7 @@ const styles = StyleSheet.create({
   hatContainer: {
     width: 60,
     height: 60,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderColor: hatbgColor,
     borderWidth: 1,
     backgroundColor: bgColor,
@@ -123,7 +120,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     // flex: 1,
-    justifyContent: "end",
+    justifyContent: "flex-end",
     alignItems: "baseline",
     width: "70%",
     height: "50%",
@@ -143,7 +140,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     textAlign: "center",
     color: profileText,
-    fontWeight: 700,
+    fontWeight: "bold",
   },
   storiesContainer: {
     flex: 1,
@@ -156,20 +153,20 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: "center",
     color: black,
-    fontWeight: 700,
+    fontWeight: "bold",
     fontSize: 26,
   },
   storyMessage: {
     padding: 10,
     textAlign: "center",
     color: black,
-    fontWeight: 700,
+    fontWeight: "bold",
   },
   editText: {
     padding: 10,
     textAlign: "center",
     color: editText,
-    fontWeight: 700,
+    fontWeight: "bold",
     fontSize: 12,
   },
   options: {

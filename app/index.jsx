@@ -6,6 +6,7 @@ import { useLoginMutation } from "../redux/api/authApi";
 import { login } from "../redux/slices/authSlice";
 import { useNavigation } from "expo-router";
 import { COLORS } from "../utils/constants";
+import Container from "../components/ui/Container";
 
 export default function Landing() {
   const pseudonymRef = useRef(null);
@@ -52,7 +53,7 @@ export default function Landing() {
     } catch (error) {
       console.log(error);
     }
-  }; 
+  };
 
   const validateForm = () => {
     const { pseudonym, password } = formData;
@@ -80,7 +81,7 @@ export default function Landing() {
   };
 
   return (
-    <View style={styles.container}>
+    <Container>
       <View style={styles.contentContainer}>
         <View style={styles.signupContainer}>
           <View style={styles.hatContainer}>
@@ -134,22 +135,13 @@ export default function Landing() {
         &quot;If you can tell stories, create characters, devise incidents, and have sincerity and passion, it
         doesn&apos;t matter a damn how you write&quot; Somerset Maugham
       </Text>
-    </View>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingVertical: 25,
-    paddingHorizontal: 5,
-    paddingTop: "20vh",
-    backgroundColor: COLORS.bgColor,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
   contentContainer: {
-    justifyContent: "end",
+    justifyContent: "flex-end",
     alignItems: "center",
     width: "100%",
   },
@@ -171,7 +163,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    marginBottom: "12%",
+    marginBottom: 12,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -182,7 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.textColor,
     opacity: 0.75,
-    fontWeight: 700,
+    fontWeight: "bold",
     padding: 7,
     marginTop: 20,
   },
@@ -220,13 +212,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: COLORS.bgWhite,
-    fontSize: "16px",
+    fontSize: 16,
   },
   hatContainer: {
     backgroundColor: COLORS.bgColor,
     width: 90,
     height: 82,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderColor: COLORS.hatbgColor,
     borderWidth: 1,
     justifyContent: "center",
