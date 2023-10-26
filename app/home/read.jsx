@@ -1,33 +1,30 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import { useRoute } from "@react-navigation/native";
+
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Container from "../../components/ui/Container";
 import TopHatContainer from "../../components/ui/TopHatContainer";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function Read() {
-  const route = useRoute();
-  const { storyId, collaborationId } = route.params;
+  const params = useLocalSearchParams();
   const navigation = useNavigation();
-
+  const router = useRouter();
   // Get the stories from the Redux store
   const stories = useSelector((state) => state.stories.stories);
   const collaborations = useSelector((state) => state.collaborations.collaborations);
 
   // Filter the stories and collaborations to get the one with the matching ID
-  const selectedStory = stories.find((story) => story.id === storyId);
-  const selectedCollaboration = collaborations.find((collaboration) => collaboration.id === collaborationId);
+  const selectedStory = stories.find((story) => story.id === parseInt(params.storyId));
+  const selectedCollaboration = collaborations.find(
+    (collaboration) => collaboration.id === parseInt(params.collaborationId)
+  );
 
   return (
     <Container>
       <TopHatContainer />
-      <TouchableOpacity
-        style={styles.goBack}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
+      <TouchableOpacity style={styles.goBack} onPress={() => router.push("home/storiesTab/myStories")}>
         <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
       </TouchableOpacity>
       <View style={styles.storiesContainer}>
