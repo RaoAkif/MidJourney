@@ -1,20 +1,21 @@
 import React, { useState, useRef } from "react";
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
-import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { useAddCollaborationMutation } from "../../redux/api/collaborationsApi";
 import Container from "../../components/ui/Container";
 import TopHatContainer from "../../components/ui/TopHatContainer";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import tw from "../../utils/tailwind";
+import { ScrollView } from "react-native";
 
 export default function Collaborate() {
   const [myCollaborationDescription, setMyCollaborationDescription] = useState("");
   const [collaborationFieldError, setCollaborationFieldError] = useState("");
   const collaborationInputRef = useRef(null);
 
-  const route = useRoute();
-  const { storyId } = route.params;
-  const navigation = useNavigation();
+  const params = useLocalSearchParams();
+  const router = useRouter();
 
   const [addCollaboration, { data, error, isLoading }] = useAddCollaborationMutation();
 
@@ -23,13 +24,15 @@ export default function Collaborate() {
   const stories = useSelector((state) => state.stories.stories);
 
   // Filter the stories to get the one with the matching ID
-  const selectedStory = stories.find((story) => story.id === storyId);
+  const selectedStory = stories.find((story) => story.id === parseInt(params.storyId));
 
   const handleAddCollaboration = () => {
     if (validateForm()) {
+      console.log(selectedStory);
+      console.log(selectedStory.title);
       addCollaboration({
         title: selectedStory.title,
-        description: selectedStory.description + myCollaborationDescription,
+        description: selectedStory.description + " " + myCollaborationDescription,
         promptId: selectedStory.id,
         userId,
       });
@@ -59,66 +62,68 @@ export default function Collaborate() {
   return (
     <Container>
       <TopHatContainer />
-      <TouchableOpacity
-        style={styles.goBack}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
+      <TouchableOpacity style={styles.goBack} onPress={router.back}>
         <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
       </TouchableOpacity>
-      <View style={styles.storiesContainer}>
-        {selectedStory && (
-          <View style={styles.storyContainer}>
-            <View style={styles.storyTextContainer}>
-              <Text style={styles.storyTitle}>{selectedStory.title}</Text>
-              <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+      <View style={tw`flex-1 mt-3 mx-2`}>
+        <ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
+          <View style={tw`flex-1 w-full justify-center items-center mb-32 px-6`}>
+            {selectedStory && (
+              <View style={styles.storyContainer}>
+                <View style={styles.storyTextContainer}>
+                  <Text style={styles.storyTitle}>{selectedStory.title}</Text>
+                  <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+                </View>
+              </View>
+            )}
+            <View style={styles.colabInputContainer}>
+              <View style={styles.collaborationContainerInput}>
+                <TextInput
+                  ref={collaborationInputRef} // Set the ref for the input field
+                  style={styles.collaborationInput}
+                  placeholderTextColor="#727272"
+                  placeholder="Collaborate on the story above"
+                  multiline={true}
+                  numberOfLines={4}
+                  onChangeText={(text) => setMyCollaborationDescription(text)}
+                />
+                <Text
+                  style={[
+                    styles.descriptionTotalCountStyle,
+                    {
+                      backgroundColor: descriptionTotalCount < 0 ? buttonbgColor : "#E6C495",
+                      color: descriptionTotalCount < 0 ? "#FFFFFF" : textColor,
+                    },
+                  ]}
+                >
+                  {descriptionTotalCount}
+                </Text>
+                <Text
+                  style={[
+                    styles.descriptionCountStyle,
+                    {
+                      backgroundColor: descriptionCount < 0 ? buttonbgColor : "#E6C495",
+                      color: descriptionCount < 0 ? "#FFFFFF" : textColor,
+                    },
+                  ]}
+                >
+                  {descriptionCount}
+                </Text>
+              </View>
             </View>
+            {collaborationFieldError ? (
+              <Text style={styles.collaborationFieldErrorText}>{collaborationFieldError}</Text>
+            ) : null}
+
+            <TouchableOpacity onPress={handleAddCollaboration} disabled={descriptionCount < 0} style={tw`w-full`}>
+              <View
+                style={[styles.button, { backgroundColor: descriptionCount < 0 ? "rgb(229, 158, 157)" : "#e4504d" }]}
+              >
+                <Text style={styles.buttonText}>Collaborate</Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        )}
-        <View style={styles.storyContainer}>
-          <View style={styles.collaborationContainerInput}>
-            <TextInput
-              ref={collaborationInputRef} // Set the ref for the input field
-              style={styles.collaborationInput}
-              placeholderTextColor="#727272"
-              placeholder="Collaborate on the story above"
-              multiline={true}
-              numberOfLines={4}
-              onChangeText={(text) => setMyCollaborationDescription(text)}
-            />
-            <Text
-              style={[
-                styles.descriptionTotalCountStyle,
-                {
-                  backgroundColor: descriptionTotalCount < 0 ? buttonbgColor : "#E6C495",
-                  color: descriptionTotalCount < 0 ? "#FFFFFF" : textColor,
-                },
-              ]}
-            >
-              {descriptionTotalCount}
-            </Text>
-            <Text
-              style={[
-                styles.descriptionCountStyle,
-                {
-                  backgroundColor: descriptionCount < 0 ? buttonbgColor : "#E6C495",
-                  color: descriptionCount < 0 ? "#FFFFFF" : textColor,
-                },
-              ]}
-            >
-              {descriptionCount}
-            </Text>
-          </View>
-        </View>
-        {collaborationFieldError ? (
-          <Text style={styles.collaborationFieldErrorText}>{collaborationFieldError}</Text>
-        ) : null}
-        <View style={[styles.button, { backgroundColor: descriptionCount < 0 ? "rgb(229, 158, 157)" : "#e4504d" }]}>
-          <TouchableOpacity onPress={handleAddCollaboration} disabled={descriptionCount < 0}>
-            <Text style={styles.buttonText}>Collaborate</Text>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
       </View>
     </Container>
   );
@@ -131,45 +136,17 @@ const buttonbgColor = "#e4504d";
 const textColor = "#333332";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: bgColor,
-    alignItems: "center",
-  },
-  topHatContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-    borderColor: bgColor,
-    borderWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 2,
-  },
-  topHat: {
-    width: 60,
-    height: 60,
-  },
   goBack: {
     width: 20,
     height: 20,
     position: "absolute",
     left: 10,
-    top: 25,
+    top: 75,
   },
-  storiesContainer: {
-    flex: 1,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 120,
-  },
+
   storyContainer: {
-    // flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "baseline",
-    width: "80%",
     backgroundColor: bgWhite,
+    marginBottom: 5,
     // elevation
     shadowColor: black,
     shadowOffset: {
@@ -181,10 +158,10 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   storyTextContainer: {
-    flex: 1,
+    // flex: 1,
     width: "100%",
     alignItems: "center",
-    paddingTop: 15,
+    paddingTop: 5,
     paddingBottom: 5,
   },
   storyTitle: {
@@ -198,20 +175,32 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 10,
-    textAlign: "justify",
   },
   downArray: {
     marginTop: 10,
   },
+
+  colabInputContainer: {
+    backgroundColor: bgWhite,
+    width: "100%",
+    marginBottom: 5,
+    // elevation
+    shadowColor: black,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+  },
   collaborationContainerInput: {
     width: "100%",
-    height: "100%",
   },
   collaborationInput: {
     fontSize: 16,
+    textAlign: "center",
     color: "#333332",
-    paddingLeft: 10,
-    paddingTop: 20,
   },
   descriptionCountStyle: {
     position: "absolute",
@@ -240,11 +229,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button: {
-    width: 80,
-    height: 46,
+    marginTop: 30,
+    width: "100%",
+    height: 45,
     backgroundColor: buttonbgColor,
-    textAlign: "center",
+    alignItems: "center",
     justifyContent: "center",
+
     // elevation
     shadowColor: black,
     shadowOffset: {
@@ -254,7 +245,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    marginTop: 32,
   },
   buttonText: {
     color: bgWhite,
