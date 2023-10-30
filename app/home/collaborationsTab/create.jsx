@@ -78,7 +78,7 @@ const Create = () => {
       setErrors({});
 
       // Clear the input fields using refs
-      promptCategoryRef.current.setNativeProps({ selectedValue: "" });
+      promptCategoryRef.current = "";
       titleRef.current.clear();
       descriptionRef.current.clear();
     }
@@ -172,14 +172,6 @@ const Create = () => {
             </Text>
           </View>
           {errors.descriptionError && <Text style={styles.fieldsErrorText}>{errors.descriptionError}</Text>}
-
-          {/* <TouchableOpacity
-            onPress={handleAddStory}
-            disabled={descriptionCount < 0}
-            style={[styles.button, { backgroundColor: descriptionCount < 0 ? "rgb(229, 158, 157)" : "#e4504d" }]}
-          >
-            <Text style={styles.buttonText}>Start Writing</Text>
-          </TouchableOpacity> */}
 
           <Button onPress={handleAddStory} text={"Start Writing"} disabled={descriptionCount < 0} />
         </View>
@@ -306,26 +298,7 @@ const styles = StyleSheet.create({
     color: textColor,
     fontWeight: "bold",
   },
-  button: {
-    height: 45,
-    backgroundColor: buttonbgColor,
-    alignItems: "center",
-    justifyContent: "center",
 
-    // elevation
-    shadowColor: black,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  buttonText: {
-    color: bgWhite,
-    fontSize: 16,
-  },
   fieldsErrorText: {
     color: "red",
     textAlign: "center",
