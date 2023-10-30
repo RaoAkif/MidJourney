@@ -8,6 +8,7 @@ import { Link, useNavigation } from "expo-router";
 import { COLORS } from "../utils/constants";
 import Container from "../components/ui/Container";
 import tw from "../utils/tailwind";
+import Button from "../components/ui/Button";
 
 export default function Landing() {
   const pseudonymRef = useRef(null);
@@ -128,16 +129,13 @@ export default function Landing() {
           </View>
         </View>
         {errorMessage && <Text style={styles.credentialsErrorText}>{errorMessage}</Text>}
-        <View style={tw`elevation w-full h-12 bg-[${COLORS.buttonbgColor}] items-center justify-center`}>
-          <Pressable onPress={handleOnPress}>
-            <Text style={tw`text-base text-[${COLORS.bgWhite}]`}>Start Writing</Text>
-          </Pressable>
-        </View>
+        <Button onPress={handleOnPress} text={"Start Writing"} />
+
         <Link style={tw`mt-5 text-[#877965] font-medium text-base`} href={"/register"}>
           <Text>Register</Text>
         </Link>
       </View>
-      <Text style={styles.messageText}>
+      <Text style={tw`text-center p-3`}>
         &quot;If you can tell stories, create characters, devise incidents, and have sincerity and passion, it
         doesn&apos;t matter a damn how you write&quot; Somerset Maugham
       </Text>
@@ -173,10 +171,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     width: "80%",
-  },
-
-  messageText: {
-    padding: 10,
-    textAlign: "center",
   },
 });

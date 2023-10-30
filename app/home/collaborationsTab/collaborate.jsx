@@ -12,13 +12,14 @@ import { ActivityIndicator } from "react-native";
 import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
+import { useGetStories } from "../../../utils/api/storiesHook";
 
 export default function Collaborate() {
-  const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
   const router = useRouter();
   const navigation = useNavigation();
-  const { data: stories, error, isLoading } = useGetStoriesQuery(token);
+  // const { data: stories, error, isLoading } = useGetStoriesQuery(token);
+  const { data: stories, error, isLoading } = useGetStories();
 
   useEffect(() => {
     if (stories) {
@@ -91,11 +92,6 @@ const styles = StyleSheet.create({
   },
 
   storyContainer: {
-    // flex: 1,
-    // height: 200,
-    // justifyContent: "flex-end",
-    // alignItems: "baseline",
-    // width: "80%",
     marginHorizontal: 30,
     backgroundColor: bgWhite,
     marginBottom: 5,

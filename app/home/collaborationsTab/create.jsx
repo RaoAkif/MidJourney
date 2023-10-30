@@ -8,6 +8,7 @@ import Container from "../../../components/ui/Container";
 import Tabs from "../../../components/Tabs";
 import { ScrollView } from "react-native";
 import tw from "../../../utils/tailwind";
+import Button from "../../../components/ui/Button";
 
 const promptCategories = ["", "Poetry", "Prose", "Cooking", "Games", "Leisure", "Art", "Craft", "Play"];
 
@@ -35,6 +36,7 @@ const Create = () => {
   }, [data, error]);
 
   const validateForm = () => {
+    console.log("button pressed");
     let isValid = true;
     const newErrors = {};
 
@@ -171,13 +173,15 @@ const Create = () => {
           </View>
           {errors.descriptionError && <Text style={styles.fieldsErrorText}>{errors.descriptionError}</Text>}
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={handleAddStory}
             disabled={descriptionCount < 0}
             style={[styles.button, { backgroundColor: descriptionCount < 0 ? "rgb(229, 158, 157)" : "#e4504d" }]}
           >
             <Text style={styles.buttonText}>Start Writing</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+
+          <Button onPress={handleAddStory} text={"Start Writing"} disabled={descriptionCount < 0} />
         </View>
       </ScrollView>
     </Container>

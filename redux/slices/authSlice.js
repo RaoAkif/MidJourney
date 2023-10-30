@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.accessToken = "";
       AsyncStorage.removeItem("accessToken"); // remove accessToken from local storage TO BE REMOVED
+      AsyncStorage.removeItem("user"); // remove accessToken from local storage TO BE REMOVED
     },
   },
 });

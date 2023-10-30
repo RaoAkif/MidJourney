@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import { Image, StyleSheet } from "react-native";
 import Write1 from "../../assets/write1.png";
 import Write2 from "../../assets/write2.png";
@@ -28,10 +28,11 @@ const styles = StyleSheet.create({
 });
 
 export default function Layout() {
+  const router = useRouter();
   const accessToken = useSelector((state) => state.auth.accessToken);
   useEffect(() => {
     if (!accessToken) {
-      navigation.navigate("/"); // navigate to home screen when accessToken is received
+      router.replace("/"); // navigate to home screen when accessToken is received
     }
   }, [accessToken]);
 

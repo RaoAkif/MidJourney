@@ -1,6 +1,12 @@
 import React, { useState, useRef } from "react";
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
 import { useRegisterUserMutation } from "../redux/api/usersApi";
+import Button from "../components/ui/Button";
+import Container from "../components/ui/Container";
+import tw from "../utils/tailwind";
+import { COLORS } from "../utils/constants";
+import { ScrollView } from "react-native";
+import { Link } from "expo-router";
 
 export default function Register() {
   const pseudonymRef = useRef(null);
@@ -131,55 +137,62 @@ export default function Register() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <View style={styles.signupContainer}>
-          <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{
-                uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-              }}
-            />
+    <Container>
+      <ScrollView style={tw`w-full`} contentContainerStyle={tw`flex-grow `} showsVerticalScrollIndicator={false}>
+        <View style={tw`w-full items-center flex-1 justify-center px-8`}>
+          <View style={tw`w-full items-center`}>
+            <View
+              style={tw`elevation z-10 bg-[${COLORS.bgColor}] w-20 h-20 rounded-full justify-center items-center -mb-10 `}
+            >
+              <Image
+                style={styles.hat}
+                source={{
+                  uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+                }}
+              />
+            </View>
+            <View style={tw` bg-[${COLORS.bgWhite}] w-full elevation justify-center items-center mb-3 py-12 px-6`}>
+              <TextInput
+                ref={pseudonymRef}
+                style={styles.input}
+                placeholder="Enter Your Psuedonym"
+                value={pseudonym}
+                onChangeText={(text) => setState((prevState) => ({ ...prevState, pseudonym: text }))}
+              />
+              {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
+              <TextInput
+                ref={emailRef}
+                style={styles.input}
+                placeholder="Enter Your Email"
+                value={email}
+                onChangeText={(text) => setState((prevState) => ({ ...prevState, email: text }))}
+              />
+              {emailError !== "" && <Text style={styles.fieldsErrorText}>{emailError}</Text>}
+              <TextInput
+                ref={passwordRef}
+                style={styles.input}
+                placeholder="Enter Your Password"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={(text) => setState((prevState) => ({ ...prevState, password: text }))}
+              />
+              {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
+            </View>
+            {error1 ? <Text style={styles.credentialsErrorText}>{error1}</Text> : null}
+
+            <Button onPress={handleRegister} text={"Register"} />
+
+            <Link style={tw`mt-5 text-[#877965] font-medium text-base`} href={"/"}>
+              <Text>Login</Text>
+            </Link>
           </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              ref={pseudonymRef}
-              style={styles.input}
-              placeholder="Enter Your Psuedonym"
-              value={pseudonym}
-              onChangeText={(text) => setState((prevState) => ({ ...prevState, pseudonym: text }))}
-            />
-            {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
-            <TextInput
-              ref={emailRef}
-              style={styles.input}
-              placeholder="Enter Your Email"
-              value={email}
-              onChangeText={(text) => setState((prevState) => ({ ...prevState, email: text }))}
-            />
-            {emailError !== "" && <Text style={styles.fieldsErrorText}>{emailError}</Text>}
-            <TextInput
-              ref={passwordRef}
-              style={styles.input}
-              placeholder="Enter Your Password"
-              secureTextEntry={true}
-              value={password}
-              onChangeText={(text) => setState((prevState) => ({ ...prevState, password: text }))}
-            />
-            {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
-          </View>
-          {error1 ? <Text style={styles.credentialsErrorText}>{error1}</Text> : null}
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
         </View>
-      </View>
-      <Text style={styles.messageText}>
-        "If you can tell stories, create characters, devise incidents, and have sincerity and passion, it doesn't matter
-        a damn how you write" Somerset Maugham
-      </Text>
-    </View>
+        <Text style={styles.messageText}>
+          "If you can tell stories, create characters, devise incidents, and have sincerity and passion, it doesn't
+          matter a damn how you write" Somerset Maugham
+        </Text>
+      </ScrollView>
+    </Container>
   );
 }
 
@@ -192,43 +205,8 @@ const buttonbgColor = "#e4504d";
 const hatbgColor = "#d9d9d9";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 5,
-    backgroundColor: bgColor,
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingTop: 15,
-  },
-  contentContainer: {
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: "100%",
-  },
-  signupContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputContainer: {
-    width: "80%",
-    backgroundColor: bgWhite,
-    // elevation
-    shadowColor: black,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-    marginBottom: "12%",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 50,
-    paddingBottom: 50,
-  },
   input: {
+    width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: borderbgColor,
     textAlign: "center",

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useGetUserQuery } from "../../redux/api/usersApi";
 import { useSelector } from "react-redux";
 import { setUsers } from "../../redux/slices/usersSlice";
@@ -7,14 +7,13 @@ import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Container from "../../components/ui/Container";
 import TopHatContainer from "../../components/ui/TopHatContainer";
+import tw from "../../utils/tailwind";
+import { logout } from "../../redux/slices/authSlice";
 
 export default function Profile() {
   const navigation = useNavigation();
-
   const { id } = useSelector((state) => state.auth.userInfo);
-
   const { data: user, error, isLoading } = useGetUserQuery(id);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export default function Profile() {
   return (
     <Container>
       <TopHatContainer />
-      <View style={styles.profileContainer}>
+      <View style={tw`flex-1 w-full justify-center items-center`}>
         <View style={styles.hatContainer}>
           <Image style={styles.hat} source={{ uri: user?.profileImage }} />
         </View>
@@ -58,6 +57,11 @@ export default function Profile() {
           </View>
         </View>
       </View>
+      <View style={tw`pb-6  `}>
+        <TouchableOpacity onPress={() => dispatch(logout())}>
+          <Text style={tw`text-base font-bold text-[#877965]`}>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </Container>
   );
 }
@@ -71,33 +75,6 @@ const profileText = "#333";
 const editText = "#979797";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: bgColor,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  topHatContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-    borderColor: bgColor,
-    borderWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 2,
-  },
-  topHat: {
-    width: 70,
-    height: 70,
-    marginTop: 60,
-  },
-  profileContainer: {
-    flex: 1,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   hatContainer: {
     width: 60,
     height: 60,
