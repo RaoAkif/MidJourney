@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { Stack } from "expo-router";
 import AuthProvider from "../utils/AuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ export default function _RootLayout() {
           </Stack>
         </AuthProvider>
       </Provider>
+      <Toast />
     </QueryClientProvider>
   );
 }

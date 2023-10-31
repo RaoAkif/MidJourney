@@ -10,7 +10,7 @@ export const useGetCategories = () => {
     queryKey: ["promptCategories"],
     queryFn: async () => {
       const response = await api.get("/promptCategories", headers);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     },
   });

@@ -9,87 +9,39 @@ import tw from "../../../utils/tailwind";
 import { useSelector } from "react-redux";
 import { useCreateStory } from "../../../utils/api/storiesHook";
 import { useGetCategories } from "../../../utils/api/categoriesHook";
-
-const promptCategories = ["", "Poetry", "Prose", "Cooking", "Games", "Leisure", "Art", "Craft", "Play"];
-
-const initialFormData = {
-  promptCategory: "",
-  title: "",
-  description: "",
-};
+import { Controller, useForm } from "react-hook-form";
 
 const Create = () => {
-  const promptCategoryRef = useRef(null);
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const [formData, setFormData] = useState(initialFormData);
-  const [errors, setErrors] = useState({});
   const { id: userId } = useSelector((state) => state.auth.userInfo);
   const { mutate: addStory, data, error, isPending } = useCreateStory();
   const { data: catagories } = useGetCategories();
 
-  const validateForm = () => {
-    let isValid = true;
-    const newErrors = {};
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors: formError },
+  } = useForm({
+    defaultValues: {
+      promptCategory: "",
+      title: "",
+      description: "",
+    },
+  });
 
-    if (!formData.promptCategory || !formData.title.trim() || !formData.description.trim()) {
-      newErrors.error1 = "All fields are required.";
-      isValid = false;
-    }
+  const descriptionChars = watch("description").length;
 
-    if (!formData.promptCategory) {
-      newErrors.promptCategoryError = "Please select a category.";
-      isValid = false;
-    }
+  const onSubmit = (data) => {
+    addStory({
+      promptCategoryId: parseInt(data.promptCategory),
+      title: data.title,
+      description: data.description,
+      userId,
+    });
 
-    if (!formData.title) {
-      newErrors.titleError = "Please enter a story title.";
-      isValid = false;
-    }
-
-    if (!formData.description) {
-      newErrors.descriptionError = "Please enter a story description.";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
+    reset();
   };
-
-  const handleAddStory = () => {
-    if (validateForm()) {
-      addStory({
-        promptCategoryId: parseInt(formData.promptCategory),
-        title: formData.title,
-        description: formData.description,
-        userId,
-      });
-
-      // Clear the form fields
-      setFormData(initialFormData);
-      setErrors({});
-
-      // Clear the input fields using refs
-      promptCategoryRef.current = "";
-      titleRef.current.clear();
-      descriptionRef.current.clear();
-    }
-  };
-
-  const handleFieldChange = (name, value) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  if (data) console.log(data);
-  if (error) console.log(error.message);
-
-  const { promptCategory, title, description } = formData;
-
-  const descriptionTotalCount = 1000 - description.length;
-  const descriptionCount = 150 - description.length;
 
   return (
     <Container>
@@ -104,55 +56,85 @@ const Create = () => {
       />
       <ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
         <View style={tw`flex-col justify-between pt-6 px-6`}>
+          {/* Category Picker */}
           <View style={styles.categoryInputContainer}>
-            <Picker
-              ref={promptCategoryRef}
-              selectedValue={promptCategory}
-              onValueChange={(itemValue) => handleFieldChange("promptCategory", itemValue)}
-              style={styles.categoryPicker}
-              itemStyle={styles.categoryPickerItem}
-            >
-              <Picker.Item label={"Select Category"} value={0} />
-              {catagories?.map((category, index) => (
-                <Picker.Item key={index} label={category.name || "Select Category"} value={category.id} />
-              ))}
-            </Picker>
+            <Controller
+              name="promptCategory"
+              control={control}
+              rules={{ required: "This field is required" }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Picker
+                  onBlur={onBlur}
+                  selectedValue={value}
+                  onValueChange={onChange}
+                  style={styles.categoryPicker}
+                  itemStyle={styles.categoryPickerItem}
+                >
+                  <Picker.Item label={"Select Category"} value={0} />
+                  {catagories?.map((category, index) => (
+                    <Picker.Item key={index} label={category.name || "Select Category"} value={category.id} />
+                  ))}
+                </Picker>
+              )}
+            />
           </View>
-          {errors.promptCategoryError && <Text style={styles.fieldsErrorText}>{errors.promptCategoryError}</Text>}
+          {formError.promptCategory && <Text style={styles.fieldsErrorText}>{formError.promptCategory.message}</Text>}
+
+          {/* Title Input  */}
           <View style={styles.titleInputContainer}>
-            <TextInput
-              ref={titleRef}
-              style={styles.titleInput}
-              placeholderTextColor="#727272"
-              placeholder="Enter Title"
-              value={title}
-              onChangeText={(text) => handleFieldChange("title", text)}
+            <Controller
+              name="title"
+              control={control}
+              rules={{ required: "This field is required" }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  onBlur={onBlur}
+                  style={styles.titleInput}
+                  placeholderTextColor="#727272"
+                  placeholder="Enter Title"
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
           </View>
-          {errors.titleError && <Text style={styles.fieldsErrorText}>{errors.titleError}</Text>}
+          {formError.title && <Text style={styles.fieldsErrorText}>{formError.title.message}</Text>}
+
+          {/* Description Input  */}
           <View style={styles.descriptionInputContainer}>
-            <TextInput
-              ref={descriptionRef}
-              style={styles.descriptionInput}
-              placeholderTextColor="#727272"
-              placeholder="Enter first sentence of the story"
-              multiline={true}
-              numberOfLines={4}
-              value={description}
-              onChangeText={(text) => handleFieldChange("description", text)}
+            <Controller
+              name="description"
+              control={control}
+              rules={{
+                required: "This field is required",
+                maxLength: { value: 150, message: "story should have max 150 characters" },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                  style={styles.descriptionInput}
+                  placeholderTextColor="#727272"
+                  placeholder="Enter first sentence of the story"
+                  multiline={true}
+                  numberOfLines={4}
+                />
+              )}
             />
+
             <Text
               style={[
                 styles.descriptionTotalCountStyle,
                 {
-                  backgroundColor: descriptionTotalCount < 0 ? buttonbgColor : "#E6C495",
-                  color: descriptionTotalCount < 0 ? "#FFFFFF" : textColor,
+                  backgroundColor: descriptionChars < 0 ? buttonbgColor : "#E6C495",
+                  color: descriptionChars < 0 ? "#FFFFFF" : textColor,
                 },
               ]}
             >
-              {descriptionTotalCount}
+              {descriptionChars}
             </Text>
-            <Text
+            {/* <Text
               style={[
                 styles.descriptionCountStyle,
                 {
@@ -162,11 +144,11 @@ const Create = () => {
               ]}
             >
               {descriptionCount}
-            </Text>
+            </Text> */}
           </View>
-          {errors.descriptionError && <Text style={styles.fieldsErrorText}>{errors.descriptionError}</Text>}
+          {formError.description && <Text style={styles.fieldsErrorText}>{formError.description.message}</Text>}
 
-          <Button onPress={handleAddStory} text={"Start Writing"} disabled={descriptionCount < 0} />
+          <Button onPress={handleSubmit(onSubmit)} text={"Start Writing"} />
         </View>
       </ScrollView>
     </Container>

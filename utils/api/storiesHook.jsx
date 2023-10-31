@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { api } from "./api";
+import Toast from "react-native-toast-message";
 
 export const useGetStories = () => {
   const token = useSelector((state) => state.auth.accessToken);
@@ -30,6 +31,11 @@ export const useCreateStory = () => {
     onSuccess: () => {
       // console.log("story created");
       queryClient.invalidateQueries({ queryKey: ["stories"] });
+      Toast.show({
+        type: "success",
+        text1: "Story Added Sucessfully",
+        position: "top",
+      });
     },
   });
 
