@@ -59,7 +59,7 @@ const Create = () => {
   const handleAddStory = () => {
     if (validateForm()) {
       addStory({
-        promptCategoryId: formData.promptCategory,
+        promptCategoryId: parseInt(formData.promptCategory),
         title: formData.title,
         description: formData.description,
         userId,

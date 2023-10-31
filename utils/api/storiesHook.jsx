@@ -24,6 +24,7 @@ export const useCreateStory = () => {
 
   const createStory = useMutation({
     mutationFn: async (story) => {
+      // console.log(story);
       return await api.post("/prompts", story, headers);
     },
     onSuccess: () => {
