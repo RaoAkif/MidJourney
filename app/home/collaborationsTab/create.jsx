@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useRef } from "react";
+import { StyleSheet, View, Text, TextInput, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useAddStoryMutation } from "../../../redux/api/storiesApi";
-import { useSelector } from "react-redux";
 import TopHatContainer from "../../../components/ui/TopHatContainer";
 import Container from "../../../components/ui/Container";
 import Tabs from "../../../components/Tabs";
-import { ScrollView } from "react-native";
-import tw from "../../../utils/tailwind";
 import Button from "../../../components/ui/Button";
+import tw from "../../../utils/tailwind";
+import { useSelector } from "react-redux";
 import { useCreateStory } from "../../../utils/api/storiesHook";
+import { useGetCategories } from "../../../utils/api/categoriesHook";
 
 const promptCategories = ["", "Poetry", "Prose", "Cooking", "Games", "Leisure", "Art", "Craft", "Play"];
 
@@ -23,17 +22,13 @@ const Create = () => {
   const promptCategoryRef = useRef(null);
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
-
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
-
   const { id: userId } = useSelector((state) => state.auth.userInfo);
-
-  // const [addStory, { data, error, isLoading }] = useAddStoryMutation();
   const { mutate: addStory, data, error, isPending } = useCreateStory();
+  const { data: catagories } = useGetCategories();
 
   const validateForm = () => {
-    console.log("button pressed");
     let isValid = true;
     const newErrors = {};
 
@@ -64,7 +59,7 @@ const Create = () => {
   const handleAddStory = () => {
     if (validateForm()) {
       addStory({
-        promptCategoryId: promptCategories.indexOf(formData.promptCategory),
+        promptCategoryId: formData.promptCategory,
         title: formData.title,
         description: formData.description,
         userId,
@@ -117,8 +112,9 @@ const Create = () => {
               style={styles.categoryPicker}
               itemStyle={styles.categoryPickerItem}
             >
-              {promptCategories.map((category, index) => (
-                <Picker.Item key={index} label={category || "Select Category"} value={category} />
+              <Picker.Item label={"Select Category"} value={0} />
+              {catagories?.map((category, index) => (
+                <Picker.Item key={index} label={category.name || "Select Category"} value={category.id} />
               ))}
             </Picker>
           </View>

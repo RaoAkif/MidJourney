@@ -10,7 +10,7 @@ export const useGetStories = () => {
     queryKey: ["stories"],
     queryFn: async () => {
       const response = await api.get("/prompts", headers);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     },
   });
@@ -27,7 +27,7 @@ export const useCreateStory = () => {
       return await api.post("/prompts", story, headers);
     },
     onSuccess: () => {
-      console.log("story created");
+      // console.log("story created");
       queryClient.invalidateQueries({ queryKey: ["stories"] });
     },
   });
