@@ -9,6 +9,7 @@ import Tabs from "../../../components/Tabs";
 import { ScrollView } from "react-native";
 import tw from "../../../utils/tailwind";
 import Button from "../../../components/ui/Button";
+import { useCreateStory } from "../../../utils/api/storiesHook";
 
 const promptCategories = ["", "Poetry", "Prose", "Cooking", "Games", "Leisure", "Art", "Craft", "Play"];
 
@@ -28,12 +29,8 @@ const Create = () => {
 
   const { id: userId } = useSelector((state) => state.auth.userInfo);
 
-  const [addStory, { data, error, isLoading }] = useAddStoryMutation();
-
-  useEffect(() => {
-    if (data) console.log(data);
-    if (error) console.log(error.data.message);
-  }, [data, error]);
+  // const [addStory, { data, error, isLoading }] = useAddStoryMutation();
+  const { mutate: addStory, data, error, isPending } = useCreateStory();
 
   const validateForm = () => {
     console.log("button pressed");
@@ -92,7 +89,7 @@ const Create = () => {
   };
 
   if (data) console.log(data);
-  if (error) console.log(error.data.message);
+  if (error) console.log(error.message);
 
   const { promptCategory, title, description } = formData;
 

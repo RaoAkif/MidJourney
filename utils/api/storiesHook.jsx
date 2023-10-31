@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { api } from "./api";
 
@@ -20,13 +20,14 @@ export const useGetStories = () => {
 export const useCreateStory = () => {
   const token = useSelector((state) => state.auth.accessToken);
   const headers = { headers: { Authorization: `Bearer ${token}` } };
+  const queryClient = useQueryClient();
 
   const createStory = useMutation({
-    mutationFn: () => async (story) => {
+    mutationFn: async (story) => {
       return await api.post("/prompts", story, headers);
     },
     onSuccess: () => {
-      // Invalidate and refetch
+      console.log("story created");
       queryClient.invalidateQueries({ queryKey: ["stories"] });
     },
   });
