@@ -18,6 +18,23 @@ export const useGetStories = () => {
 
   return getStories;
 };
+export const useGetStory = (stringId) => {
+  const id = parseInt(stringId);
+
+  const token = useSelector((state) => state.auth.accessToken);
+  const headers = { headers: { Authorization: `Bearer ${token}` } };
+
+  const getStory = useQuery({
+    queryKey: ["story", id],
+    queryFn: async () => {
+      const response = await api.get(`/prompts/${id}`, headers);
+      // console.log(response.data);
+      return response.data;
+    },
+  });
+
+  return getStory;
+};
 export const useCreateStory = () => {
   const token = useSelector((state) => state.auth.accessToken);
   const headers = { headers: { Authorization: `Bearer ${token}` } };
@@ -31,11 +48,11 @@ export const useCreateStory = () => {
     onSuccess: () => {
       // console.log("story created");
       queryClient.invalidateQueries({ queryKey: ["stories"] });
-      Toast.show({
-        type: "success",
-        text1: "Story Added Sucessfully",
-        position: "top",
-      });
+      // Toast.show({
+      //   type: "hatToast",
+      //   text1: "Story Added Sucessfully",
+      //   position: "top",
+      // });
     },
   });
 

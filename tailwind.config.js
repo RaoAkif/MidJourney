@@ -18,6 +18,13 @@ module.exports = {
           shadowRadius: 4.65,
           elevation: 7,
         },
+        ".text-error": {
+          textAlign: "center",
+          fontSize: 16,
+          lineHeight: 24,
+          fontWeight: 600,
+          color: "#CC3333",
+        },
       });
     }),
   ],

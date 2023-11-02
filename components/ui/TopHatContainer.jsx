@@ -2,9 +2,9 @@ import { View, Image, StyleSheet } from "react-native";
 import React from "react";
 import { COLORS } from "../../utils/constants";
 
-const TopHatContainer = () => {
+const TopHatContainer = ({ style }) => {
   return (
-    <View style={styles.topHatContainer}>
+    <View style={(styles.topHatContainer, { ...style })}>
       <Image
         style={styles.topHat}
         source={{

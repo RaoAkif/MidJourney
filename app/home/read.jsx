@@ -6,20 +6,16 @@ import { useNavigation } from "@react-navigation/native";
 import Container from "../../components/ui/Container";
 import TopHatContainer from "../../components/ui/TopHatContainer";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useGetStory } from "../../utils/api/storiesHook";
 
 export default function Read() {
   const params = useLocalSearchParams();
-  const navigation = useNavigation();
   const router = useRouter();
-  // Get the stories from the Redux store
-  const stories = useSelector((state) => state.stories.stories);
-  const collaborations = useSelector((state) => state.collaborations.collaborations);
 
-  // Filter the stories and collaborations to get the one with the matching ID
-  const selectedStory = stories.find((story) => story.id === parseInt(params.storyId));
-  const selectedCollaboration = collaborations.find(
-    (collaboration) => collaboration.id === parseInt(params.collaborationId)
-  );
+  const { data: selectedStory, isLoading: isLoadingStory } = useGetStory(params.storyId);
+  let storyDescription = selectedStory?.description;
+  selectedStory?.response?.map((resp) => (storyDescription = storyDescription + " " + resp.description));
+  console.log(selectedStory);
 
   return (
     <Container>
@@ -32,18 +28,11 @@ export default function Read() {
           <View style={styles.storyContainer}>
             <View style={styles.storyTextContainer}>
               <Text style={styles.storyTitle}>{selectedStory.title}</Text>
-              <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+              <Text style={styles.storyDescription}>{storyDescription}</Text>
             </View>
           </View>
         )}
-        {selectedCollaboration && (
-          <View style={styles.storyContainer}>
-            <View style={styles.storyTextContainer}>
-              <Text style={styles.storyTitle}>{selectedCollaboration.title}</Text>
-              <Text style={styles.storyDescription}>{selectedCollaboration.description}</Text>
-            </View>
-          </View>
-        )}
+
         <View style={styles.hatsList}>
           <View style={styles.hatContainer}>
             <Image

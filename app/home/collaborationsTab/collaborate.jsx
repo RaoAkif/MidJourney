@@ -13,6 +13,7 @@ import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
 import { useGetStories } from "../../../utils/api/storiesHook";
+import GoBack from "../../../components/ui/GoBack";
 
 export default function Collaborate() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ export default function Collaborate() {
   return (
     <Container>
       <TopHatContainer />
+
       <Tabs
         title1="Collaborate"
         title2="Create"
