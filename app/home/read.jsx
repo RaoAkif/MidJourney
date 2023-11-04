@@ -4,6 +4,8 @@ import Container from "../../components/ui/Container";
 import TopHatContainer from "../../components/ui/TopHatContainer";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useGetStory } from "../../utils/api/storiesHook";
+import { uniqueArrayOfObjects } from "../../utils/utils";
+import tw from "../../utils/tailwind";
 
 export default function Read() {
   const params = useLocalSearchParams();
@@ -13,8 +15,12 @@ export default function Read() {
   let storyDescription = selectedStory?.description;
   selectedStory?.response?.map((resp) => (storyDescription = storyDescription + " " + resp.description));
 
-  const allHats = selectedStory?.response?.map((resp) => resp.User.hat);
-  const uniqueHats = [...new Set(allHats)];
+  const allcolaborators = selectedStory?.response?.map((resp) => resp.User);
+  let uniqueColaborators = [];
+  if (allcolaborators) {
+    uniqueColaborators = uniqueArrayOfObjects(allcolaborators);
+    console.log(uniqueColaborators);
+  }
 
   return (
     <Container>
@@ -33,10 +39,15 @@ export default function Read() {
         )}
 
         <View style={styles.hatsList}>
-          {uniqueHats?.map((hatId) => (
-            <View key={hatId} style={styles.hatContainer}>
-              <Image style={styles.hat} source={`../../assets/thinking_cap${hatId}.png`} />
-            </View>
+          {uniqueColaborators?.map((colaborator) => (
+            <TouchableOpacity
+              onPress={() => router.push({ pathname: "/home/profileTab", params: { colaboratorId: colaborator.id } })}
+              key={colaborator.id}
+              style={tw`p-4 flex-col justify-center items-center`}
+            >
+              <Image style={styles.hat} source={`../../assets/thinking_cap${colaborator.hat}.png`} />
+              <Text style={tw`font-semibold`}>{colaborator.pseudonym.substring(0, 2).toUpperCase()}</Text>
+            </TouchableOpacity>
           ))}
         </View>
       </View>
@@ -160,9 +171,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-  hatContainer: {
-    padding: 15,
-  },
+
   hat: {
     width: 40,
     height: 40,

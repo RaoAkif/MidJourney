@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
-import TopTabs2 from "../../../components/TopTabs2";
-import { useGetStoriesQuery } from "../../../redux/api/storiesApi";
 import { setStories } from "../../../redux/slices/storiesSlice";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import Container from "../../../components/ui/Container";
 import TopHatContainer from "../../../components/ui/TopHatContainer";
 import { ActivityIndicator } from "react-native";
@@ -13,13 +9,11 @@ import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
 import { useGetStories } from "../../../utils/api/storiesHook";
-import GoBack from "../../../components/ui/GoBack";
 
 export default function Collaborate() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const navigation = useNavigation();
-  // const { data: stories, error, isLoading } = useGetStoriesQuery(token);
+
   const { data: stories, error, isLoading } = useGetStories();
 
   useEffect(() => {

@@ -9,11 +9,19 @@ import Container from "../../components/ui/Container";
 import TopHatContainer from "../../components/ui/TopHatContainer";
 import tw from "../../utils/tailwind";
 import { logout } from "../../redux/slices/authSlice";
+import { useLocalSearchParams } from "expo-router";
 
 export default function Profile() {
   const navigation = useNavigation();
+  const params = useLocalSearchParams();
   const { id } = useSelector((state) => state.auth.userInfo);
-  const { data: user, error, isLoading } = useGetUserQuery(id);
+  let colaborator = false;
+  let userId = id;
+  if (params.colaboratorId) {
+    userId = params.colaboratorId;
+    colaborator = true;
+  }
+  const { data: user, error, isLoading } = useGetUserQuery(userId);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,10 +57,13 @@ export default function Profile() {
                 </Text>
               </View>
             </View>
+
             <View>
-              <Text style={styles.editText} onPress={() => navigation.navigate("editProfile")}>
-                edit
-              </Text>
+              {!colaborator && (
+                <Text style={styles.editText} onPress={() => navigation.navigate("editProfile")}>
+                  edit
+                </Text>
+              )}
             </View>
           </View>
         </View>
