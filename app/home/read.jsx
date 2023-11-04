@@ -1,8 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-
-import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import Container from "../../components/ui/Container";
 import TopHatContainer from "../../components/ui/TopHatContainer";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -15,7 +12,9 @@ export default function Read() {
   const { data: selectedStory, isLoading: isLoadingStory } = useGetStory(params.storyId);
   let storyDescription = selectedStory?.description;
   selectedStory?.response?.map((resp) => (storyDescription = storyDescription + " " + resp.description));
-  console.log(selectedStory);
+
+  const allHats = selectedStory?.response?.map((resp) => resp.User.hat);
+  const uniqueHats = [...new Set(allHats)];
 
   return (
     <Container>
@@ -34,23 +33,11 @@ export default function Read() {
         )}
 
         <View style={styles.hatsList}>
-          <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{
-                uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-              }}
-            />
-          </View>
-          <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap2.png")} />
-          </View>
-          <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap3.png")} />
-          </View>
-          <View style={styles.hatContainer}>
-            <Image style={styles.hat} source={require("../../assets/thinking_cap4.png")} />
-          </View>
+          {uniqueHats?.map((hatId) => (
+            <View key={hatId} style={styles.hatContainer}>
+              <Image style={styles.hat} source={`../../assets/thinking_cap${hatId}.png`} />
+            </View>
+          ))}
         </View>
       </View>
     </Container>
