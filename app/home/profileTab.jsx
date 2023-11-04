@@ -10,69 +10,74 @@ import TopHatContainer from "../../components/ui/TopHatContainer";
 import tw from "../../utils/tailwind";
 import { logout } from "../../redux/slices/authSlice";
 import { useLocalSearchParams } from "expo-router";
+import { useGetUser } from "../../utils/api/usersHook";
+import { ActivityIndicator } from "react-native";
 
 export default function Profile() {
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const { id } = useSelector((state) => state.auth.userInfo);
+  const dispatch = useDispatch();
+
   let colaborator = false;
   let userId = id;
   if (params.colaboratorId) {
     userId = params.colaboratorId;
     colaborator = true;
   }
-  const { data: user, error, isLoading } = useGetUserQuery(userId);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (user) {
-      // only dispatch setUser if user is not undefined
-      dispatch(setUsers(user));
-    }
-  }, [user, dispatch]);
+  // const { data: user, error, isLoading } = useGetUserQuery(userId);
+  const { data: user, error, isLoading } = useGetUser(userId);
 
   return (
     <Container>
       <TopHatContainer />
-      <View style={tw`flex-1 w-full justify-center items-center`}>
-        <View style={styles.hatContainer}>
-          <Image style={styles.hat} source={{ uri: user?.profileImage }} />
-        </View>
-        <View style={styles.contentContainer}>
-          <View style={styles.storiesContainer}>
-            <View>
-              <Text style={styles.profileName}>{user?.pseudonym}</Text>
+      {isLoading ? (
+        <ActivityIndicator size="large" />
+      ) : error ? (
+        <Text>An error occurred: {error.message}</Text>
+      ) : (
+        <>
+          <View style={tw`flex-1 w-full justify-center items-center`}>
+            <View style={styles.hatContainer}>
+              <Image style={styles.hat} source={`../../assets/thinking_cap${user?.hat}.png`} />
             </View>
-            <View>
-              <View style={styles.storyItem}>
-                <Text style={styles.count}>{user?.prompt.length}</Text>
-                <Text style={styles.storyMessage} onPress={() => navigation.navigate("myStories")}>
-                  Stories Created
-                </Text>
-              </View>
-              <View style={styles.storyItem}>
-                <Text style={styles.count}>{user?.response.length}</Text>
-                <Text style={styles.storyMessage} onPress={() => navigation.navigate("myCollaborations")}>
-                  Stories Collaborated
-                </Text>
-              </View>
-            </View>
+            <View style={styles.contentContainer}>
+              <View style={styles.storiesContainer}>
+                <View>
+                  <Text style={styles.profileName}>{user?.pseudonym}</Text>
+                </View>
+                <View>
+                  <View style={styles.storyItem}>
+                    <Text style={styles.count}>{user?._count.prompt}</Text>
+                    <Text style={styles.storyMessage} onPress={() => navigation.navigate("myStories")}>
+                      Stories Created
+                    </Text>
+                  </View>
+                  <View style={styles.storyItem}>
+                    <Text style={styles.count}>{user?._count.response}</Text>
+                    <Text style={styles.storyMessage} onPress={() => navigation.navigate("myCollaborations")}>
+                      Stories Collaborated
+                    </Text>
+                  </View>
+                </View>
 
-            <View>
-              {!colaborator && (
-                <Text style={styles.editText} onPress={() => navigation.navigate("editProfile")}>
-                  edit
-                </Text>
-              )}
+                <View>
+                  {!colaborator && (
+                    <Text style={styles.editText} onPress={() => navigation.navigate("editProfile")}>
+                      edit
+                    </Text>
+                  )}
+                </View>
+              </View>
             </View>
           </View>
-        </View>
-      </View>
-      <View style={tw`pb-6  `}>
-        <TouchableOpacity onPress={() => dispatch(logout())}>
-          <Text style={tw`text-base font-bold text-[#877965]`}>Logout</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={tw`pb-6  `}>
+            <TouchableOpacity onPress={() => dispatch(logout())}>
+              <Text style={tw`text-base font-bold text-[#877965]`}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </Container>
   );
 }
