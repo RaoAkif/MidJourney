@@ -1,8 +1,5 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import { useGetUserQuery } from "../../redux/api/usersApi";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
-import { setUsers } from "../../redux/slices/usersSlice";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Container from "../../components/ui/Container";
@@ -12,6 +9,8 @@ import { logout } from "../../redux/slices/authSlice";
 import { useLocalSearchParams } from "expo-router";
 import { useGetUser } from "../../utils/api/usersHook";
 import { ActivityIndicator } from "react-native";
+
+import Hatimage from "../../components/ui/Hatimage";
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -25,7 +24,7 @@ export default function Profile() {
     userId = params.colaboratorId;
     colaborator = true;
   }
-  // const { data: user, error, isLoading } = useGetUserQuery(userId);
+
   const { data: user, error, isLoading } = useGetUser(userId);
 
   return (
@@ -39,7 +38,7 @@ export default function Profile() {
         <>
           <View style={tw`flex-1 w-full justify-center items-center`}>
             <View style={styles.hatContainer}>
-              <Image style={styles.hat} source={`../../assets/thinking_cap${user?.hat}.png`} />
+              <Hatimage style={styles.hat} hat={user.hat} />
             </View>
             <View style={styles.contentContainer}>
               <View style={styles.storiesContainer}>
@@ -71,13 +70,13 @@ export default function Profile() {
               </View>
             </View>
           </View>
-          <View style={tw`pb-6  `}>
-            <TouchableOpacity onPress={() => dispatch(logout())}>
-              <Text style={tw`text-base font-bold text-[#877965]`}>Logout</Text>
-            </TouchableOpacity>
-          </View>
         </>
       )}
+      <View style={tw`pb-6  `}>
+        <TouchableOpacity onPress={() => dispatch(logout())}>
+          <Text style={tw`text-base font-bold text-[#877965]`}>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </Container>
   );
 }

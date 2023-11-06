@@ -6,6 +6,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useGetStory } from "../../utils/api/storiesHook";
 import { uniqueArrayOfObjects } from "../../utils/utils";
 import tw from "../../utils/tailwind";
+import GoBack from "../../components/ui/GoBack";
+import Hatimage from "../../components/ui/Hatimage";
 
 export default function Read() {
   const params = useLocalSearchParams();
@@ -24,10 +26,11 @@ export default function Read() {
 
   return (
     <Container>
-      <TopHatContainer />
-      <TouchableOpacity style={styles.goBack} onPress={() => router.push("home/storiesTab/myStories")}>
-        <Image style={styles.goBackIcon} source={require("../../assets/left1.png")} />
-      </TouchableOpacity>
+      <View style={tw`flex-row justify-center items-center`}>
+        <GoBack onPress={() => router.push("home/storiesTab/myStories")} />
+        <TopHatContainer style={tw`flex-1 items-center -inset-x-4`} />
+      </View>
+
       <View style={styles.storiesContainer}>
         {selectedStory && (
           <View style={styles.storyContainer}>
@@ -45,7 +48,7 @@ export default function Read() {
               key={colaborator.id}
               style={tw`p-4 flex-col justify-center items-center`}
             >
-              <Image style={styles.hat} source={`../../assets/thinking_cap${colaborator.hat}.png`} />
+              <Hatimage style={styles.hat} hat={colaborator.hat} />
               <Text style={tw`font-semibold`}>{colaborator.pseudonym.substring(0, 2).toUpperCase()}</Text>
             </TouchableOpacity>
           ))}
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   storyTextContainer: {
-    flex: 1,
+    // flex: 1,
     width: "100%",
     alignItems: "center",
     paddingTop: 15,

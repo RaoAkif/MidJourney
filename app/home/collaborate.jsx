@@ -51,7 +51,7 @@ export default function Collaborate() {
 
   return (
     <Container>
-      <View style={tw`flex-row`}>
+      <View style={tw`flex-row justify-center items-center`}>
         <GoBack />
         <TopHatContainer style={tw`flex-1 items-center -inset-x-4`} />
       </View>

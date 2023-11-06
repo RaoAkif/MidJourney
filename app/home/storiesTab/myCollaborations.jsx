@@ -18,6 +18,7 @@ export default function MyCollaborations() {
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
   const { data: collaborations, error, isLoading } = useGetCollaborationsQuery(token);
+  console.log(collaborations);
 
   useEffect(() => {
     if (collaborations) {
@@ -49,7 +50,7 @@ export default function MyCollaborations() {
                 <TouchableOpacity
                   key={collaboration.id}
                   style={styles.storyContainer}
-                  onPress={() => router.push({ pathname: "/home/read", params: { collaborationId: collaboration.id } })}
+                  onPress={() => router.push({ pathname: "/home/read", params: { storyId: collaboration.promptId } })}
                 >
                   <View style={styles.storyTextContainer}>
                     <Text style={styles.storyTitle}>{collaboration.title}</Text>

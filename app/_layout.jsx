@@ -8,6 +8,7 @@ import Toast from "react-native-toast-message";
 import tw from "../utils/tailwind";
 import { COLORS } from "../utils/constants";
 import { View, Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ export default function _RootLayout() {
         </AuthProvider>
       </Provider>
       <Toast config={toastConfig} />
+      <StatusBar style="light" />
     </QueryClientProvider>
   );
 }

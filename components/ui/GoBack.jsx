@@ -5,10 +5,10 @@ import tw from "../../utils/tailwind";
 import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../../utils/constants";
 
-const GoBack = ({ style }) => {
+const GoBack = ({ style, onPress }) => {
   const router = useRouter();
   return (
-    <TouchableOpacity style={tw.style(" items-center justify-center ")} onPress={router.back}>
+    <TouchableOpacity style={tw.style(" items-center justify-center ")} onPress={onPress ? onPress : router.back}>
       <Feather name="chevron-left" size={32} color={COLORS.borderbgColor} />
     </TouchableOpacity>
   );
