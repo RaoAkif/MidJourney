@@ -22,18 +22,6 @@ function StoriesScreen() {
   const { data: collaborations, error: error1, isLoading: isLoading1 } = useGetCollaborationsQuery(token);
   const { data: stories, error: error2, isLoading: isLoading2 } = useGetStoriesQuery(token);
 
-  useEffect(() => {
-    if (collaborations) {
-      dispatch(setCollaborations(collaborations));
-    }
-  }, [collaborations, dispatch]);
-
-  useEffect(() => {
-    if (stories) {
-      dispatch(setStories(stories));
-    }
-  }, [stories, dispatch]);
-
   return (
     <Container>
       <TopHatContainer />

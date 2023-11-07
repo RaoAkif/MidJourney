@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
-import { useGetStoriesQuery } from "../../../redux/api/storiesApi";
 import { setStories } from "../../../redux/slices/storiesSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -10,19 +9,14 @@ import { ActivityIndicator } from "react-native";
 import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
+import { useGetStories } from "../../../utils/api/storiesHook";
 
 export default function MyStories() {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
   const router = useRouter();
-  const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
-  const { data: stories, error, isLoading } = useGetStoriesQuery(token);
 
-  useEffect(() => {
-    if (stories) {
-      dispatch(setStories(stories));
-    }
-  }, [stories, dispatch]);
+  const { data: stories, error, isLoading } = useGetStories();
 
   return (
     <Container>
@@ -83,7 +77,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     position: "absolute",
-    left: 10,
+    left: -8,
     top: 4,
   },
   storyContainer: {
@@ -108,6 +102,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   storyTitle: {
+    paddingHorizontal: 30,
     fontSize: 16,
     color: "#333332",
     fontWeight: "bold",

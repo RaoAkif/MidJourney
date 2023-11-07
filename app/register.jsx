@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image } from "react-native";
 import { useRegisterUserMutation } from "../redux/api/usersApi";
 import Button from "../components/ui/Button";
 import Container from "../components/ui/Container";
@@ -7,133 +6,36 @@ import tw from "../utils/tailwind";
 import { COLORS } from "../utils/constants";
 import { ScrollView } from "react-native";
 import { Link } from "expo-router";
+import { Controller, useForm } from "react-hook-form";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { ActivityIndicator } from "react-native";
 
 export default function Register() {
-  const pseudonymRef = useRef(null);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-
-  const [state, setState] = useState({
-    pseudonym: "",
-    email: "",
-    password: "",
-    pseudonymError: "",
-    emailError: "",
-    passwordError: "",
-    error1: "",
-  });
-
-  const { pseudonym, email, password, pseudonymError, emailError, passwordError, error1 } = state;
-
   const [registerUser, { data, error, isLoading }] = useRegisterUserMutation();
 
-  const handleRegister = () => {
-    const pseudonymValue = pseudonymRef.current.value;
-    const emailValue = emailRef.current.value;
-    const passwordValue = passwordRef.current.value;
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors: formError },
+  } = useForm({
+    defaultValues: {
+      pseudonym: "",
+      email: "",
+      password: "",
+    },
+  });
 
-    if (validateForm()) {
-      registerUser({
-        pseudonym: pseudonymValue,
-        email: emailValue,
-        password: passwordValue,
-        city: "Lahore",
-        country: "Pakistan",
-        profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-      }).then(() => {
-        // Clear the form fields
-        pseudonymRef.current.value = "";
-        emailRef.current.value = "";
-        passwordRef.current.value = "";
-
-        // Clear the state
-        setState({
-          pseudonym: "",
-          email: "",
-          password: "",
-          pseudonymError: "",
-          emailError: "",
-          passwordError: "",
-          error1: "",
-        });
-      });
-    }
-  };
-
-  const setErrorMessage = (field, message) => {
-    setState((prevState) => ({
-      ...prevState,
-      [`${field}Error`]: message,
-    }));
-  };
-
-  const validateInput = (pattern, input) => {
-    const regex = new RegExp(pattern);
-    return regex.test(input);
-  };
-
-  const isAlphaNumeric = (text) => {
-    return validateInput(/^[a-zA-Z0-9]+$/, text);
-  };
-
-  const isValidEmail = (email) => {
-    return validateInput(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, email);
-  };
-
-  const isValidPassword = (password) => {
-    return validateInput(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, password);
-  };
-
-  const logError = (error) => {
-    if (error) console.log(error.data.message);
-  };
-
-  const logData = (data) => {
-    if (data) console.log(data);
-  };
-
-  const validateForm = () => {
-    let isValid = true;
-
-    const pseudonymValue = pseudonymRef.current.value;
-    const emailValue = emailRef.current.value;
-    const passwordValue = passwordRef.current.value;
-
-    if (!pseudonymValue.trim() || !emailValue.trim() || !passwordValue.trim()) {
-      setErrorMessage("pseudonym", "All fields are required.");
-      isValid = false;
-    } else {
-      console.log(
-        `Registration success! Pseudonym: ${pseudonymValue}, Email: ${emailValue}, Password: ${passwordValue}`
-      );
-      isValid = true;
-    }
-
-    if (!isAlphaNumeric(pseudonymValue)) {
-      setErrorMessage("pseudonym", "Pseudonym should be alphanumeric.");
-      isValid = false;
-    } else {
-      setErrorMessage("pseudonym", "");
-    }
-
-    if (!isValidEmail(emailValue)) {
-      setErrorMessage("email", "Please enter a valid email address.");
-      isValid = false;
-    } else {
-      setErrorMessage("email", "");
-    }
-
-    if (!isValidPassword(passwordValue)) {
-      setErrorMessage(
-        "password",
-        "Password should be a mix of 8 uppercase/lowercase letters, numbers, & special characters."
-      );
-      isValid = false;
-    } else {
-      setErrorMessage("password", "");
-    }
-
-    return isValid;
+  const onSubmit = (data) => {
+    registerUser({
+      pseudonym: data.pseudonym,
+      email: data.email,
+      password: data.password,
+      city: "Lahore",
+      country: "Pakistan",
+      profileImage: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
+    });
+    reset();
   };
 
   return (
@@ -152,35 +54,74 @@ export default function Register() {
               />
             </View>
             <View style={tw` bg-[${COLORS.bgWhite}] w-full elevation justify-center items-center mb-3 py-12 px-6`}>
-              <TextInput
-                ref={pseudonymRef}
-                style={styles.input}
-                placeholder="Enter Your Psuedonym"
-                value={pseudonym}
-                onChangeText={(text) => setState((prevState) => ({ ...prevState, pseudonym: text }))}
+              <Controller
+                name="pseudonym"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    style={styles.input}
+                    placeholder="Enter Your Psuedonym"
+                  />
+                )}
               />
-              {pseudonymError !== "" && <Text style={styles.fieldsErrorText}>{pseudonymError}</Text>}
-              <TextInput
-                ref={emailRef}
-                style={styles.input}
-                placeholder="Enter Your Email"
-                value={email}
-                onChangeText={(text) => setState((prevState) => ({ ...prevState, email: text }))}
-              />
-              {emailError !== "" && <Text style={styles.fieldsErrorText}>{emailError}</Text>}
-              <TextInput
-                ref={passwordRef}
-                style={styles.input}
-                placeholder="Enter Your Password"
-                secureTextEntry={true}
-                value={password}
-                onChangeText={(text) => setState((prevState) => ({ ...prevState, password: text }))}
-              />
-              {passwordError !== "" && <Text style={styles.fieldsErrorText}>{passwordError}</Text>}
-            </View>
-            {error1 ? <Text style={styles.credentialsErrorText}>{error1}</Text> : null}
+              {formError.pseudonym && <Text style={styles.fieldsErrorText}>{formError.pseudonym.message}</Text>}
 
-            <Button onPress={handleRegister} text={"Register"} />
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: "This field is required",
+                  pattern: { value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, message: "Invalid email" },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    style={styles.input}
+                    placeholder="Enter Your Email"
+                  />
+                )}
+              />
+
+              {formError.email && <Text style={styles.fieldsErrorText}>{formError.email.message}</Text>}
+
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required: "This field is required",
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    style={styles.input}
+                    placeholder="Enter Your Password"
+                    secureTextEntry={true}
+                  />
+                )}
+              />
+
+              {formError.password && <Text style={styles.fieldsErrorText}>{formError.password.message}</Text>}
+            </View>
+
+            <View style={tw`w-full`}>
+              <TouchableOpacity
+                onPress={handleSubmit(onSubmit)}
+                style={tw`elevation w-full  h-12 bg-[${COLORS.buttonbgColor}] items-center justify-center`}
+              >
+                <Text style={tw`text-base text-[${COLORS.bgWhite}]`}>
+                  {isLoading ? <ActivityIndicator /> : "Register"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {/* <Button onPress={handleSubmit(onSubmit)} text={"Register"} /> */}
 
             <Link style={tw`mt-5 text-[#877965] font-medium text-base`} href={"/"}>
               <Text>Login</Text>

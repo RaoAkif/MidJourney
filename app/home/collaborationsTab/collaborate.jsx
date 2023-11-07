@@ -16,12 +16,6 @@ export default function Collaborate() {
 
   const { data: stories, error, isLoading } = useGetStories();
 
-  useEffect(() => {
-    if (stories) {
-      dispatch(setStories(stories));
-    }
-  }, [stories, dispatch]);
-
   return (
     <Container>
       <TopHatContainer />
@@ -83,7 +77,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     position: "absolute",
-    left: 10,
+    left: -8,
     top: 4,
   },
 
@@ -109,6 +103,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   storyTitle: {
+    paddingHorizontal: 30,
     fontSize: 16,
     color: "#333332",
     fontWeight: "bold",

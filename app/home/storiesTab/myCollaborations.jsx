@@ -1,30 +1,21 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
-import { useGetCollaborationsQuery } from "../../../redux/api/collaborationsApi";
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { setCollaborations } from "../../../redux/slices/collaborationsSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import Container from "../../../components/ui/Container";
 import TopHatContainer from "../../../components/ui/TopHatContainer";
 import { ActivityIndicator } from "react-native";
 import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
+import { useGetCollaborations } from "../../../utils/api/collaborationHook";
 
 export default function MyCollaborations() {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
   const router = useRouter();
-  const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
-  const { data: collaborations, error, isLoading } = useGetCollaborationsQuery(token);
-  console.log(collaborations);
-
-  useEffect(() => {
-    if (collaborations) {
-      dispatch(setCollaborations(collaborations));
-    }
-  }, [collaborations, dispatch]);
+  const { data: collaborations, error, isLoading } = useGetCollaborations();
 
   return (
     <Container>
@@ -95,6 +86,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   storyTitle: {
+    paddingHorizontal: 30,
     fontSize: 16,
     color: "#333332",
     fontWeight: "bold",
