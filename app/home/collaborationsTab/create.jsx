@@ -11,6 +11,8 @@ import { useCreateStory } from "../../../utils/api/storiesHook";
 import { useGetCategories } from "../../../utils/api/categoriesHook";
 import { Controller, useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
+import Card from "../../../components/ui/Card";
+import { COLORS } from "../../../utils/constants";
 
 const Create = () => {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
@@ -56,7 +58,7 @@ const Create = () => {
         active2
       />
       <ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
-        <View style={tw`flex-col justify-between pt-6 px-6`}>
+        <View style={tw` pt-6 px-6`}>
           {/* Category Picker */}
           <View style={styles.categoryInputContainer}>
             <Controller
@@ -102,7 +104,7 @@ const Create = () => {
           {formError.title && <Text style={styles.fieldsErrorText}>{formError.title.message}</Text>}
 
           {/* Description Input  */}
-          <View style={styles.descriptionInputContainer}>
+          <View style={tw`mb-6`}>
             <Controller
               name="description"
               control={control}
@@ -111,16 +113,21 @@ const Create = () => {
                 maxLength: { value: 150, message: "story should have max 150 characters" },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  onBlur={onBlur}
-                  value={value}
-                  onChangeText={onChange}
-                  style={styles.descriptionInput}
-                  placeholderTextColor="#727272"
-                  placeholder="Enter first sentence of the story"
-                  multiline={true}
-                  numberOfLines={4}
-                />
+                <Card>
+                  <TextInput
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    placeholderTextColor="#727272"
+                    placeholder="Enter first sentence of the story"
+                    multiline
+                    numberOfLines={6}
+                    rows={6}
+                    maxLength={150}
+                    textAlignVertical="top"
+                    style={tw`px-4 py-3 text-base opacity-75   font-bold text-[${COLORS.textColor}]`}
+                  />
+                </Card>
               )}
             />
 
@@ -213,24 +220,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   descriptionInputContainer: {
-    height: 200,
-    backgroundColor: bgWhite,
-    marginBottom: "5px",
+    // height: 100,
+    // backgroundColor: bgWhite,
+    // marginBottom: "5px",
     // elevation
-    shadowColor: black,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-    marginBottom: 50,
+    // shadowColor: black,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowOpacity: 0.29,
+    // shadowRadius: 4.65,
+    // elevation: 7,
+    // marginBottom: 50,
     // justifyContent: "center",
     // alignItems: "center",
   },
   titleInput: {
-    textAlign: "center",
+    // textAlign: "center",
+    paddingHorizontal: 16,
     fontSize: 16,
     color: textColor,
     opacity: 0.75,
@@ -239,14 +247,15 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   descriptionInput: {
-    textAlign: "center",
-    fontSize: 16,
+    // textAlign: "center",
+    // paddingHorizontal: 15,
+    // fontSize: 16,
     color: textColor,
     opacity: 0.75,
     fontWeight: "bold",
     width: "100%",
     height: "100%",
-    paddingTop: 30,
+    // paddingTop: 30,
   },
   descriptionCountStyle: {
     position: "absolute",

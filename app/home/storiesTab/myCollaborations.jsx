@@ -10,12 +10,16 @@ import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
 import { useGetCollaborations } from "../../../utils/api/collaborationHook";
+import { useGetStoriesByColabId } from "../../../utils/api/storiesHook";
+import StoryCard from "../../../components/ui/StoryCard";
 
 export default function MyCollaborations() {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
   const router = useRouter();
   const dispatch = useDispatch();
-  const { data: collaborations, error, isLoading } = useGetCollaborations();
+  // const { data: collaborations, error, isLoading } = useGetCollaborations();
+  const { data: stories, error, isLoading } = useGetStoriesByColabId(userId);
+  // console.log(stories);
 
   return (
     <Container>
@@ -34,24 +38,13 @@ export default function MyCollaborations() {
           ) : error ? (
             <Text>An error occurred: {error.message}</Text>
           ) : (
-            collaborations
-              ?.filter((collaboration) => collaboration.userId == userId)
-              .sort((a, b) => b.id - a.id)
-              .map((collaboration) => (
-                <TouchableOpacity
-                  key={collaboration.id}
-                  style={styles.storyContainer}
-                  onPress={() => router.push({ pathname: "/home/read", params: { storyId: collaboration.promptId } })}
-                >
-                  <View style={styles.storyTextContainer}>
-                    <Text style={styles.storyTitle}>{collaboration.title}</Text>
-                    <Text style={styles.storyDescription}>
-                      {collaboration.description.split(" ").slice(0, 25).join(" ")}
-                      {"..."}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              ))
+            stories.map((story) => (
+              <StoryCard
+                key={story.id}
+                onPress={() => router.push({ pathname: "/home/read", params: { storyId: story.id } })}
+                story={story}
+              />
+            ))
           )}
         </ScrollView>
       </View>

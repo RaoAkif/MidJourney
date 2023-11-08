@@ -9,6 +9,8 @@ import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
 import { useGetStories } from "../../../utils/api/storiesHook";
+import { COLORS } from "../../../utils/constants";
+import StoryCard from "../../../components/ui/StoryCard";
 
 export default function Collaborate() {
   const dispatch = useDispatch();
@@ -38,28 +40,11 @@ export default function Collaborate() {
             stories
               ?.filter((story) => story.userId !== 1)
               .map((story) => (
-                <TouchableOpacity
+                <StoryCard
                   key={story.id}
-                  style={styles.storyContainer}
                   onPress={() => router.push({ pathname: "/home/collaborate", params: { storyId: story.id } })}
-                  // onPress={() => navigation.navigate("collaborate", { storyId: story.id })}
-                >
-                  <View style={styles.storyTextContainer}>
-                    <Image
-                      style={styles.storyHat}
-                      source={{
-                        uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-                      }}
-                    />
-                    <View style={styles.storyTitleContainer}>
-                      <Text style={styles.storyTitle}>{story.title}</Text>
-                    </View>
-                    <Text style={styles.storyDescription}>
-                      {story.description.split(" ").slice(0, 25).join(" ")}
-                      {"..."}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                  story={story}
+                />
               ))
           )}
         </ScrollView>
@@ -73,14 +58,6 @@ const bgWhite = "#ffffff";
 const black = "#000000";
 
 const styles = StyleSheet.create({
-  storyHat: {
-    width: 30,
-    height: 30,
-    position: "absolute",
-    left: -8,
-    top: 4,
-  },
-
   storyContainer: {
     marginHorizontal: 30,
     backgroundColor: bgWhite,
@@ -94,28 +71,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-  },
-  storyTextContainer: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  storyTitle: {
-    paddingHorizontal: 30,
-    fontSize: 16,
-    color: "#333332",
-    fontWeight: "bold",
-  },
-  storyDescription: {
-    fontSize: 16,
-    color: "#333332",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingHorizontal: 10,
-  },
-  downArray: {
-    marginTop: 10,
   },
 });

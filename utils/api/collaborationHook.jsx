@@ -30,7 +30,7 @@ export const useCreateCollaboration = () => {
     },
     onSuccess: () => {
       console.log("Collaboration Created");
-      queryClient.invalidateQueries({ queryKey: ["colaboration"] });
+      queryClient.invalidateQueries({ queryKey: ["storyColaborator", id] });
       // Toast.show({
       //   type: "hatToast",
       //   text1: "Story Added Sucessfully",

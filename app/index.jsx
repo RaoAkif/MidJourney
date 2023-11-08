@@ -94,7 +94,7 @@ export default function Landing() {
               source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
             />
           </View>
-          <View style={tw`h-52 bg-[${COLORS.bgWhite}] w-full elevation justify-center items-center mb-3 px-6`}>
+          <View style={tw`h-52 bg-[${COLORS.bgWhite}] w-full elevation justify-center  mb-3 px-6`}>
             <TextInput
               ref={pseudonymRef}
               style={styles.input}
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: COLORS.borderbgColor,
-    textAlign: "center",
+    // textAlign: "center",
     fontSize: 16,
     color: COLORS.textColor,
     opacity: 0.75,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   fieldsErrorText: {
     color: "red",
-    textAlign: "center",
+    // textAlign: "center",
     fontSize: 16,
     fontWeight: "bold",
     width: "80%",

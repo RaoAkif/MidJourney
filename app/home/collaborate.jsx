@@ -64,8 +64,8 @@ export default function Collaborate() {
               selectedStory && (
                 <>
                   <Card>
-                    <View style={tw`w-full items-center p-1`}>
-                      <Text style={tw` text-base text-[#333332] font-bold`}>{selectedStory.title}</Text>
+                    <View style={tw`w-full  p-1`}>
+                      <Text style={tw` text-base text-[#333332] font-bold mb-2`}>{selectedStory.title}</Text>
                       <Text style={tw` text-base text-[#333332]`}>{storyDescription}</Text>
                       <Text style={tw` w-full text-right mt-2`}>{`${storyDescription.length}/1000`}</Text>
                     </View>
@@ -85,9 +85,10 @@ export default function Collaborate() {
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                           <TextInput
-                            style={tw`text-base text-center text-[#333332]`}
+                            style={tw`text-base pt-1 text-[#333332]`}
                             placeholderTextColor="#727272"
                             placeholder="Collaborate on the story above"
+                            textAlignVertical="top"
                             multiline={true}
                             numberOfLines={4}
                             onChangeText={onChange}

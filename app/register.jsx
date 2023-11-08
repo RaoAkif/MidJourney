@@ -53,7 +53,7 @@ export default function Register() {
                 }}
               />
             </View>
-            <View style={tw` bg-[${COLORS.bgWhite}] w-full elevation justify-center items-center mb-3 py-12 px-6`}>
+            <View style={tw` bg-[${COLORS.bgWhite}] w-full elevation justify-center  mb-3 py-12 px-6`}>
               <Controller
                 name="pseudonym"
                 control={control}
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: borderbgColor,
-    textAlign: "center",
+    // textAlign: "center",
     fontSize: 16,
     color: textColor,
     opacity: 0.75,
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   fieldsErrorText: {
     color: "red",
-    textAlign: "center",
+    // textAlign: "left",
     fontSize: 16,
     fontWeight: "bold",
     width: "80%",
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   credentialsErrorText: {
     marginBottom: 25,
     color: "red",
-    textAlign: "center",
+    // textAlign: "center",
     fontSize: 16,
     fontWeight: "bold",
     width: "80%",

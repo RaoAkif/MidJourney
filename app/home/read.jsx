@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
   },
   storyContainer: {
     // flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "baseline",
+    // justifyContent: "flex-end",
+    // alignItems: "baseline",
     width: "80%",
     backgroundColor: bgWhite,
     marginBottom: 2,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   storyTextContainer: {
     // flex: 1,
     width: "100%",
-    alignItems: "center",
+    // alignItems: "center",
     paddingTop: 15,
     paddingBottom: 5,
   },
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333332",
     fontWeight: "bold",
+    paddingHorizontal: 10,
   },
   storyDescription: {
     fontSize: 16,

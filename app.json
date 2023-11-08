@@ -6,6 +6,14 @@
     },
     "name": "Writing Hat",
     "slug": "writinghat",
-    "icon": "./assets/favicon.png"
+    "icon": "./assets/favicon.png",
+    "android": {
+      "package": "com.anonymous.writinghat"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f5cf88db-f43e-40a4-bc1a-5b57d017c8a5"
+      }
+    }
   }
 }

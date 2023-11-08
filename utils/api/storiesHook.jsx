@@ -35,6 +35,24 @@ export const useGetStory = (stringId) => {
 
   return getStory;
 };
+
+export const useGetStoriesByColabId = (stringId) => {
+  const id = parseInt(stringId);
+
+  const token = useSelector((state) => state.auth.accessToken);
+  const headers = { headers: { Authorization: `Bearer ${token}` } };
+
+  const getStoriesByColabId = useQuery({
+    queryKey: ["storyColaborator", id],
+    queryFn: async () => {
+      const response = await api.get(`/prompts/byresponse/${id}`, headers);
+      // console.log(response.data);
+      return response.data;
+    },
+  });
+
+  return getStoriesByColabId;
+};
 export const useCreateStory = () => {
   const token = useSelector((state) => state.auth.accessToken);
   const headers = { headers: { Authorization: `Bearer ${token}` } };

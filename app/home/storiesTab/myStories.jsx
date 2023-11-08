@@ -10,6 +10,7 @@ import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
 import { useGetStories } from "../../../utils/api/storiesHook";
+import StoryCard from "../../../components/ui/StoryCard";
 
 export default function MyStories() {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
@@ -39,27 +40,11 @@ export default function MyStories() {
               ?.filter((story) => story.userId == userId)
               .sort((a, b) => b.id - a.id)
               .map((story) => (
-                <TouchableOpacity
+                <StoryCard
                   key={story.id}
-                  style={styles.storyContainer}
                   onPress={() => router.push({ pathname: "/home/read", params: { storyId: story.id } })}
-                >
-                  <View style={styles.storyTextContainer}>
-                    <Image
-                      style={styles.storyHat}
-                      source={{
-                        uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-                      }}
-                    />
-                    <View style={styles.storyTitleContainer}>
-                      <Text style={styles.storyTitle}>{story.title}</Text>
-                    </View>
-                    <Text style={styles.storyDescription}>
-                      {story.description.split(" ").slice(0, 25).join(" ")}
-                      {"..."}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                  story={story}
+                />
               ))
           )}
         </ScrollView>

@@ -37,8 +37,8 @@ export default function _RootLayout() {
           </Stack>
         </AuthProvider>
       </Provider>
+      <StatusBar style="auto" />
       <Toast config={toastConfig} />
-      <StatusBar style="light" />
     </QueryClientProvider>
   );
 }
