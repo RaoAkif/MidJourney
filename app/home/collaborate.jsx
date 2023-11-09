@@ -11,11 +11,12 @@ import { Controller, useForm } from "react-hook-form";
 import { useCreateCollaboration } from "../../utils/api/collaborationHook";
 import { useGetStory } from "../../utils/api/storiesHook";
 import { ActivityIndicator } from "react-native";
+import LodingModal from "../../components/ui/LodingModal";
 
 export default function Collaborate() {
   const params = useLocalSearchParams();
   const { id: userId } = useSelector((state) => state.auth.userInfo);
-  const { mutate: addCollaboration, data, error, isLoading } = useCreateCollaboration();
+  const { mutate: addCollaboration, data, error, isPending } = useCreateCollaboration();
 
   const { data: selectedStory, isLoading: isLoadingStory } = useGetStory(params.storyId);
   let storyDescription = selectedStory?.description;
@@ -108,6 +109,7 @@ export default function Collaborate() {
           </View>
         </ScrollView>
       </View>
+      <LodingModal visible={isPending} text={"Collaborating"} />
     </Container>
   );
 }

@@ -14,8 +14,8 @@ const queryClient = new QueryClient();
 
 const toastConfig = {
   hatToast: ({ text1 }) => (
-    <View style={tw`h-14 w-10/12 bg-[#cb862978] rounded-2xl border-black border-2 justify-center items-center`}>
-      <Text style={tw`text-base  text-[${COLORS.textColor}] font-semibold pt-2 px-2`}>{text1}</Text>
+    <View style={tw`h-14 w-10/12 bg-[#f1d3ac] rounded-xl justify-center items-center`}>
+      <Text style={tw`text-base  text-[${COLORS.textColor}] font-semibold py-2 px-2`}>{text1}</Text>
     </View>
   ),
 };

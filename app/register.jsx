@@ -1,17 +1,18 @@
-import { StyleSheet, Text, TextInput, View, Image } from "react-native";
-import { useRegisterUserMutation } from "../redux/api/usersApi";
-import Button from "../components/ui/Button";
-import Container from "../components/ui/Container";
-import tw from "../utils/tailwind";
-import { COLORS } from "../utils/constants";
-import { ScrollView } from "react-native";
-import { Link } from "expo-router";
+import { StyleSheet, Text, TextInput, View, ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { ActivityIndicator } from "react-native";
+import Container from "../components/ui/Container";
+import { COLORS } from "../utils/constants";
+import { Link } from "expo-router";
+import tw from "../utils/tailwind";
+import Hatimage from "../components/ui/Hatimage";
+import Button from "../components/ui/Button";
+import LodingModal from "../components/ui/LodingModal";
+
+import { useRegisterUser } from "../utils/api/usersHook";
+import Toast from "react-native-toast-message";
 
 export default function Register() {
-  const [registerUser, { data, error, isLoading }] = useRegisterUserMutation();
+  const { mutate: registerUser, data, error, isPending } = useRegisterUser();
 
   const {
     control,
@@ -46,12 +47,7 @@ export default function Register() {
             <View
               style={tw`elevation z-10 bg-[${COLORS.bgColor}] w-20 h-20 rounded-full justify-center items-center -mb-10 `}
             >
-              <Image
-                style={styles.hat}
-                source={{
-                  uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png",
-                }}
-              />
+              <Hatimage style={tw`p-2 w-14 h-14`} hat={1} />
             </View>
             <View style={tw` bg-[${COLORS.bgWhite}] w-full elevation justify-center  mb-3 py-12 px-6`}>
               <Controller
@@ -111,27 +107,18 @@ export default function Register() {
               {formError.password && <Text style={styles.fieldsErrorText}>{formError.password.message}</Text>}
             </View>
 
-            <View style={tw`w-full`}>
-              <TouchableOpacity
-                onPress={handleSubmit(onSubmit)}
-                style={tw`elevation w-full  h-12 bg-[${COLORS.buttonbgColor}] items-center justify-center`}
-              >
-                <Text style={tw`text-base text-[${COLORS.bgWhite}]`}>
-                  {isLoading ? <ActivityIndicator /> : "Register"}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            {/* <Button onPress={handleSubmit(onSubmit)} text={"Register"} /> */}
+            <Button onPress={handleSubmit(onSubmit)} text={"Register"} />
 
-            <Link style={tw`mt-5 text-[#877965] font-medium text-base`} href={"/"}>
+            <Link style={tw`mt-5 text-[${COLORS.brownText}] font-medium text-base`} href={"/"}>
               <Text>Login</Text>
             </Link>
           </View>
         </View>
-        <Text style={styles.messageText}>
+        <Text style={tw`p-3 mb-3 text-center`}>
           "If you can tell stories, create characters, devise incidents, and have sincerity and passion, it doesn't
           matter a damn how you write" Somerset Maugham
         </Text>
+        <LodingModal visible={isPending} text={"Registring..."} />
       </ScrollView>
     </Container>
   );
@@ -215,15 +202,5 @@ const styles = StyleSheet.create({
     // position: top
     marginBottom: -41,
     zIndex: 1,
-  },
-  hat: {
-    width: 55,
-    height: 55,
-    padding: 10,
-  },
-  messageText: {
-    padding: 10,
-    textAlign: "center",
-    marginBottom: 10,
   },
 });

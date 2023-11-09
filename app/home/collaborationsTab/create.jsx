@@ -13,6 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
 import Card from "../../../components/ui/Card";
 import { COLORS } from "../../../utils/constants";
+import LodingModal from "../../../components/ui/LodingModal";
 
 const Create = () => {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
@@ -159,6 +160,7 @@ const Create = () => {
           <Button onPress={handleSubmit(onSubmit)} text={"Start Writing"} />
         </View>
       </ScrollView>
+      <LodingModal visible={isPending} text={"Creating Story"} />
     </Container>
   );
 };

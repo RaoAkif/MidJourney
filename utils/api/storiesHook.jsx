@@ -66,11 +66,11 @@ export const useCreateStory = () => {
     onSuccess: () => {
       // console.log("story created");
       queryClient.invalidateQueries({ queryKey: ["stories"] });
-      // Toast.show({
-      //   type: "hatToast",
-      //   text1: "Story Added Sucessfully",
-      //   position: "top",
-      // });
+      Toast.show({
+        type: "hatToast",
+        text1: "Story Created",
+        position: "top",
+      });
     },
   });
 

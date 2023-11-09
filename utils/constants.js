@@ -6,4 +6,5 @@ export const COLORS = {
   textColor: "#333332",
   buttonbgColor: "#e4504d",
   hatbgColor: "#d9d9d9",
-}
+  brownText: "#877965",
+};
