@@ -11,6 +11,7 @@ import tw from "../utils/tailwind";
 import Button from "../components/ui/Button";
 import { ScrollView } from "react-native";
 import LodingModal from "../components/ui/LodingModal";
+import hat1 from "../../assets/thinking_cap1.png";
 
 export default function Landing() {
   const pseudonymRef = useRef(null);
@@ -92,10 +93,7 @@ export default function Landing() {
             <View
               style={tw`elevation z-10 bg-[${COLORS.bgColor}] w-20 h-20 rounded-full justify-center items-center -mb-10 `}
             >
-              <Image
-                style={tw`w-14 h-14 p-3`}
-                source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
-              />
+              <Image style={tw`w-14 h-14 p-3`} source={hat1} />
             </View>
             <View style={tw`h-52 bg-[${COLORS.bgWhite}] w-full elevation justify-center  mb-3 px-6`}>
               <TextInput

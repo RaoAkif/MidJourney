@@ -2,17 +2,15 @@ import { useSearchParams } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
 import Container from "../components/ui/Container";
+import Hatimage from "../components/ui/Hatimage";
 
 export default function EditProfile() {
   const params = useSearchParams();
-  console.log(params);
+  // console.log(params);
   return (
     <View style={styles.container}>
       <View>
-        <Image
-          style={styles.hatTop}
-          source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
-        />
+        <Hatimage style={styles.hatTop} hat={1} />
       </View>
       <View>
         <Text style={styles.screenMessage}>Pick Your Writing Hat</Text>
@@ -20,40 +18,22 @@ export default function EditProfile() {
       <View style={styles.hatsContainer}>
         <View style={styles.hatsList}>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap1.png" }}
-            />
+            <Hatimage style={styles.hatTop} hat={1} />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap2.png" }}
-            />
+            <Hatimage style={styles.hatTop} hat={2} />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap3.png" }}
-            />
+            <Hatimage style={styles.hatTop} hat={3} />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap4.png" }}
-            />
+            <Hatimage style={styles.hatTop} hat={4} />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap5.png" }}
-            />
+            <Hatimage style={styles.hatTop} hat={5} />
           </View>
           <View style={styles.hatContainer}>
-            <Image
-              style={styles.hat}
-              source={{ uri: "https://raw.githubusercontent.com/Immages/writinghat/main/caps/thinking_cap6.png" }}
-            />
+            <Hatimage style={styles.hatTop} hat={6} />
           </View>
         </View>
       </View>
