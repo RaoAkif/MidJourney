@@ -5,7 +5,7 @@ import { COLORS } from "../../utils/constants";
 
 const StoryCard = ({ onPress, story }) => {
   return (
-    <TouchableOpacity style={tw`mx-7  mb-1 bg-[${COLORS.bgWhite}] elevation`} onPress={onPress}>
+    <TouchableOpacity style={tw`mx-7 mb-1 bg-[${COLORS.bgWhite}] elevation`} onPress={onPress}>
       <View style={tw`flex-row `}>
         <Image
           style={tw`w-7 h-7 m-1`}

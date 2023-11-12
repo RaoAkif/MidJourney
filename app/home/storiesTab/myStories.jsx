@@ -1,23 +1,18 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
-import { setStories } from "../../../redux/slices/storiesSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { View, Text, ScrollView } from "react-native";
 import Container from "../../../components/ui/Container";
 import TopHatContainer from "../../../components/ui/TopHatContainer";
 import { ActivityIndicator } from "react-native";
 import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
-import { useGetStories } from "../../../utils/api/storiesHook";
+import { useGetStoriesByUserId } from "../../../utils/api/storiesHook";
 import StoryCard from "../../../components/ui/StoryCard";
+import Card from "../../../components/ui/Card";
+import Button from "../../../components/ui/Button";
 
 export default function MyStories() {
-  const { id: userId } = useSelector((state) => state.auth.userInfo);
+  const { data: stories, error, isLoading } = useGetStoriesByUserId();
   const router = useRouter();
-  const dispatch = useDispatch();
-
-  const { data: stories, error, isLoading } = useGetStories();
 
   return (
     <Container>
@@ -35,10 +30,20 @@ export default function MyStories() {
             <ActivityIndicator size="large" />
           ) : error ? (
             <Text>An error occurred: {error.message}</Text>
+          ) : stories == [] ? (
+            <Text>No Stories</Text>
+          ) : stories?.length === 0 ? (
+            <View style={tw.style("mx-7")}>
+              <Card>
+                <View style={tw`w-full items-center justify-center p-1`}>
+                  <Text style={tw` text-base text-[#333332] font-bold mb-2`}>You haven't written any story yet</Text>
+                </View>
+              </Card>
+              <Button text="Write your first story now" onPress={() => router.push("/home/collaborationsTab/create")} />
+            </View>
           ) : (
             stories
-              ?.filter((story) => story.userId == userId)
-              .sort((a, b) => b.id - a.id)
+              ?.sort((a, b) => b.id - a.id)
               .map((story) => (
                 <StoryCard
                   key={story.id}
@@ -52,54 +57,3 @@ export default function MyStories() {
     </Container>
   );
 }
-
-const bgColor = "#fefbf6";
-const bgWhite = "#ffffff";
-const black = "#000000";
-
-const styles = StyleSheet.create({
-  storyHat: {
-    width: 30,
-    height: 30,
-    position: "absolute",
-    left: -8,
-    top: 4,
-  },
-  storyContainer: {
-    marginHorizontal: 30,
-    backgroundColor: bgWhite,
-    marginBottom: 5,
-    // elevation
-    shadowColor: black,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  storyTextContainer: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  storyTitle: {
-    paddingHorizontal: 30,
-    fontSize: 16,
-    color: "#333332",
-    fontWeight: "bold",
-  },
-  storyDescription: {
-    fontSize: 16,
-    color: "#333332",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingHorizontal: 10,
-  },
-  downArray: {
-    marginTop: 10,
-  },
-});

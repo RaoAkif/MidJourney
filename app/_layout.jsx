@@ -34,10 +34,16 @@ export default function _RootLayout() {
             <Stack.Screen name="register" />
             <Stack.Screen name="editProfile" />
             <Stack.Screen name="home" />
+            <Stack.Screen
+              name="profileModal"
+              options={{
+                presentation: "transparentModal",
+              }}
+            />
           </Stack>
         </AuthProvider>
       </Provider>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <Toast config={toastConfig} />
     </QueryClientProvider>
   );

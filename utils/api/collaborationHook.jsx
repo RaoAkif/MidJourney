@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { api } from "./api";
 import Toast from "react-native-toast-message";
+import { useRouter } from "expo-router";
 
 export const useGetCollaborations = () => {
   const token = useSelector((state) => state.auth.accessToken);
@@ -21,9 +22,9 @@ export const useGetCollaborations = () => {
 
 export const useCreateCollaboration = () => {
   const token = useSelector((state) => state.auth.accessToken);
-  const { id } = useSelector((state) => state.auth.userInfo);
   const headers = { headers: { Authorization: `Bearer ${token}` } };
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const createCollaboration = useMutation({
     mutationFn: async (collab) => {
@@ -32,7 +33,8 @@ export const useCreateCollaboration = () => {
     },
     onSuccess: () => {
       // console.log("Collaboration Created");
-      queryClient.invalidateQueries({ queryKey: ["storyColaborator", id] });
+      queryClient.invalidateQueries({ queryKey: ["storyColaborator"] });
+      router.push("/home/storiesTab/myCollaborations");
       Toast.show({
         type: "hatToast",
         text1: "Collaboration Sucessfull",

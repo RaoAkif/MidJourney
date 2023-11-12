@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from "react-native";
-import { setCollaborations } from "../../../redux/slices/collaborationsSlice";
+import React from "react";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import Container from "../../../components/ui/Container";
@@ -9,17 +8,16 @@ import { ActivityIndicator } from "react-native";
 import Tabs from "../../../components/Tabs";
 import tw from "../../../utils/tailwind";
 import { useRouter } from "expo-router";
-import { useGetCollaborations } from "../../../utils/api/collaborationHook";
 import { useGetStoriesByColabId } from "../../../utils/api/storiesHook";
 import StoryCard from "../../../components/ui/StoryCard";
+import Card from "../../../components/ui/Card";
+import Button from "../../../components/ui/Button";
 
 export default function MyCollaborations() {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
-  const router = useRouter();
-  const dispatch = useDispatch();
-  // const { data: collaborations, error, isLoading } = useGetCollaborations();
   const { data: stories, error, isLoading } = useGetStoriesByColabId(userId);
-  // console.log(stories);
+  const router = useRouter();
+  console.log(stories);
 
   return (
     <Container>
@@ -37,6 +35,17 @@ export default function MyCollaborations() {
             <ActivityIndicator size="large" />
           ) : error ? (
             <Text>An error occurred: {error.message}</Text>
+          ) : stories?.length == 0 ? (
+            <View style={tw.style("mx-7")}>
+              <Card>
+                <View style={tw`w-full items-center justify-center p-1`}>
+                  <Text style={tw` text-base text-[#333332] font-bold mb-2 text-center`}>
+                    You haven't collaborated with anybody yet
+                  </Text>
+                </View>
+              </Card>
+              <Button text="Collaborate Now" onPress={() => router.push("/home/collaborationsTab/collaborate")} />
+            </View>
           ) : (
             stories.map((story) => (
               <StoryCard

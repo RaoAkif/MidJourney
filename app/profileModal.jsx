@@ -1,28 +1,28 @@
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Container from "../../components/ui/Container";
-import TopHatContainer from "../../components/ui/TopHatContainer";
-import tw from "../../utils/tailwind";
-import { logout } from "../../redux/slices/authSlice";
-import { useLocalSearchParams } from "expo-router";
-import { useGetUser } from "../../utils/api/usersHook";
+import Container from "../components/ui/Container";
+import TopHatContainer from "../components/ui/TopHatContainer";
+import tw from "../utils/tailwind";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useGetUser } from "../utils/api/usersHook";
 import { ActivityIndicator } from "react-native";
 
-import Hatimage from "../../components/ui/Hatimage";
+import Hatimage from "../components/ui/Hatimage";
+import GoBack from "../components/ui/GoBack";
 
 export default function Profile() {
   const navigation = useNavigation();
   const params = useLocalSearchParams();
-  const { id } = useSelector((state) => state.auth.userInfo);
-  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const { data: user, error, isLoading } = useGetUser(id);
+  const { data: user, error, isLoading } = useGetUser(params.colaboratorId);
 
   return (
     <Container>
-      <TopHatContainer />
+      <View style={tw`flex-row justify-center items-center`}>
+        <GoBack onPress={() => router.push({ pathname: "/home/read", params: { storyId: params.storyId } })} />
+        <TopHatContainer style={tw`flex-1 items-center -inset-x-4`} />
+      </View>
       {isLoading ? (
         <ActivityIndicator size="large" />
       ) : error ? (
@@ -52,22 +52,11 @@ export default function Profile() {
                     </Text>
                   </View>
                 </View>
-
-                <View>
-                  <Text style={styles.editText} onPress={() => navigation.navigate("editProfile")}>
-                    edit
-                  </Text>
-                </View>
               </View>
             </View>
           </View>
         </>
       )}
-      <View style={tw`pb-6  `}>
-        <TouchableOpacity onPress={() => dispatch(logout())}>
-          <Text style={tw`text-base font-bold text-[#877965]`}>Logout</Text>
-        </TouchableOpacity>
-      </View>
     </Container>
   );
 }
@@ -128,7 +117,7 @@ const styles = StyleSheet.create({
   storiesContainer: {
     flex: 1,
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
   },
   storyItem: { flexDirection: "row", alignItems: "center" },

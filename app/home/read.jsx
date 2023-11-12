@@ -44,7 +44,12 @@ export default function Read() {
         <View style={styles.hatsList}>
           {uniqueColaborators?.map((colaborator) => (
             <TouchableOpacity
-              onPress={() => router.push({ pathname: "/home/profileTab", params: { colaboratorId: colaborator.id } })}
+              onPress={() =>
+                router.push({
+                  pathname: "/profileModal",
+                  params: { colaboratorId: colaborator.id, storyId: params.storyId },
+                })
+              }
               key={colaborator.id}
               style={tw`p-4 flex-col justify-center items-center`}
             >

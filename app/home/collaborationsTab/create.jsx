@@ -14,6 +14,7 @@ import Toast from "react-native-toast-message";
 import Card from "../../../components/ui/Card";
 import { COLORS } from "../../../utils/constants";
 import LodingModal from "../../../components/ui/LodingModal";
+import { useRouter } from "expo-router";
 
 const Create = () => {
   const { id: userId } = useSelector((state) => state.auth.userInfo);
